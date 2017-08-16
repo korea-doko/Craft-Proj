@@ -4,17 +4,45 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+public class MenuButtonArgs : EventArgs
+{
+    [SerializeField] private MenuName m_menuName;
 
-public class MenuButton : MonoBehaviour {
+    public MenuButtonArgs(MenuName _name)
+    {
+        m_menuName = _name;
+    }
 
-    public EventHandler OnButtonClicked;
+    public MenuName MenuName
+    {
+        get
+        {
+            return m_menuName;
+        }
 
+        set
+        {
+            m_menuName = value;
+        }
+    }
+}
+
+public interface IMenuButton
+{
+    event EventHandler<MenuButtonArgs> OnButtonClicked;
+}
+
+public class MenuButton : MonoBehaviour , IMenuButton{
+
+    
     private Button m_button;
     private LayoutElement m_layoutEle;
     private MenuName m_menuName;
 
     private float m_width;
     private float m_height;
+
+    public event EventHandler<MenuButtonArgs> OnButtonClicked;
 
     public MenuName MenuName
     {
@@ -24,6 +52,7 @@ public class MenuButton : MonoBehaviour {
         }
 
     }
+
     
 
     public void Init(MenuName _name, float _width, float _height)
@@ -32,15 +61,12 @@ public class MenuButton : MonoBehaviour {
 
         m_button = this.GetComponent<Button>();
         this.GetComponentInChildren<Text>().text = _name.ToString();
-        m_button.onClick.AddListener(() => OnButtonClicked(this, EventArgs.Empty));
+        m_button.onClick.AddListener(() => OnButtonClicked(this, new MenuButtonArgs(m_menuName)));
         m_menuName = _name;
         m_width = _width;
         m_height = _height;
     }
-    private void BtnClicked()
-    {
-        OnButtonClicked(this, EventArgs.Empty);
-    }
+    
 
     public void HighLightedButton()
     { 

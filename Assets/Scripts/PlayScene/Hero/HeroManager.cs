@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroManager : MonoBehaviour,IManager {
+public class HeroManager : MonoBehaviour,IManager,ILoadable {
 
     private HeroModel m_model;
     private HeroView m_view;
@@ -17,6 +17,8 @@ public class HeroManager : MonoBehaviour,IManager {
         }        
     }
 
+ 
+
     public void InitManager()
     {
         m_inst = this;
@@ -26,5 +28,24 @@ public class HeroManager : MonoBehaviour,IManager {
 
         m_view = Utils.MakeGameObjectWithComponent<HeroView>(this.gameObject);
         m_view.InitView(m_model);
+
+
+        for (int i = 0; i < 3; i++)
+            MakeAvailableHero();
+    }
+
+    public bool Load()
+    {
+        return m_view.Load();
+    }
+
+    public void MakeAvailableHero()
+    {
+        m_model.MakeAvailableHero();
+    }
+
+    public void HeroMenuButtonClicked()
+    {
+        m_view.HeroMenuButtonClicked(m_model);
     }
 }

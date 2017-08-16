@@ -32,4 +32,9 @@ public class ScrollRectMaskPanel : MonoBehaviour, IUpdatable
     {
         m_scrollPanel.UpdateThis();
     }
+
+    public MenuPanel GetMenuPanel(MenuName _name)
+    {
+       return  m_scrollPanel.GetMenuPanel(_name);
+    }
 }

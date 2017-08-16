@@ -7,6 +7,8 @@ using System;
 
 public class MenuCanvas : MonoBehaviour, IUpdatable {
 
+    public EventHandler OnMenuButtonClicked;
+
     private ButtonPanel m_buttonPanel;
     private ScrollRectMaskPanel m_scrollRectPanel;
 
@@ -24,10 +26,17 @@ public class MenuCanvas : MonoBehaviour, IUpdatable {
     {
         MenuButton btn = (MenuButton)_sender;
         m_scrollRectPanel.MovePanelToCenter(btn.MenuName);
+
+        OnMenuButtonClicked(this, _args);
     }
- 
+     
     public void UpdateThis()
     {
         m_scrollRectPanel.UpdateThis();
+    }
+
+    public MenuPanel GetMenuPanel(MenuName _name)
+    {
+        return m_scrollRectPanel.GetMenuPanel(_name);
     }
 }

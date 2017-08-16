@@ -18,3 +18,7 @@ public interface IManager
 {
     void InitManager();
 }
+public interface ILoadable
+{ 
+    bool Load();
+}

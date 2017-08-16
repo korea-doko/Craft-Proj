@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 public class ScrollPanel : MonoBehaviour, IUpdatable {
 
     [SerializeField] private MenuPanel[] m_menuPanelAry;
+
+
     [SerializeField] private RectTransform m_rect;
     [SerializeField] private float m_width;
     [SerializeField] private float m_height;
@@ -18,9 +22,8 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
     [SerializeField] private float m_passedTime;
     [SerializeField] private int m_currentOrder;
     [SerializeField] private float m_timeCorrectionValue;
+    [SerializeField] private Vector2 m_beginDragPos;
     
-
-
     public void Init(float _width, float _height)
     {
         m_width = _width;
@@ -52,7 +55,9 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
         m_currentOrder = 2;
         
         m_rect.transform.position = new Vector3(- m_currentOrder* m_width, 0.0f, 0.0f);
-    }
+
+        m_beginDragPos = Vector2.zero;
+    } 
     public void MovePanelToCenter(MenuName _name)
     {
         
@@ -63,6 +68,8 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
             Debug.Log(_name);                   
             return;
         }
+
+        
         m_currentOrder = inputOrder;
 
         float order = (float)(inputOrder);
@@ -75,22 +82,25 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
 
         m_isMoving = true;
         m_passedTime = 0.0f;
+        
     }
     public void UpdateThis()
     {
         if (m_isMoving)
-            MovePanel();
+            MovePanel();        
+    }   
+    public MenuPanel GetMenuPanel(MenuName _name)
+    {
+        return m_menuPanelAry[(int)_name];
     }
-
-   
-
-    void MovePanel()
+    private void MovePanel()
     {
         m_passedTime += Time.deltaTime;
 
         if (m_passedTime > m_moveTime)
         {
             m_rect.transform.position = m_destPos;
+           
             m_isMoving = false;
         }
         else
@@ -99,8 +109,5 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
             m_rect.transform.position = localPos;
         }
     }
-
-    
-
 
 }
