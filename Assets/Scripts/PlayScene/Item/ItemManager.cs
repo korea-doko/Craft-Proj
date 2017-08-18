@@ -52,12 +52,13 @@ public class ItemManager : MonoBehaviour,IManager
 
         for (int i = 0; i < rarityChangedforLoop; i++)
         {
-            ModData suffix = m_model.GetSuffixData();
-            ModData prefix = m_model.GetPrefixData();
+            WeaponModData suffix = m_model.GetWeaponMod();
+            WeaponModData prefix = m_model.GetWeaponMod();
 
             data.AddPrefix(prefix);
             data.AddSuffix(suffix);
         }
+        
 
         return data;
     }

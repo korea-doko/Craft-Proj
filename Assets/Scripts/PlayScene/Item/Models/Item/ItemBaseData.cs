@@ -23,8 +23,8 @@ public class ItemBaseData : IItemBaseData
         m_id = _id;
     }
 
-    [SerializeField] protected int m_id;
     [SerializeField] protected ItemUpperClassType m_upperClassName;
+    [SerializeField] protected int m_id;
     [SerializeField] protected int m_itemLevel;
 
     [SerializeField] protected int m_requiredStr;

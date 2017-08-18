@@ -52,6 +52,12 @@ public enum ModType
     Prefix,
     Suffix
 }
+public enum ModCategory
+{
+    Weapon,
+    Armor,
+    Misc
+}
 
 public enum MenuName
 {

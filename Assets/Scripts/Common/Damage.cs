@@ -1,9 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public interface IDamage
+{
+    Vector2 GetPhysicalDamage { get; }
+    Vector2 GetColdDamage { get; }
+    Vector2 GetFireDamage { get; }
+    Vector2 GetLightningDamage { get; }
+    Vector2 GetChaosDamage { get; }
+    float GetAverageDamage { get; }
+}
+
 [System.Serializable]
-public class Damage
+public class Damage : IDamage
 {
     [SerializeField] private Vector2 m_physicalDamage;
     [SerializeField] private Vector2 m_coldDamage;
@@ -21,48 +33,60 @@ public class Damage
         m_chaosDamage = _chaosDamage;
     }
 
-    public float GetPhysicalDamage
+    public Vector2 GetPhysicalDamage
     {
         get
         {
-            float physical = (m_physicalDamage.x + m_physicalDamage.y)*0.5f;
-            return physical;
+            return m_physicalDamage;
         }
     }
-    public float GetFireDamage
+
+    public Vector2 GetColdDamage
     {
         get
         {
-            float fireDamage = (m_fireDamage.x + m_fireDamage.y) * 0.5f;
-            return fireDamage;
+            return m_coldDamage;
         }
     }
-    public float GetColdDamage
+   
+    public Vector2 GetFireDamage
     {
         get
         {
-            float coldDamage = (m_coldDamage.x + m_coldDamage.y) * 0.5f;
-            return coldDamage;
+            return m_fireDamage;
         }
     }
-    public float GetLightningDamage
+
+    public Vector2 GetLightningDamage
     {
         get
         {
-            float lightningDamage = (m_lightningDamage.x + m_lightningDamage.y) * 0.5f;
-            return lightningDamage;
+            return m_lightningDamage;
         }
     }
-    public float GetChaosDamage
+
+    public Vector2 GetChaosDamage
     {
         get
         {
-            float chaosDamage = (m_chaosDamage.x + m_chaosDamage.y) * 0.5f;
-            return chaosDamage;
+            return m_chaosDamage;
         }
     }
-    public float GetAllDamage
+
+    public float GetAverageDamage
     {
-        get { return GetPhysicalDamage + GetFireDamage + GetColdDamage + GetLightningDamage + GetChaosDamage; }    
+        get
+        {
+            float allDamage=
+                m_chaosDamage.x + m_chaosDamage.y +
+                m_coldDamage.x + m_coldDamage.y +
+            m_fireDamage.x + m_fireDamage.y +
+            m_lightningDamage.x + m_lightningDamage.y +
+            m_physicalDamage.x + m_physicalDamage.y;
+
+            float average = allDamage * 0.5f;
+
+            return allDamage;
+        }
     }
 }
