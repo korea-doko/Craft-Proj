@@ -19,17 +19,23 @@ public class HeroView : MonoBehaviour , IHeroView<HeroModel>,ILoadable{
     }
     public bool Load()
     {
-        MenuPanel parent = MenuManager.Inst.GetMenuPanel(MenuName.Hero);
+        MenuPanel parent = MenuManager.Inst.GetMenuPanel(MenuName.Traveller);
         
         if (parent == null)
             return false;
         m_heroViewPanel.Load(parent.Width, parent.Height);
-        parent.SetGamObjectAsChild(m_heroViewPanel.gameObject);        
+        parent.SetGameObjectAsChild(m_heroViewPanel.gameObject);        
         return true;
     }
 
-    public void HeroMenuButtonClicked(HeroModel _model)
+
+    internal void Hide()
     {
-        m_heroViewPanel.HeroMenuButtonClicked(_model);
+        m_heroViewPanel.Hide();
+    }
+
+    internal void Show(HeroModel _model)
+    {
+        m_heroViewPanel.Show(_model);
     }
 }

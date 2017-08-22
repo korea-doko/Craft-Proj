@@ -16,22 +16,20 @@ public class ItemModel : MonoBehaviour, IItemModel
     [SerializeField] private List<WeaponBaseData> m_weaponBaseList;
 
     [SerializeField] private List<ModData> m_suffixModList;
+
     [SerializeField] private List<ModData> m_prefixModList;
 
-    [SerializeField] private List<WeaponModData> m_weaponModDataList;
-
+    
 
     public void InitModel()
     {
         m_weaponBaseList = new List<WeaponBaseData>();
         m_prefixModList = new List<ModData>();
         m_suffixModList = new List<ModData>();
-        m_weaponModDataList = new List<WeaponModData>();
         
         InitWeaponBaseData();
         InitPrefixModData();
         InitSuffixModData();
-        InitWeaponModData();
     }
     
     public WeaponBaseData GetWeaponBaseData()
@@ -66,17 +64,19 @@ public class ItemModel : MonoBehaviour, IItemModel
 
             WeaponBaseData baseData = new WeaponBaseData(
              i,
+             10,
+             new Status(),
              (ItemLowerClassWeapons)UnityEngine.Random.Range(0, numOfType),
              minDamage,
              maxDamage,
-             attackSpeed);
+             attackSpeed
+             );
 
             m_weaponBaseList.Add(baseData);
         }
     }
     void InitPrefixModData()
     {
-        // 나중에 디비에서 가져오고 실제 구현은 스크립트마다 구현해놓기로
         for(int i = 0; i < 20;i++)
         {
             int id = i;
@@ -84,9 +84,8 @@ public class ItemModel : MonoBehaviour, IItemModel
             ModType type = ModType.Prefix;
             int minValue = UnityEngine.Random.Range(5, 20);
             int maxValue = UnityEngine.Random.Range(5, 20);
-            ModData data = new WeaponModData(id, level, type, "a", ModStat.AttackDamage,
-                minValue, maxValue, WeaponModName.Chaotic);
-
+            ModData data = new ModData(id, level, type, "a", 
+                minValue, maxValue,ModFuncName.IncreasePhysicalDamage);
             m_prefixModList.Add(data);
         }
     }
@@ -100,28 +99,11 @@ public class ItemModel : MonoBehaviour, IItemModel
             ModType type = ModType.Suffix;
             int minValue = UnityEngine.Random.Range(5, 20);
             int maxValue = UnityEngine.Random.Range(5, 20);
-            ModData data = new WeaponModData(id, level, type, "a", ModStat.AttackSpeed,
-                minValue, maxValue, WeaponModName.Frosted);
+            ModData data = new ModData(id, level, type, "a", 
+                minValue, maxValue,ModFuncName.AddedPhysicalDamage);
 
             m_suffixModList.Add(data);
         }
     }
 
-    void InitWeaponModData()
-    {
-        for(int i = 0; i <  10;i++)
-        {
-            WeaponModData data = new WeaponModData(i, i, ModType.Prefix, i.ToString(),
-                ModStat.AttackDamage, 10, 50, WeaponModName.Chaotic);
-
-            m_weaponModDataList.Add(data);
-        }
-           
-    }
-    public WeaponModData GetWeaponMod()
-    {
-        int randIndex = UnityEngine.Random.Range(0, m_weaponModDataList.Count);
-        return m_weaponModDataList[randIndex];
-
-    }
 }

@@ -46,9 +46,7 @@ public class MenuPanel : MonoBehaviour {
         m_rect = this.GetComponent<RectTransform>();
         m_layoutEle = this.GetComponent<LayoutElement>();
         m_scrollRect = this.GetComponent<ScrollRect>();
-        m_menuName = _name;
-
-        
+        m_menuName = _name;        
     }
     public void ChangeSize(float _width, float _height)
     {
@@ -59,7 +57,7 @@ public class MenuPanel : MonoBehaviour {
         m_layoutEle.preferredHeight = _height;
     }
 
-    public void SetGamObjectAsChild(GameObject _obj)
+    public void SetGameObjectAsChild(GameObject _obj)
     {
         _obj.transform.SetParent(this.transform);
         RectTransform rect = _obj.GetComponent<RectTransform>();

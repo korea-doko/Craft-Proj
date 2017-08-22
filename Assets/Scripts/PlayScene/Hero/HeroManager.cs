@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroManager : MonoBehaviour,IManager,ILoadable {
+public class HeroManager : MonoBehaviour,IUpgradeManager,ILoadable {
 
     private HeroModel m_model;
     private HeroView m_view;
@@ -44,8 +44,13 @@ public class HeroManager : MonoBehaviour,IManager,ILoadable {
         m_model.MakeAvailableHero();
     }
 
-    public void HeroMenuButtonClicked()
+
+    internal void MenuButtonClicked(MenuName menuName)
     {
-        m_view.HeroMenuButtonClicked(m_model);
+        if (menuName == MenuName.Traveller)
+            m_view.Show(m_model);// HeroMenuButtonClicked(m_model);
+        else
+            m_view.Hide();
+
     }
 }

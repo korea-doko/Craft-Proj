@@ -16,7 +16,8 @@ public class MiscBaseData : ItemBaseData, IMiscBaseItem
 {
     [SerializeField] private ItemLowerClassMisc m_lowerClassName;
 
-    public MiscBaseData(int _id, ItemLowerClassMisc _type) : base(_id)
+    public MiscBaseData(int _id,int _itemLevel,Status _requiredStatus ,
+        ItemLowerClassMisc _type) : base(_id,_itemLevel,_requiredStatus)
     {
         m_upperClassName = ItemUpperClassType.Misc;
         m_lowerClassName = _type;

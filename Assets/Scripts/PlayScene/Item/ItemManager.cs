@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemManager : MonoBehaviour,IManager
+public class ItemManager : MonoBehaviour,IUpgradeManager,IUpdatable
 {
     private ItemModel m_model;
     private ItemView m_view;
-
-
-    public WeaponData m_testWeapon;
-
+    
     private static ItemManager m_inst;
     public static ItemManager Inst
     {
@@ -23,7 +20,6 @@ public class ItemManager : MonoBehaviour,IManager
     {
         m_inst = this;
     }
-
      
     public void InitManager()
     {
@@ -34,12 +30,7 @@ public class ItemManager : MonoBehaviour,IManager
 
         m_view = Utils.MakeGameObjectWithComponent<ItemView>(this.gameObject);
         m_view.InitView(m_model);
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            m_testWeapon = GenerateWeapon();
-    }
+    }    
     WeaponData GenerateWeapon()
     {
 
@@ -52,14 +43,25 @@ public class ItemManager : MonoBehaviour,IManager
 
         for (int i = 0; i < rarityChangedforLoop; i++)
         {
-            WeaponModData suffix = m_model.GetWeaponMod();
-            WeaponModData prefix = m_model.GetWeaponMod();
+            ModData suffix = m_model.GetSuffixData();
+            ModData prefix = m_model.GetPrefixData();
 
             data.AddPrefix(prefix);
             data.AddSuffix(suffix);
         }
-        
+
+
 
         return data;
+    }
+
+    
+    public void UpdateThis()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ItemData data = GenerateWeapon();
+            StoreManager.Inst.AddItemData(data);               
+        }
     }
 }

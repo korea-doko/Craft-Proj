@@ -5,85 +5,64 @@ using UnityEngine;
 
 
 
+
 public interface IWeaponItem : IItemData,IDamage
 {
     WeaponBaseData GetWeaponBase { get; }
-
-    List<WeaponModData> GetPrefixes { get; }
-    List<WeaponModData> GetSuffixes { get; }
-
-    int GetNumOfPrefix { get; }
-    int GetNumOfSuffix { get; }
-
-    void AddPrefix(WeaponModData _data);
-    void AddSuffix(WeaponModData _data);
-
-    void RemoveRandomPrefix();
-    void RemoveRandomSuffix();
 }
 
 [System.Serializable]
 public class WeaponData : ItemData ,IWeaponItem
 {
-    [SerializeField] private WeaponBaseData m_baseWeaponData;
-
-    [SerializeField] protected List<WeaponModData> m_prefixList;
-    [SerializeField] protected List<WeaponModData> m_suffixList;
    
-
-    public WeaponData(WeaponBaseData _baseData, ItemRarity _rarity) : base(_rarity)
+    public WeaponData( WeaponBaseData _weaponBaseData, ItemRarity _rarity) : base(_rarity)
     {
-        m_baseWeaponData = _baseData;
-
-        m_prefixList = new List<WeaponModData>();
-        m_suffixList = new List<WeaponModData>();
+        m_itemBaseData = _weaponBaseData;        
     }
+    
+    public WeaponBaseData GetWeaponBase { get { return (WeaponBaseData)m_itemBaseData; } }
 
-    public WeaponBaseData GetWeaponBase { get { return m_baseWeaponData; } }
-    public Vector2 GetPhysicalDamage { get { return m_baseWeaponData.GetDamage.GetPhysicalDamage; } }
-    public Vector2 GetColdDamage { get { return m_baseWeaponData.GetDamage.GetColdDamage; } }
-    public Vector2 GetFireDamage { get { return m_baseWeaponData.GetDamage.GetFireDamage; } }
-    public Vector2 GetLightningDamage { get { return m_baseWeaponData.GetDamage.GetLightningDamage; } }
-    public Vector2 GetChaosDamage { get { return m_baseWeaponData.GetDamage.GetChaosDamage; } }
-
+    public Vector2 GetPhysicalDamage
+    {
+        get
+        {
+            return GetWeaponBase.GetDamage.GetPhysicalDamage;
+        }
+    }
+    public Vector2 GetColdDamage
+    {
+        get
+        {
+            return GetWeaponBase.GetDamage.GetColdDamage;
+        }
+    }
+    public Vector2 GetFireDamage
+    {
+        get
+        {
+            return GetWeaponBase.GetDamage.GetFireDamage;
+        }
+    }
+    public Vector2 GetLightningDamage
+    {
+        get
+        {
+            return GetWeaponBase.GetDamage.GetLightningDamage;
+        }
+    }
+    public Vector2 GetChaosDamage
+    {
+        get
+        {
+            return GetWeaponBase.GetDamage.GetChaosDamage;
+        }
+    }
     public float GetAverageDamage
     {
         get
         {
-            return m_baseWeaponData.GetDPS;
+            return GetWeaponBase.GetDamage.GetAverageDamage;
         }
     }
 
-    public List<WeaponModData> GetPrefixes { get { return m_prefixList; } }    
-    public List<WeaponModData> GetSuffixes { get { return m_suffixList; } }
-
-    public int GetNumOfPrefix { get { return m_prefixList.Count; } }
-    public int GetNumOfSuffix { get { return m_suffixList.Count; } }
-
-    public void AddPrefix(WeaponModData _data)
-    {
-        m_prefixList.Add(_data);
-        _data.Attach(this);
-    }
-    public void AddSuffix(WeaponModData _data)
-    {
-        m_suffixList.Add(_data);
-        _data.Attach(this);
-    }
-
-    public void RemoveRandomPrefix()
-    {
-        int ranIndex = UnityEngine.Random.Range(0, m_prefixList.Count);
-        WeaponModData data = m_prefixList[ranIndex];
-        data.Detach(this);
-        m_prefixList.RemoveAt(ranIndex);
-    }
-    public void RemoveRandomSuffix()
-    {
-        int ranIndex = UnityEngine.Random.Range(0, m_suffixList.Count);
-        WeaponModData data = m_suffixList[ranIndex];
-        data.Detach(this);
-        m_suffixList.RemoveAt(ranIndex);
-
-    }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour,IManager {
+public class PlayerManager : MonoBehaviour,IUpgradeManager {
 
     private PlayerModel m_model;
     private PlayerView m_view;

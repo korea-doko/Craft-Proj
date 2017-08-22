@@ -14,7 +14,8 @@ public class ArmorBaseData : ItemBaseData, IArmorBaseItem
     [SerializeField] private ItemLowerClassArmors m_lowerClassName;
 
 
-    public ArmorBaseData(int _id, ItemLowerClassArmors _type) : base(_id)
+    public ArmorBaseData(int _id,int _itemLevel,Status _requiredStatus,
+        ItemLowerClassArmors _type) : base(_id,_itemLevel,_requiredStatus)
     {
         m_upperClassName = ItemUpperClassType.Armors;
         m_lowerClassName = _type;

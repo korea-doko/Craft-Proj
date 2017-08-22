@@ -40,7 +40,12 @@ public class HeroViewPanel : MonoBehaviour {
         }
     }
 
-    internal void HeroMenuButtonClicked(HeroModel model)
+    internal void Hide()
+    {
+        HidePanelAll();
+    }
+
+    internal void Show(HeroModel model)
     {
         HidePanelAll();
 
@@ -50,7 +55,7 @@ public class HeroViewPanel : MonoBehaviour {
         {
             HeroData data = list[i];
 
-            for(int j = 0; j < m_heroPanelList.Count;j++)
+            for (int j = 0; j < m_heroPanelList.Count; j++)
             {
 
                 HeroPanel panel = m_heroPanelList[j];
@@ -63,8 +68,7 @@ public class HeroViewPanel : MonoBehaviour {
                     continue;
             }
         }
-    }
-
+    }  
     void HidePanelAll()
     {
         foreach (HeroPanel panel in m_heroPanelList)
