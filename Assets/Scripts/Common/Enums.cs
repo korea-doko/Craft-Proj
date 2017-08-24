@@ -2,51 +2,106 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemUpperClassType
-{
-    Armors,
-    Weapons,
-    Misc
-}
 
-public enum DamageType
+public enum StatusParameterName
 {
-    Physical,
-    Fire,
-    Cold,
-    Lightning,
-    Chaos
-}
+    None = -1
 
-public enum ItemLowerClassArmors
+, AddedPhysicalMinDamage
+, AddedPhysicalMaxDamage
+, IncreasedPhysicalMinDamage
+, IncreasedPhysicalMaxDamage
+, AddedFireMinDamage
+, AddedFireMaxDamage
+, IncreasedFireMinDamge
+, IncreasedFireMaxDamage
+, AddedColdMinDamage
+, AddedColdMaxDamage
+, IncreasedColdMinDamage
+, IncreasedColdMaxDamage
+, AddedLightningMinDamage
+, AddedLightningMaxDamage
+, IncreasedLightningMinDamage
+, IncreasedLightningMaxDamage
+, AddedChaosMinDamage
+, AddedChaosMaxDamage
+, IncreasedChaosMinDamage
+, IncreasedChaosMaxDamage
+, AddedPhysicalPenetrateRating
+, AddedFirePenetrateRating
+, AddedColdPenetrateRating
+, AddedLightningPenetrateRating
+, AddedChaosPenetrateRating
+, IncreasedPhysicalPenetrateRating
+, IncreasedFirePenetrateRating
+, IncreasedColdPenetrateRating
+, IncreasedLightningPenetrateRating
+, IncreasedChaosPenetrateRating
+, IncreasedStunProbability
+, IncreasedBleedingProbability
+, IncreasedBurningProbability
+, IncreasedFreezeProbability
+, IncreasedShockProbability
+, IncreasedPoisonProbability
+, IncreasedStunDuration
+, IncreasedBleedingDuration
+, IncreasedBurningDuration
+, IncreasedFreezeDuration
+, IncreasedShockDuration
+, IncreasedPoisonDuration
+, AddedAttackSpeed
+, IncreasedAttackSpeed
+, AddedCriticalProbability
+, IncreasedCriticalMultiplier
+}
+public enum ItemUpperClass
 {
     Armor,
+    Weapon,
     Boots,
     Helmet,
-    Gloves,
-    Belt,
-    Shield,
-    Quiver
-}
-public enum ItemLowerClassMisc
-{
     Ring,
     Amulet
 }
-public enum ItemLowerClassWeapons
+public enum ArmorLowerClass
+{
+
+}
+public enum WeaponLowerClass
 {
     OneHandedSword,
+    OneHandedMace,
+    OneHandedAxe,
+
     TwoHandedSword,
+    TwoHandedMace,
+    TwoHandedAxe,
+
     Claw,
     Dagger,
-    Staff,
-    OneHandedMace,
-    TwoHandedMace,
-    OneHandedAxe,
-    TwoHandedAxe,
-    Wand,
-    Bow
+
+    Bow,
+    Wand,   
 }
+public enum BootsLowerClass
+{
+
+}
+public enum HelmetLowerClass
+{
+
+}
+public enum RingLowerClass
+{
+
+}
+public enum AmuletLowerClass
+{
+
+}
+
+
+
 
 public enum ItemRarity
 {
@@ -56,31 +111,13 @@ public enum ItemRarity
     Unique
 }
 
-public enum ModType
+public enum AffixType
 {
     Prefix,
     Suffix
 }
-public enum ModFuncName
-{
-    AddedPhysicalDamage,
-    IncreasePhysicalDamage,
 
-    AddedFireDamage,
-    IncreaseFireDamage,
 
-    AddedColdDamage,
-    IncreaseColdDamage,
-
-    AddedLightningDamage,
-    IncreaseLightningDamage,
-}
-public enum ModCategory
-{
-    Weapon,
-    Armor,
-    Misc
-}
 
 public enum MenuName
 {
