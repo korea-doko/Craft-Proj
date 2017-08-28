@@ -6,146 +6,237 @@ using UnityEngine;
 
 public interface IItemData
 {
-    ItemRarity GetItemRarity { get; set; }
     ItemBaseData GetItemBaseData { get; }
+    ItemRarity GetItemRarity { get; set; }
+
     List<ModData> GetPrefixes { get; }
     List<ModData> GetSuffixes { get; }
+
+    int GetNumOfPrefix { get; }
+    int GetNumOfSuffix { get; }
+
     void AddPrefix(ModData _data);
     void AddSuffix(ModData _data);
-    int GetNumOfPrefix { get; }
-    int GetNumOfSuffix { get; }    
+
+    void RollAllMod();
+    void RemoveOneRandomPrefix();
+    void RemoveOneRandomSuffix();
+
+    string GetItemInfo();
 }
 
 [System.Serializable]
-public class ItemData : IItemData {
-
-    [SerializeField] protected ItemRarity m_rarity;
+public class ItemData : IItemData
+{
     [SerializeField] protected ItemBaseData m_itemBaseData;
+    [SerializeField] protected ItemRarity m_rarity;
     [SerializeField] protected List<ModData> m_prefixList;
     [SerializeField] protected List<ModData> m_suffixList;
-    [SerializeField] protected Status m_totalStatus;
-
-
-    public ItemData(ItemBaseData _data, ItemRarity _rarity)
+        
+    public ItemData(ItemBaseData _baseData,ItemRarity _rarity)
     {
-        m_itemBaseData = _data;
+        m_itemBaseData = _baseData;
         m_rarity = _rarity;
         m_suffixList = new List<ModData>();
-        m_prefixList = new List<ModData>();
-
-        m_totalStatus = new Status();
-        m_totalStatus.AddStatus(_data.GetStatus);
-    }
-    
-    public ItemRarity GetItemRarity
-    {
-        get { return m_rarity; }
-        set { m_rarity = value; }
-    }
-    public ItemBaseData GetItemBaseData
-    {
-        get
-        {
-            return m_itemBaseData;
-        }
-    }
-
-    public List<ModData> GetPrefixes
-    {
-        get
-        {
-            return m_prefixList;
-        }
-    }
+        m_prefixList = new List<ModData>();       
+    }    
+    public ItemRarity GetItemRarity { get { return m_rarity; } set { m_rarity = value; } }
+    public List<ModData> GetPrefixes { get { return m_prefixList; } }
     public List<ModData> GetSuffixes { get { return m_suffixList; } }
-
     public int GetNumOfPrefix { get { return m_prefixList.Count; } }
     public int GetNumOfSuffix { get { return m_suffixList.Count; } }
 
+    public ItemBaseData GetItemBaseData { get { return m_itemBaseData; } }
+    
     public void AddPrefix(ModData _data)
     {
-        m_totalStatus.AddStatusParameter(_data.GetAffectedParameterName, _data.GetSetValue);
         m_prefixList.Add(_data);
     }
     public void AddSuffix(ModData _data)
     {
-        m_totalStatus.AddStatusParameter(_data.GetAffectedParameterName, _data.GetSetValue);
         m_suffixList.Add(_data);
     }
+
+    
 
     public void RemoveOneRandomPrefix()
     {
         int rand = UnityEngine.Random.Range(0, m_prefixList.Count);
-        ModData mod = m_prefixList[rand];
-        m_totalStatus.MinusStatusParameter(mod.GetAffectedParameterName, mod.GetSetValue);
         m_prefixList.RemoveAt(rand);
     }
     public void RemoveOneRandomSuffix()
     {
         int rand = UnityEngine.Random.Range(0, m_suffixList.Count);
-        ModData mod = m_suffixList[rand];
-        m_totalStatus.MinusStatusParameter(mod.GetAffectedParameterName, mod.GetSetValue);
         m_suffixList.RemoveAt(rand);
     }
-  
     public void RollAllMod()
     {
-        for(int i = 0; i< GetNumOfPrefix;i++)
+        for(int i = 0; i < m_prefixList.Count;i++)
         {
             ModData prefix = m_prefixList[i];
-
-            m_totalStatus.MinusStatusParameter(prefix.GetAffectedParameterName, prefix.GetSetValue);
-
             prefix.ChangeSetValue();
-
-            m_totalStatus.AddStatusParameter(prefix.GetAffectedParameterName, prefix.GetSetValue);
         }
-
-        for(int i= 0;i<GetNumOfSuffix;i++)
+        for(int i = 0; i < m_suffixList.Count;i++)
         {
             ModData suffix = m_suffixList[i];
-
-            m_totalStatus.MinusStatusParameter(suffix.GetAffectedParameterName, suffix.GetSetValue);
-
             suffix.ChangeSetValue();
-
-            m_totalStatus.AddStatusParameter(suffix.GetAffectedParameterName, suffix.GetSetValue);
         }
     }
-   
+
     public string GetItemInfo()
     {
-        string str ="등급 = "+ m_rarity.ToString() +"\n" + m_totalStatus.GetStatusInfo();
+        string info = m_itemBaseData.GetItemName + "\n" +
+            m_rarity.ToString() + "\n";
+
 
         switch (m_itemBaseData.GetItemUpperClass)
         {
             case ItemUpperClass.Armor:
+                info += GetArmorItemInfo();
                 break;
             case ItemUpperClass.Weapon:
-                //WeaponBaseData wbd = (WeaponBaseData)m_itemBaseData;
-                
+                info += GetWeaponItemInfo();
                 break;
-            case ItemUpperClass.Boots:
-                break;
-            case ItemUpperClass.Helmet:
-                break;
-            case ItemUpperClass.Ring:
-                break;
-            case ItemUpperClass.Amulet:
+            case ItemUpperClass.Misc:
                 break;
             default:
                 break;
         }
+      
+        info += "-------------\n";
 
-        //WeaponData wData = (WeaponData)this;
-        //WeaponBaseData bData = (WeaponBaseData)m_itemBaseData;
+        info += GetPrefixInfo();
 
-        //str += bData.GetItemLowerClassWeapon;
+        info += "-------------\n";
 
-        return str;
-    }    
-}
-public class WeaponData : ItemData
-{
+        info += GetSuffixInfo();
+        
 
+
+        return info;
+    }
+
+
+    private int GetAllParameterValueInList(StatusParameterName _name)
+    {
+        int value = 0;
+
+        for(int i = 0; i < m_prefixList.Count;i++)
+        {
+            ModData data = m_prefixList[i];
+
+            if (data.GetAffectedParameterName == _name)
+                value = data.GetSetValue;
+        }
+
+        for(int i = 0; i < m_suffixList.Count;i++)
+        {
+            ModData data = m_suffixList[i];
+
+            if (data.GetAffectedParameterName == _name)
+                value = data.GetSetValue;
+        }
+
+
+
+        return value;
+    }
+
+    private string GetWeaponItemInfo()
+    {
+        WeaponBaseData wbd = (WeaponBaseData)m_itemBaseData;
+
+        string info = "";
+
+        int physicalMin = wbd.PhysicalMinDamage;
+        int physicalMax = wbd.PhysicalMaxDamage;
+
+        int addedPhysicalMinDamage = GetAllParameterValueInList(StatusParameterName.AddedPhysicalMinDamage);
+        int addedPhysicalMaxDamage = GetAllParameterValueInList(StatusParameterName.AddedPhysicalMaxDamage);
+        int increasedPhysicalMinDamage = GetAllParameterValueInList(StatusParameterName.IncreasedPhysicalMinDamage);
+        int increasedPhysicalMaxDamage = GetAllParameterValueInList(StatusParameterName.IncreasedPhysicalMaxDamage);
+
+        if (increasedPhysicalMinDamage == 0) increasedPhysicalMinDamage = 1;
+        if (increasedPhysicalMaxDamage == 0) increasedPhysicalMaxDamage = 1;
+
+        physicalMin = (physicalMin + addedPhysicalMinDamage) * increasedPhysicalMinDamage;
+        physicalMax = (physicalMax + addedPhysicalMaxDamage) * increasedPhysicalMaxDamage;
+
+        info += "PhysicalDamage = " + physicalMin + " ~ " + physicalMax + "\n";
+
+        int addedfireMinDamage = GetAllParameterValueInList(StatusParameterName.AddedFireMinDamage);
+        int addedfireMaxDamage = GetAllParameterValueInList(StatusParameterName.AddedFireMaxDamage);
+        int increasedfireMinDamage = GetAllParameterValueInList(StatusParameterName.IncreasedFireMinDamge);
+        int increasedfireMaxDamage = GetAllParameterValueInList(StatusParameterName.IncreasedFireMaxDamage);
+
+        if (increasedfireMinDamage == 0) increasedfireMinDamage = 1;
+        if (increasedfireMaxDamage == 0) increasedfireMaxDamage = 1;
+
+        int fireMin = addedfireMinDamage * increasedPhysicalMinDamage;
+        int fireMax = addedfireMaxDamage * increasedfireMaxDamage;
+
+        info += "<color=red>FireDamage = " + fireMin + " ~ " + fireMax + "</color>\n";
+
+        int addedAttackSpeed = GetAllParameterValueInList(StatusParameterName.AddedAttackSpeed);
+        int increasedAttackSpeed = GetAllParameterValueInList(StatusParameterName.IncreasedAttackSpeed);
+
+        if (increasedAttackSpeed == 0) increasedAttackSpeed = 1;
+
+        int attackSpeed = wbd.AttackSpeed;
+        attackSpeed = (attackSpeed + addedAttackSpeed) * increasedAttackSpeed;
+
+        info += "Attack Speed = " + attackSpeed + "\n";
+
+
+        return info;
+    }
+
+    private string GetArmorItemInfo()
+    {
+        ArmorBaseData abd = (ArmorBaseData)m_itemBaseData;
+        string info = "";
+
+        int armor = abd.Armor;
+        //int addedArmor = GetAllParameterValueInList(StatusParameterName.armor)
+
+        info += "Armor = " + armor + "\n";
+
+        int evasion = abd.EvasionRating;
+
+        info += "Evasion = " + evasion + "\n";
+
+        int energy = abd.EnergyShield;
+
+        info += "EnergyShield = " + energy + "\n";
+
+        return info;
+    }
+
+    string GetPrefixInfo()
+    {
+        string info = "";
+
+        for(int i = 0; i < m_prefixList.Count;i++)
+        {
+            ModData data = m_prefixList[i];
+
+            info += data.GetAffectedParameterName.ToString() + " " + data.GetSetValue + "\n";
+        }
+
+        return info;
+    }
+
+    string GetSuffixInfo()
+    {
+        string info = "";
+
+        for (int i = 0; i < m_suffixList.Count; i++)
+        {
+            ModData data = m_suffixList[i];
+
+            info += data.GetAffectedParameterName.ToString() + " " + data.GetSetValue + "\n";
+        }
+
+        return info;
+    }
 }

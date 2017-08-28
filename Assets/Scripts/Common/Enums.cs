@@ -54,54 +54,48 @@ public enum StatusParameterName
 , AddedCriticalProbability
 , IncreasedCriticalMultiplier
 }
+
 public enum ItemUpperClass
 {
     Armor,
     Weapon,
-    Boots,
-    Helmet,
-    Ring,
-    Amulet
+    Misc
 }
+
 public enum ArmorLowerClass
 {
-
+    Helmet,
+    BodyArmor,
+    Boots
 }
 public enum WeaponLowerClass
 {
-    OneHandedSword,
-    OneHandedMace,
-    OneHandedAxe,
-
-    TwoHandedSword,
-    TwoHandedMace,
-    TwoHandedAxe,
-
+    Sword,
+    Mace,
+    Axe,
+    
     Claw,
     Dagger,
 
     Bow,
     Wand,   
 }
-public enum BootsLowerClass
+public enum MiscLowerClass
 {
-
-}
-public enum HelmetLowerClass
-{
-
-}
-public enum RingLowerClass
-{
-
-}
-public enum AmuletLowerClass
-{
-
+    Ring,
+    Amulet
 }
 
 
 
+public enum DamageType
+{
+    Physical,
+    Fire,
+    Cold,
+    Lightning,
+    Chaos
+}
 
 public enum ItemRarity
 {
@@ -117,7 +111,21 @@ public enum AffixType
     Suffix
 }
 
-
+public enum EHeroClass
+{
+    Fighter,
+    Ranger
+}
+public enum EEquipParts
+{
+    Head,               // Helmet
+    Body,               // Armor
+    WeaponHand,          // Weapon
+    GloveHand,           // Gloves           
+    Foot,               // Boots
+    Neck,               // Amulet              
+    Finger              // Ring          
+}
 
 public enum MenuName
 {

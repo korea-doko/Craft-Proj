@@ -13,10 +13,11 @@ public class PlayManager : MonoBehaviour {
         Hero,
         Menu,
         Upgrade,
-        Store
+        Store,
+        Guild
     }
 
-    private IUpgradeManager[] m_mgrAry;
+    private IManager[] m_mgrAry;
     private ILoadable[] m_loadableAry;
     private IUpdatable[] m_updatableAry;
 
@@ -27,7 +28,7 @@ public class PlayManager : MonoBehaviour {
     private void Awake()
     {
         m_numOfMgr = System.Enum.GetNames(typeof(PlaySceneManagerName)).Length;
-        m_mgrAry = new IUpgradeManager[m_numOfMgr];
+        m_mgrAry = new IManager[m_numOfMgr];
         m_updatableAry = new IUpdatable[m_numOfMgr];
         m_loadableAry = new ILoadable[m_numOfMgr];
 
@@ -45,7 +46,7 @@ public class PlayManager : MonoBehaviour {
 
             GameObject obj = Utils.MakeGameObjectWithType(type, this.gameObject);
 
-            m_mgrAry[i] = obj.GetComponent<IUpgradeManager>();
+            m_mgrAry[i] = obj.GetComponent<IManager>();
             m_updatableAry[i] = obj.GetComponent<IUpdatable>();
             m_loadableAry[i] = obj.GetComponent<ILoadable>();
         }

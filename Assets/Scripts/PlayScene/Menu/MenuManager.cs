@@ -3,7 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuManager : MonoBehaviour,IUpgradeManager,IUpdatable{
+public interface IMenuManager  : IManager, IUpdatable
+{
+
+}
+
+public class MenuManager : MonoBehaviour,IMenuManager
+{
 
     private MenuModel m_model;
     private MenuView m_view;
@@ -47,24 +53,6 @@ public class MenuManager : MonoBehaviour,IUpgradeManager,IUpdatable{
         UpgradeManager.Inst.MenuButtonClicked(args.MenuName);
         HeroManager.Inst.MenuButtonClicked(args.MenuName);
         StoreManager.Inst.MenuButtonClicked(args.MenuName);
-
-        //switch (args.MenuName)
-        //{
-        //    case MenuName.Upgrade:
-        //        UpgradeManager.Inst.UpgradeButtonClicked();
-        //        break;
-        //    case MenuName.Traveller:
-        //        HeroManager.Inst.HeroMenuButtonClicked();
-        //        break;
-        //    case MenuName.Quest:
-        //        break;
-        //    case MenuName.Guild:
-        //        break;
-        //    case MenuName.Store:
-        //        StoreManager.Inst.StoreMenuButtonClicked();
-        //        break;
-        //    default:
-        //        break;
-        //}       
+        GuildManager.Inst.MenuButtonClicked(args.MenuName);
     }
 }

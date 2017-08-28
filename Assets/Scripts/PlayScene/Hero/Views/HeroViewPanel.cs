@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroViewPanel : MonoBehaviour {
+public interface IHeroViewPanel
+{
+    event EventHandler<HeroPanelClickedArgs> OnHeroPanelClicked;
+}
+public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
 
     [SerializeField] private RectTransform m_rect;
     [SerializeField] private List<HeroPanel> m_heroPanelList;
+
+    public event EventHandler<HeroPanelClickedArgs> OnHeroPanelClicked;
 
     public RectTransform Rect
     {
@@ -24,11 +30,18 @@ public class HeroViewPanel : MonoBehaviour {
         for(int i = 0; i < 20;i++)
         {
             HeroPanel heroPanel = ((GameObject)Instantiate(obj)).GetComponent<HeroPanel>();
-            heroPanel.Init();
+            heroPanel.Init(i);
+            heroPanel.OnHeroPanelClicked += HeroPanel_OnHeroPanelClicked;
             heroPanel.transform.SetParent(this.transform);
             m_heroPanelList.Add(heroPanel);
         }
     }
+
+    private void HeroPanel_OnHeroPanelClicked(object sender, HeroPanelClickedArgs e)
+    {
+        OnHeroPanelClicked(this, e);
+    }
+
     public void Load(float _width, float _height)
     {
         float preferredWidth = _width;
@@ -68,7 +81,7 @@ public class HeroViewPanel : MonoBehaviour {
                     continue;
             }
         }
-    }  
+    }
     void HidePanelAll()
     {
         foreach (HeroPanel panel in m_heroPanelList)

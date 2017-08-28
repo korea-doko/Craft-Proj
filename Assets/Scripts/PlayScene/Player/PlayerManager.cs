@@ -3,7 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour,IUpgradeManager {
+public interface IPlayerManager  :  IManager
+{
+
+}
+public class PlayerManager : MonoBehaviour, IPlayerManager
+{
 
     private PlayerModel m_model;
     private PlayerView m_view;
@@ -25,5 +30,18 @@ public class PlayerManager : MonoBehaviour,IUpgradeManager {
 
         m_view = Utils.MakeGameObjectWithComponent<PlayerView>(this.gameObject);
         m_view.InitView(m_model);
+    }
+    
+    public void HiredHero(HeroData _data)
+    {
+        m_model.AddHeroData(_data);
+    }
+    public List<HeroData> GetOwnedHeroDataList()
+    {
+        return m_model.HeroList;
+    }
+    public HeroData GetHeroData(int _id)
+    {
+        return m_model.HeroList[_id];
     }
 }

@@ -3,7 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeroManager : MonoBehaviour,IUpgradeManager,ILoadable {
+
+public interface IHeroManager  : IManager, ILoadable
+{
+
+}
+public class HeroManager : MonoBehaviour,IHeroManager
+{
 
     private HeroModel m_model;
     private HeroView m_view;
@@ -17,7 +23,6 @@ public class HeroManager : MonoBehaviour,IUpgradeManager,ILoadable {
         }        
     }
 
- 
 
     public void InitManager()
     {
@@ -28,10 +33,16 @@ public class HeroManager : MonoBehaviour,IUpgradeManager,ILoadable {
 
         m_view = Utils.MakeGameObjectWithComponent<HeroView>(this.gameObject);
         m_view.InitView(m_model);
+        m_view.OnHeroPanelClicked += M_view_OnHeroPanelClicked;
+    }
 
+    private void M_view_OnHeroPanelClicked(object sender, HeroPanelClickedArgs e)
+    {        
+        HeroData heroData = m_model.GetHeroData(e.m_clickedID);
+        m_model.RemoveAvailableHeroData(e.m_clickedID);
+        m_view.Show(m_model);
 
-        for (int i = 0; i < 3; i++)
-            MakeAvailableHero();
+        PlayerManager.Inst.HiredHero(heroData);
     }
 
     public bool Load()
@@ -39,10 +50,7 @@ public class HeroManager : MonoBehaviour,IUpgradeManager,ILoadable {
         return m_view.Load();
     }
 
-    public void MakeAvailableHero()
-    {
-        m_model.MakeAvailableHero();
-    }
+    
 
 
     internal void MenuButtonClicked(MenuName menuName)

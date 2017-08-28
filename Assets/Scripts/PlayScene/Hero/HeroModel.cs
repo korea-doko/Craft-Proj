@@ -9,7 +9,8 @@ public interface IHeroModel : IModel
 }
 public class HeroModel : MonoBehaviour, IHeroModel
 {
-    [SerializeField] private List<HeroData> m_baseHeroDataList;
+    [SerializeField] private List<BaseHeroData> m_baseHeroDataList;
+
     [SerializeField] private List<HeroData> m_availableHeroDataList;
 
     public List<HeroData> AvailableHeroDataList
@@ -17,29 +18,56 @@ public class HeroModel : MonoBehaviour, IHeroModel
         get
         {
             return m_availableHeroDataList;
-        }
+        }    
     }
 
+    
     public void InitModel()
     {
-        m_baseHeroDataList = new List<HeroData>();
+        m_baseHeroDataList = new List<BaseHeroData>();
         m_availableHeroDataList = new List<HeroData>();
 
-        for(int i = 0; i < 10; i++)
+        int numOfHero = System.Enum.GetNames(typeof(EHeroClass)).Length;
+
+        for (int i = 0; i < numOfHero; i++)
         {
-            HeroData data = new HeroData((HeroClass)(i % 2), new HeroStatus());
-            m_baseHeroDataList.Add(data);
+            BaseHeroData bhd = new BaseHeroData((EHeroClass)i, new Attribute());
+            m_baseHeroDataList.Add(bhd);
         }
+
+        for (int i = 0; i < 3; i++)
+            MakeAvailableHeroData();
+
+    }
+    
+    public void MakeAvailableHeroData()
+    {
+
+        BaseHeroData data = GetRandomBaseHeroData();
+
+        HeroData heroData = new HeroData(data);
+
+        m_availableHeroDataList.Add(heroData);
     }
 
-    public void MakeAvailableHero()
+    public HeroData GetHeroData(int _id)
+    {
+        return m_availableHeroDataList[_id];
+    }
+    public void RemoveAvailableHeroData(int _id)
+    {
+        m_availableHeroDataList.RemoveAt(_id);
+    }
+
+    BaseHeroData GetRandomBaseHeroData()
     {
         int rand = UnityEngine.Random.Range(0, m_baseHeroDataList.Count);
 
-        HeroData originData = m_baseHeroDataList[rand];
+        BaseHeroData baseHeroData = m_baseHeroDataList[rand];
 
-
-        HeroData copyData = new HeroData(originData);
-        m_availableHeroDataList.Add(copyData);
+        return new BaseHeroData(baseHeroData);
     }
+
+
+
 }
