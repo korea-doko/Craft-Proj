@@ -85,6 +85,7 @@ public class InventoryPanel : MonoBehaviour ,IInventoryPanel{
         OnSlotClicked(this, new SlotClickedArgs(slot));
     }
 
+    
     void InitSlot()
     {
         GameObject prefab = Resources.Load("PlayScene/Store/Slot") as GameObject;

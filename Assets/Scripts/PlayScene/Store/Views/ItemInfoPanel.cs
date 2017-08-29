@@ -29,7 +29,8 @@ public class ItemInfoPanel : MonoBehaviour {
     {
 
 
-        string infoText = "Rarity = " + data.GetItemRarity.ToString() + "\n"
+        string infoText = "Name = " + data.GetItemBaseData.GetItemName + " \n" 
+        + "Rarity = " + data.GetItemRarity.ToString() + "\n"
         + "ItemUpperClass = " + data.GetItemBaseData.GetItemUpperClass.ToString() + "\n"
         + "ItemLevel = " + data.GetItemBaseData.GetItemLevel.ToString() + "\n"
         + "Str = " + data.GetItemBaseData.GetBaseItemRequiredAttribute.Str.ToString() + "|" 

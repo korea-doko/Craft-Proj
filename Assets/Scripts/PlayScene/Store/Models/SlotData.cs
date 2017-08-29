@@ -31,7 +31,11 @@ public class SlotData
         set
         {
             m_itemData = value;
-            m_isInit = true;
+
+            if (m_itemData == null)
+                m_isInit = false;
+            else
+                m_isInit = true;
         }
     }
     public bool IsInit
@@ -44,6 +48,7 @@ public class SlotData
 
     public void RemoveItemData()
     {
+        m_itemData = null;
         m_isInit = false;
     }
 }

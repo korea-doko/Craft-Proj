@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public interface IGuildViewPanel
+public interface IGuildViewPanel : ILoadable
 {
     event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
+    event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
 }
 
 public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
@@ -18,6 +19,7 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
 
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     public event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
+    public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
 
     public void Init()
     {
@@ -31,7 +33,13 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
         GameObject prefab = Resources.Load("PlayScene/Guild/EquipItemInventoryPanel") as GameObject;
         m_equipItemInventoryPanel = ((GameObject)Instantiate(prefab)).GetComponent<EquipItemInventoryPanel>();
         m_equipItemInventoryPanel.Init();
+        m_equipItemInventoryPanel.OnEquipItemInventorySlotClicked += M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked;
         m_equipItemInventoryPanel.transform.SetParent(this.transform);
+    }
+
+    private void M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
+    {
+        OnEquipItemInventorySlotClicked(this, e);
     }
 
     internal void Show(List<HeroData> heroList)
@@ -52,9 +60,15 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
         OnGuildHeroInfoPanelClicked(this, e);
     }
 
+    internal void Hide()
+    {
+        m_guildHeroInfoDetailPanel.Hide();
+        m_equipItemInventoryPanel.Hide();
+    }
+
     internal void ShowEquipItemInventory(List<SlotData> slotDataList)
     {
-        m_equipItemInventoryPanel.Show();
+        m_equipItemInventoryPanel.Show(slotDataList);
     }
 
     private void M_guildHeroInfoDetailPanel_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
@@ -76,5 +90,10 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
     internal void ShowHeroInfoDetailPanel(HeroData data)
     {
         m_guildHeroInfoDetailPanel.Show(data);
+    }
+
+    public bool Load()
+    {
+        return m_equipItemInventoryPanel.Load();
     }
 }

@@ -8,6 +8,8 @@ public interface IGuildView<T> : IView<T> , ILoadable
 {
     event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
+
+    event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
 }
 public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
 
@@ -15,6 +17,7 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
 
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     public event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
+    public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
 
     public void InitView(IGuildModel _model)
     {
@@ -24,6 +27,12 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
         m_guildViewPanel.Init();
         m_guildViewPanel.OnGuildHeroInfoPanelClicked += M_guildViewPanel_OnGuildHeroInfoPanelClicked;
         m_guildViewPanel.OnEquipItemPanelClicked += M_guildViewPanel_OnEquipItemPanelClicked;
+        m_guildViewPanel.OnEquipItemInventorySlotClicked += M_guildViewPanel_OnEquipItemInventorySlotClicked;
+    }
+
+    private void M_guildViewPanel_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
+    {
+        OnEquipItemInventorySlotClicked(this, e);
     }
 
     private void M_guildViewPanel_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
@@ -48,9 +57,10 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
         if (parent == null)
             return false;
 
+        
         parent.SetGameObjectAsChild(m_guildViewPanel.gameObject);
 
-        return true;
+        return m_guildViewPanel.Load();
     }
 
     internal void ShowHeroInfoDetailPanel(HeroData data)
@@ -60,6 +70,7 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
 
     internal void HideAll()
     {
+        m_guildViewPanel.Hide();
     }
     internal void ShowAll(List<HeroData> _heroList)
     {

@@ -35,4 +35,8 @@ public class HeroData {
             m_equipDataAry = value;
         }
     }
+    public void EquipItemWith(ItemData _data)
+    {
+        m_equipDataAry[0] = _data;
+    }
 }

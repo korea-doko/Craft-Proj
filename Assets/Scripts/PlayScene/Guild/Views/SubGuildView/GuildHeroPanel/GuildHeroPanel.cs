@@ -31,4 +31,5 @@ public class GuildHeroPanel : MonoBehaviour , IGuildHeroPanel{
     {
         m_scrollRect.Show(heroList);
     }
+    
 }

@@ -45,4 +45,9 @@ public class EquipItemPanel : MonoBehaviour, IEquipItemPanel
         else
             m_text.text = "Item is not equipped";
     }
+
+    internal void Clear()
+    {
+        m_text.text = "";
+    }
 }

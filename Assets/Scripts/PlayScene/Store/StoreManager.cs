@@ -24,6 +24,14 @@ public class StoreManager : MonoBehaviour,IStoreManager
 
     public List<SlotData> GetSlotDataList { get { return m_model.SlotDataList; } }
 
+    public StoreModel Model
+    {
+        get
+        {
+            return m_model;
+        }
+    }
+
     public StoreManager()
     {
         m_inst = this;

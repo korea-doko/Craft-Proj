@@ -33,11 +33,21 @@ public class EquipPanel : MonoBehaviour , IEquipPanel{
 
     internal void Show(HeroData data)
     {
+        ClearAry();
+
         for(int i = 0; i < data.EquipDataAry.Length;i++)
         {
             EquipItemPanel p = m_equipItemPanelAry[i];
             ItemData itemData = data.EquipDataAry[i];
             p.Show(itemData);
+        }
+    }
+    void ClearAry()
+    {
+        for(int i = 0; i < m_equipItemPanelAry.Length;i++)
+        {
+            EquipItemPanel p = m_equipItemPanelAry[i];
+            p.Clear();
         }
     }
 }

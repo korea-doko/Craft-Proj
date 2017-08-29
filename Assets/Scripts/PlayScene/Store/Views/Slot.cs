@@ -62,6 +62,7 @@ public class Slot : MonoBehaviour ,ISlot{
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }
+    
 
     void SetClickable()
     {

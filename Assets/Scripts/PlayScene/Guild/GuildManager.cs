@@ -34,21 +34,33 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
         m_view.InitView(m_model);
         m_view.OnGuildHeroInfoPanelClicked += M_view_OnGuildHeroInfoPanelClicked;
         m_view.OnEquipItemPanelClicked += M_view_OnEquipItemPanelClicked;
+        m_view.OnEquipItemInventorySlotClicked += M_view_OnEquipItemInventorySlotClicked;
+    }
+
+    private void M_view_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
+    {
+        List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
+
+        SlotData selectedSlot = slotDataList[e.m_id];
+
+        m_model.SelectedHeroData.EquipItemWith(selectedSlot.ItemData);
+
+        selectedSlot.ItemData = null;
+
+        m_view.ShowHeroInfoDetailPanel(m_model.SelectedHeroData);
     }
 
     private void M_view_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
     {
         List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
        
-        m_view.ShowEquipItemInventory(slotDataList);
-
-        Debug.Log(e.m_clickedParts.ToString() + "is clicked");
+        m_view.ShowEquipItemInventory(slotDataList);        
     }
 
     private void M_view_OnGuildHeroInfoPanelClicked(object sender, GuildHeroInfoPanelClickedArgs e)
     {
         HeroData data = PlayerManager.Inst.GetHeroData(e.m_id);
-
+        m_model.SelectedHeroData = data;
         m_view.ShowHeroInfoDetailPanel(data);
     }
 
@@ -59,8 +71,10 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
 
     internal void MenuButtonClicked(MenuName menuName)
     {
-        if( menuName != MenuName.Guild)
-            m_view.HideAll();        
+        if (menuName != MenuName.Guild)
+        {
+            m_view.HideAll();
+        }
         else
         {
             List<HeroData> heroList = PlayerManager.Inst.GetOwnedHeroDataList();

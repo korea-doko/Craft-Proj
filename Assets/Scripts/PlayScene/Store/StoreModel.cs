@@ -41,6 +41,13 @@ public class StoreModel : MonoBehaviour, IStoreModel
             return m_slotDataList;
         }
     }
+    public int MaxNumOfSlot
+    {
+        get
+        {
+            return m_maxNumOfSlot;
+        }
+    }
 
     public void InitModel()
     {
@@ -51,7 +58,7 @@ public class StoreModel : MonoBehaviour, IStoreModel
 
         m_slotDataList = new List<SlotData>();
 
-        for (int i = 0; i < m_maxNumOfSlot;i++)
+        for (int i = 0; i < m_maxNumOfSlot; i++)
         {
             SlotData data = new SlotData(i);
             m_slotDataList.Add(data);
@@ -60,7 +67,8 @@ public class StoreModel : MonoBehaviour, IStoreModel
 
     internal void AddItemData(ItemData data)
     {
-        for(int i = 0; i < m_maxNumOfSlot;i++)
+
+        for (int i = 0; i < m_maxNumOfSlot; i++)
         {
             SlotData slotData = m_slotDataList[i];
 
