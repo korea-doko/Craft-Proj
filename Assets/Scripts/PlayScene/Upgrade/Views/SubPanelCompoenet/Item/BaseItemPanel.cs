@@ -45,4 +45,10 @@ public class BaseItemPanel : MonoBehaviour, IBaseItemPanel {
         m_itemSelectPanel.ShowSelectedItem(itemData);
         m_itemDescPanel.ShowSelectedItem(itemData);
     }
+
+    internal void Hide()
+    {
+        m_itemDescPanel.Hide();
+        m_itemSelectPanel.Hide();
+    }
 }

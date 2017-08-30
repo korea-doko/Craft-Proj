@@ -56,7 +56,6 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
     public void Hide()
     {
         m_isActive = false;
-
         m_image.color = m_emptyColor;
         this.gameObject.SetActive(m_isActive);
     }

@@ -31,4 +31,9 @@ public class ItemSelectPanel : MonoBehaviour , IItemSelectPanel{
     {
         Debug.Log("이미지 바꾸자");
     }
+
+    internal void Hide()
+    {
+
+    }
 }

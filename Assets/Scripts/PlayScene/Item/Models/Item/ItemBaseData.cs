@@ -192,6 +192,14 @@ public class MiscBaseData : ItemBaseData
         m_upperClassName = ItemUpperClass.Misc;
         m_lowerClassName = _lowerClassName;
     }
+
+    public MiscLowerClass LowerClassName
+    {
+        get
+        {
+            return m_lowerClassName;
+        }
+    }
 }
 
 

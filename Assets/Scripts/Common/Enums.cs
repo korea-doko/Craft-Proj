@@ -66,7 +66,8 @@ public enum ArmorLowerClass
 {
     Helmet,
     BodyArmor,
-    Boots
+    Boots,
+    Gloves
 }
 public enum WeaponLowerClass
 {

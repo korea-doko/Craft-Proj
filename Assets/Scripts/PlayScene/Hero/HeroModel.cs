@@ -13,6 +13,8 @@ public class HeroModel : MonoBehaviour, IHeroModel
 
     [SerializeField] private List<HeroData> m_availableHeroDataList;
 
+    [SerializeField] private int m_giveID;
+
     public List<HeroData> AvailableHeroDataList
     {
         get
@@ -27,6 +29,7 @@ public class HeroModel : MonoBehaviour, IHeroModel
         m_baseHeroDataList = new List<BaseHeroData>();
         m_availableHeroDataList = new List<HeroData>();
 
+        m_giveID = 0;
         int numOfHero = System.Enum.GetNames(typeof(EHeroClass)).Length;
 
         for (int i = 0; i < numOfHero; i++)
@@ -45,7 +48,7 @@ public class HeroModel : MonoBehaviour, IHeroModel
 
         BaseHeroData data = GetRandomBaseHeroData();
 
-        HeroData heroData = new HeroData(data);
+        HeroData heroData = new HeroData(GetIDGivenToHero(),data);
 
         m_availableHeroDataList.Add(heroData);
     }
@@ -67,7 +70,8 @@ public class HeroModel : MonoBehaviour, IHeroModel
 
         return new BaseHeroData(baseHeroData);
     }
-
-
-
+    int GetIDGivenToHero()
+    {
+        return m_giveID++;
+    }
 }

@@ -66,6 +66,7 @@ public class UpgradeViewPanel : MonoBehaviour, IUpgradeViewPanel, ILoadable
 
     internal void Hide()
     {
+        m_baseItemPanel.Hide();
         m_itemSelectInventoryPanel.Hide();
     }
     internal void Show()

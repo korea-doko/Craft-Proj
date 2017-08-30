@@ -57,22 +57,14 @@ public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,
             if (!data.IsInit)
                 continue;
 
-            for(int j = 0; j < m_numOfSlot;j++)
-            {
-                ItemSelectSlot selectSlot = m_itemSelectSlotList[j];
-
-                if (selectSlot.IsActive)
-                    continue;
-
-                selectSlot.Show(data);
-                break;
-            }
+            ItemSelectSlot selectSlot = m_itemSelectSlotList[i];
+            selectSlot.Show(data);         
         }
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }
     public void Hide()
-    {
+    {      
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }
@@ -117,4 +109,6 @@ public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,
 
         OnItemSelectSlotClicked(this, new ItemSelectSlotArgs(selectedSlot.Id));        
     }
+
+    
 }

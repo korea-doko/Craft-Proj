@@ -18,4 +18,9 @@ public class ItemDescPanel : MonoBehaviour {
     {
         m_descText.text = itemData.GetItemInfo();
     }
+
+    internal void Hide()
+    {
+        m_descText.text = "init";
+    }
 }
