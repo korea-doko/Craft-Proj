@@ -18,6 +18,8 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
     [SerializeField] private Image m_image;
     [SerializeField] private bool m_isActive;
     [SerializeField] private Button m_btn;
+    [SerializeField] private LayoutElement m_layoutEle;
+    [SerializeField] private Text m_text;
 
     public event EventHandler OnItemSelectSlotClicked;
 
@@ -38,9 +40,12 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
 
     internal void Init(int _id)
     {
-        m_image = this.GetComponent<Image>();
         m_id = _id;
+
+        m_image = this.GetComponent<Image>();
         m_btn = this.GetComponent<Button>();
+        m_text = this.GetComponentInChildren<Text>();
+        m_layoutEle = this.GetComponent<LayoutElement>();
         m_btn.onClick.AddListener( ()=> OnItemSelectSlotClicked(this, EventArgs.Empty));
         Hide();
     }
@@ -49,7 +54,7 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
     {
         m_slotData = _slotData;
         m_image.color = m_fullColor;
-
+        m_text.text = _slotData.ItemData.GetItemInfo();
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }
@@ -58,5 +63,9 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
         m_isActive = false;
         m_image.color = m_emptyColor;
         this.gameObject.SetActive(m_isActive);
+    }
+    public void SetHeight(float _height)
+    {
+        m_layoutEle.preferredHeight = _height;
     }
 }

@@ -18,7 +18,7 @@ public class MenuPanel : MonoBehaviour {
     [SerializeField] private float m_width;
     [SerializeField] private float m_height;
     
-    public MenuName MenuName
+    public MenuName Name
     {
         get
         {
@@ -46,6 +46,19 @@ public class MenuPanel : MonoBehaviour {
         m_rect = this.GetComponent<RectTransform>();
         m_layoutEle = this.GetComponent<LayoutElement>();
         m_scrollRect = this.GetComponent<ScrollRect>();
+
+        Debug.Log(" 모험가 관련되어서 뷰 바꾸면 여기 아래에서 바꿔야할 수 있음");
+
+        if( _name == MenuName.Hero)
+        {
+
+        }
+        else
+        {
+            m_scrollRect.vertical = false;
+            m_scrollRect.horizontal = false;
+        }
+
         m_menuName = _name;        
     }
     public void ChangeSize(float _width, float _height)

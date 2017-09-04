@@ -13,58 +13,62 @@ public class StoreViewPanel : MonoBehaviour, IStoreViewPanel {
 
     [SerializeField] private InventoryPanel m_inventoryPanel;
     [SerializeField] private ItemInfoPanel m_itemInfoPanel;
-
+    [SerializeField] private ItemCountPanel m_itemCountPanel;
 
     public event EventHandler<SlotClickedArgs> OnSlotClicked;
 
     public void Init(StoreModel _model)
     {
-        InitInventoryPanel(_model.NumOfSlotRow,_model.NumOfSlotCol);
+        InitInventoryPanel(_model);
         InitInfoPanel(_model);
-
+        InitItemCountPanel(_model);
     }
-  
-    private void M_inventoryPanel_OnSlotClicked(object sender, SlotClickedArgs e)
-    {
-        OnSlotClicked(sender, e);
-    }
-
+    
     public void Show(StoreModel _model)
     {
         m_inventoryPanel.Show(_model);
+        m_itemCountPanel.Show(_model);
     }
-
-    internal void Hide()
+    public void Hide()
     {
         m_itemInfoPanel.Hide();
     }
-    internal Slot GetSlot(int id)
+    public Slot GetSlot(int id)
     {
         return m_inventoryPanel.GetSlot(id);
-    }
-    void InitInventoryPanel(int _numOfSlotRow, int _numOfSlotCol)
-    {
-        GameObject prefab = Resources.Load("PlayScene/Store/InventoryPanel") as GameObject;
-
-        m_inventoryPanel = ((GameObject)Instantiate(prefab)).GetComponent<InventoryPanel>();
-        m_inventoryPanel.transform.SetParent(this.transform);
-        m_inventoryPanel.Init(_numOfSlotRow, _numOfSlotCol);
-        m_inventoryPanel.OnSlotClicked += M_inventoryPanel_OnSlotClicked;
-    }
-
-    internal void ShowItemInfoPanel(ItemData data)
+    }   
+    public void ShowItemInfoPanel(ItemData data)
     {
         m_itemInfoPanel.ShowItemInfoPanel(data);
-
     }
 
-    void InitInfoPanel(StoreModel _model)
+    private void InitInfoPanel(StoreModel _model)
     {
         GameObject prefab = Resources.Load("PlayScene/Store/ItemInfoPanel") as GameObject;
 
         m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<ItemInfoPanel>();
         m_itemInfoPanel.transform.SetParent(this.transform);
         m_itemInfoPanel.Init();
+    }
+    private void InitInventoryPanel(StoreModel _model)
+    {
+        GameObject prefab = Resources.Load("PlayScene/Store/InventoryPanel") as GameObject;
+
+        m_inventoryPanel = ((GameObject)Instantiate(prefab)).GetComponent<InventoryPanel>();
+        m_inventoryPanel.transform.SetParent(this.transform);
+        m_inventoryPanel.Init(_model.MaxNumOfSlot);
+
+        m_inventoryPanel.OnSlotClicked += M_inventoryPanel_OnSlotClicked;
+    }
+    private void InitItemCountPanel(StoreModel model)
+    {
+        m_itemCountPanel.Init(model);
+    }
+
+    // 이벤트 핸들러
+    private void M_inventoryPanel_OnSlotClicked(object sender, SlotClickedArgs e)
+    {
+        OnSlotClicked(sender, e);
     }
 
 }

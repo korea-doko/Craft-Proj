@@ -1,30 +1,46 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class HeroData {
+public interface IHeroData
+{
+    EHeroClass GetHeroClass { get; }
+    string GetName { get; }
+    ItemData[] EquipDataAry { get; set; }
+    Attribute GetBaseAttribute { get; }
+    Attribute GetOffsetAttribute { get; }
 
-    [SerializeField] private int m_givenID;
-    [SerializeField] private BaseHeroData m_baseHeroData;
+    void EquipItemWith(ItemData _data);
+}
+[System.Serializable]
+public class HeroData : IHeroData
+{
+
+    [SerializeField] private string m_name;
+    [SerializeField] EHeroClass m_heroClass;
+    [SerializeField] private Attribute m_baseAttr;
+    [SerializeField] private Attribute m_offsetAttr;
+    [SerializeField] private int m_level;
+    [SerializeField] private int[] m_modTypeAry;
+    
+
     [SerializeField] private ItemData[] m_equipDataAry;
 
-    public HeroData(int _givenID,BaseHeroData _baseData)
+    public HeroData(string _name,EHeroClass _class, Attribute _baseAttr,Attribute _offsetAttr)
     {
-        m_givenID = _givenID;
-        m_baseHeroData = _baseData;
+        m_name = _name;
+        m_heroClass = _class;
+        m_baseAttr = _baseAttr;
+        m_offsetAttr = _offsetAttr;
+
+        int numOfModType = System.Enum.GetNames(typeof(ModType)).Length;
+        m_modTypeAry = new int[numOfModType];
 
         int numOfEquipParts = System.Enum.GetNames(typeof(EEquipParts)).Length;
         m_equipDataAry = new ItemData[numOfEquipParts];
     }
-    public BaseHeroData BaseHeroData
-    {
-        get
-        {
-            return m_baseHeroData;
-        }
-    }
-
+    
     public ItemData[] EquipDataAry
     {
         get
@@ -37,8 +53,36 @@ public class HeroData {
             m_equipDataAry = value;
         }
     }
+    public EHeroClass GetHeroClass
+    {
+        get
+        {
+            return m_heroClass;
+        }
+    }
+    public string GetName
+    {
+        get
+        {
+            return m_name;
+        }
+    }
 
-    
+    public Attribute GetBaseAttribute
+    {
+        get
+        {
+            return m_baseAttr;
+        }
+    }
+    public Attribute GetOffsetAttribute
+    {
+        get
+        {
+            return m_offsetAttr;
+        }
+    }
+
     public void EquipItemWith(ItemData _data)
     {
         switch (_data.GetItemBaseData.GetItemUpperClass)

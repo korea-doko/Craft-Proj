@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+   
 
 
 
@@ -12,8 +14,12 @@ public class MenuCanvas : MonoBehaviour, IUpdatable {
     private ButtonPanel m_buttonPanel;
     private ScrollRectMaskPanel m_scrollRectPanel;
 
+    public Button m_testRegenWeaponBtn;
+
     public void Init()
     {
+        m_testRegenWeaponBtn.onClick.AddListener(
+            () => { ItemManager.Inst.TestMakeWeapon(); });
         m_buttonPanel = this.GetComponentInChildren<ButtonPanel>();
         m_buttonPanel.Init();
         m_buttonPanel.OnMenuButtonClicked += HandleMenuButtonClicked;
@@ -21,6 +27,8 @@ public class MenuCanvas : MonoBehaviour, IUpdatable {
         m_scrollRectPanel = this.GetComponentInChildren<ScrollRectMaskPanel>();
         m_scrollRectPanel.Init();
     }
+
+
 
     protected void HandleMenuButtonClicked(object _sender, EventArgs _args)
     {

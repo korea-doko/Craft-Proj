@@ -35,25 +35,23 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
         m_view.OnItemSelectSlotClicked += M_view_OnItemSelectSlotClicked;
         m_view.OnRuneButtonClicked += M_view_OnRuneButtonClicked;
     }
-
-    private void M_view_OnRuneButtonClicked(object sender, RuneButtonClickArgs e)
+    public void MenuButtonClicked(MenuName menuName)
     {
-        Debug.Log(e.m_clickRune.ToString() + " 입력 됨 ");
-
-        if (IsPossibleToBeCrafted(m_model.SelectedItemData, e.m_clickRune))
-        {
-            ItemManager.Inst.CraftItem(m_model.SelectedItemData, e.m_clickRune);
-            m_view.ShowSelectedItem(m_model.SelectedItemData);
-        }
+        if (menuName == MenuName.Upgrade)
+            m_view.Show();
         else
-        {
-
-            Debug.Log("아이템과 룬의 사용이 맞지 않음 인풋 룬  = " + e.m_clickRune.ToString());
-        }      
+            m_view.Hide();
+    }
+    public bool Load()
+    {
+        return m_view.Load();
     }
 
-    bool IsPossibleToBeCrafted(ItemData _data, RuneName _name)
+    private bool IsPossibleToBeCrafted(ItemData _data, RuneName _name)
     {
+        if (_data.IsCurrupted)
+            return false;
+
         switch (_name)
         {
             case RuneName.Reinforcement:
@@ -90,7 +88,7 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
                     return false;
                 else
                     return true;
-                
+
             case RuneName.BlackSmith:
             case RuneName.Luck:
             case RuneName.Wizard:
@@ -99,7 +97,7 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
                     return false;
                 else
                     return true;
-              
+
             case RuneName.Purification:
             case RuneName.Divine:
 
@@ -119,38 +117,44 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
                 return true;
 
             case RuneName.Curruption:
-                return true;
-
+                    return true;
+                
             default:
                 return false;
-        }       
+        }
     }
 
+
+    // 이벤트 핸들러
     private void M_view_OnItemSelectSlotClicked(object sender, ItemSelectSlotArgs e)
     {
         SlotData slotData = StoreManager.Inst.GetSlotData(e.m_slotID);
         ItemData itemData = slotData.ItemData;
 
         m_model.SelectedItemData = itemData;
-        m_view.ShowSelectedItem(itemData);        
+        m_view.ShowSelectedItem(itemData);
+        m_view.HideItemSelectInventoryPanel();
     }
     private void M_view_OnItemSelectButtonClicked(object sender, EventArgs e)
     {
-        Debug.Log("Item select btn clicked");
-        // 선택하는창 만들어야..
+        Debug.Log("Item select btn clicked");      
         List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
         m_view.ShowItemSelectInventoryPanel(slotDataList);
     }
-    internal void MenuButtonClicked(MenuName menuName)
+    private void M_view_OnRuneButtonClicked(object sender, RuneButtonClickArgs e)
     {
-        if (menuName == MenuName.Upgrade)
-            m_view.Show();
-        else
-            m_view.Hide();
-    } 
-    public bool Load()
-    {
-        return m_view.Load();
-    }
+        Debug.Log(e.m_clickRune.ToString() + " 입력 됨 ");
 
+        if (IsPossibleToBeCrafted(m_model.SelectedItemData, e.m_clickRune))
+        {
+            m_view.ShowItemInfoAtDescPanel(m_model.SelectedItemData);
+            ItemManager.Inst.CraftItem(m_model.SelectedItemData, e.m_clickRune);
+            m_view.ShowSelectedItem(m_model.SelectedItemData);
+            m_view.HideItemSelectInventoryPanel();
+        }
+        else
+        {
+            Debug.Log("아이템과 룬의 사용이 맞지 않음 인풋 룬  = " + e.m_clickRune.ToString());
+        }
+    }
 }

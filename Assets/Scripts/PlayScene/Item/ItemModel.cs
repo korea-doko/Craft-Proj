@@ -5,15 +5,17 @@ using UnityEngine;
 using System.Xml;
 
 [System.Serializable]
-public struct StatusParameterNameSt
+public struct ModTypeSt
 {
     public int m_id;
     public int m_givenID;
+    public ModType m_modType;
 
-    public StatusParameterNameSt(int _id, int _givenId)
+    public ModTypeSt(int _id, int _givenId)
     {
         m_id = _id;
         m_givenID = _givenId;
+        m_modType = (ModType)m_givenID;
     }
 
     public int GetID(int _givenId)
@@ -29,6 +31,10 @@ public struct StatusParameterNameSt
             return -1;
 
         return m_givenID;
+    }   
+    public ModType GetModType()
+    {
+        return m_modType;
     }
 }
 
@@ -40,13 +46,17 @@ public interface IItemModel : IModel
 [System.Serializable]
 public class ItemModel : MonoBehaviour, IItemModel
 {
-    [SerializeField] private List<StatusParameterNameSt> m_statusParameterNameList;
+    [SerializeField] private List<ModTypeSt> m_modTypeList;
 
     [SerializeField] private List<List<WeaponBaseData>> m_weaponDataList;
     [SerializeField] private List<List<ArmorBaseData>> m_armorDataList;
-    
-    [SerializeField] private List<ModData> m_suffixDataList;
-    [SerializeField] private List<ModData> m_prefixDataList;
+    [SerializeField] private List<List<MiscBaseData>> m_miscDataList;
+
+    [SerializeField] private List<ModData> m_commonPrefixModDataList;
+    [SerializeField] private List<ModData> m_commonSuffixModDataList;
+
+    [SerializeField] private List<ModData> m_ringImplicitModDataList;
+    [SerializeField] private List<ModData> m_amuletImplicitModDataList;
     
     [SerializeField] List<Dictionary<string, string>> m_fullDic;
 
@@ -57,12 +67,35 @@ public class ItemModel : MonoBehaviour, IItemModel
 
         InitWeaponList();
         InitArmorList();
+        InitMiscList();
+        // 리스트 만들기
 
-        
 
-        ReadStatusParameterFromXML();
-        MakeStatusParameterList();
-        // 파라메터 초기화
+        ReadModTypeFromXML();
+        MakeModTypeList();
+        // 모드 타입 초기화
+
+
+        ReadCommonPrefixDataFromXML();
+        MakeCommonPrefixDataList();
+        // 공용 접두 모드 데이터 초기화
+
+        ReadCommonSuffixDataFromXML();
+        MakeCommonSuffixDataList();
+        // 공용 접미 모드 데이터 초기화
+
+        ReadRingImplicitModDataFromXML();
+        MakeRingImplicitModDataList();
+        // 링에 있는 내부 모드
+
+        ReadAmuletImplicitModDataFromXML();
+        MakeAmuletImplicitModDataList();
+        // 아뮬렛에 있는 내부 모드
+
+
+        ////
+        //// 무기 데이터 초기화
+        ////
 
         ReadSwordBaseDataFromXML();
         MakeSwordDataList();
@@ -86,6 +119,10 @@ public class ItemModel : MonoBehaviour, IItemModel
         MakeWandDataList();
         // 완드
         
+       
+        ////
+        //// 방어구 데이터 초기화
+        ////
 
         ReadBootsBaseDataFromXML();
         MakeBootsDataList();
@@ -96,16 +133,23 @@ public class ItemModel : MonoBehaviour, IItemModel
         ReadHelmetBaseDataFromXML();
         MakeHelmetDataList();
         // 헬멧
+        ReadGlovesBaseDataFromXML();
+        MakeGlovesDataList();
+        // 장갑
 
-        ReadPrefixDataFromXML();
-        MakePrefixDataList();
+        ////
+        //// 악세서리 데이터 초기화
+        ////
 
+        ReadRingBaseDataFromXML();
+        MakeRingDataList();
+        // 링
 
-        ReadSuffixDataFromXML();
-        MakeSuffixDataList();
-
+        ReadAmuletBaseDataFromXML();
+        MakeAmuletDataList();
+        // 목걸이
     }
-    
+
 
     public ArmorBaseData GetRandomArmorBaseData()
     {
@@ -133,16 +177,52 @@ public class ItemModel : MonoBehaviour, IItemModel
         return dataList[rand];
     }
 
+    public MiscBaseData GetRandomMiscBaseData()
+    {
+        int numOfMiscClass = System.Enum.GetNames(typeof(MiscLowerClass)).Length;
+        MiscLowerClass randomClass = (MiscLowerClass)UnityEngine.Random.Range(0, numOfMiscClass);
+        return GetMiscBaseData(randomClass);
+    }
+    public MiscBaseData GetMiscBaseData(MiscLowerClass _class)
+    {
+        List<MiscBaseData> dataList = GetMiscDataList(_class);
+        int rand = UnityEngine.Random.Range(0, dataList.Count);
+        return dataList[rand];
+    }
+
     public ModData GetPrefixData()
     {
-        int randIndex = UnityEngine.Random.Range(0, m_prefixDataList.Count);
-        return m_prefixDataList[randIndex];
+        int randIndex = UnityEngine.Random.Range(0, m_commonPrefixModDataList.Count);
+        return m_commonPrefixModDataList[randIndex];
     }
     public ModData GetSuffixData()
     {
-        int randIndex = UnityEngine.Random.Range(0, m_suffixDataList.Count);
-        return m_suffixDataList[randIndex];
+        int randIndex = UnityEngine.Random.Range(0, m_commonSuffixModDataList.Count);
+        return m_commonSuffixModDataList[randIndex];
     }
+
+    public ModData GetImplicitMod(ItemData _data)
+    {
+        Debug.Log(" 임플리싯 모드는 아이템 클래스에 따라서 추가적으로 달라질 수 있음 " +
+            "그러나 일단은 Ring에 대해서 하나 밖에 없어서 그것만 한다.");
+
+        switch (_data.GetItemBaseData.GetItemUpperClass)
+        {
+            case ItemUpperClass.Armor:
+                break;
+            case ItemUpperClass.Weapon:
+                break;
+            case ItemUpperClass.Misc:
+                break;
+            default:
+                break;
+        }
+
+        int count = m_ringImplicitModDataList.Count;
+        int rand = UnityEngine.Random.Range(0, count);
+        return m_ringImplicitModDataList[rand];
+    }
+
 
     List<WeaponBaseData> GetWeaponDataList(WeaponLowerClass _class)
     {
@@ -152,6 +232,14 @@ public class ItemModel : MonoBehaviour, IItemModel
     {
         return m_armorDataList[(int)_class];
     }
+    List<MiscBaseData> GetMiscDataList(MiscLowerClass _class)
+    {
+        return m_miscDataList[(int)_class];
+    }
+
+    /*
+     *      모든 리스트 초기화
+     */
 
     void InitWeaponList()
     {
@@ -160,7 +248,8 @@ public class ItemModel : MonoBehaviour, IItemModel
         int numOfWeaponType = System.Enum.GetNames(typeof(WeaponLowerClass)).Length;
 
         for (int i = 0; i < numOfWeaponType; i++)
-            m_weaponDataList.Add(new List<WeaponBaseData>());        
+            m_weaponDataList.Add(new List<WeaponBaseData>());
+        
     }
     void InitArmorList()
     {
@@ -170,16 +259,28 @@ public class ItemModel : MonoBehaviour, IItemModel
 
         for (int i = 0; i < numOfArmorType; i++)
             m_armorDataList.Add(new List<ArmorBaseData>());
-        // 아머 데이터 리스트 초기화
+        // 아머 데이터 리스트 초기화        
+    }
+    void InitMiscList()
+    {
+        m_miscDataList = new List<List<MiscBaseData>>();
+
+        int numOfMiscType = System.Enum.GetNames(typeof(MiscLowerClass)).Length;
+
+        for (int i = 0; i < numOfMiscType; i++)
+            m_miscDataList.Add(new List<MiscBaseData>());
     }
 
-    void ReadStatusParameterFromXML()
+    /*
+     *      모든 모드 초기화 
+     */
+    void ReadModTypeFromXML()
     {
-        TextAsset textAsset = (TextAsset)Resources.Load("XML/StatusParameterName");
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/ModType");
 
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(textAsset.text);
-        XmlNodeList itemList = xmlDoc.GetElementsByTagName("StatusParameterName");
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("ModType");
         
         foreach (XmlNode itemInfo in itemList)
         {
@@ -196,6 +297,9 @@ public class ItemModel : MonoBehaviour, IItemModel
                     case "ID":
                         partialDic.Add("ID", content.InnerText);
                         break;
+                    case "Type":
+                        partialDic.Add("Type", content.InnerText);
+                        break;
                     default:
                         break;
                 }
@@ -203,22 +307,356 @@ public class ItemModel : MonoBehaviour, IItemModel
             m_fullDic.Add(partialDic);
         }
     }
-    void MakeStatusParameterList()
+    void MakeModTypeList()
     {
-        m_statusParameterNameList = new List<StatusParameterNameSt>();
+        m_modTypeList = new List<ModTypeSt>();
 
         for(int i = 0; i < m_fullDic.Count;i++)
         {
             Dictionary<string, string> dic = m_fullDic[i];
             int id = int.Parse(dic["ID"]);
             int givenID = int.Parse(dic["GivenID"]);
-
-            StatusParameterNameSt st = new StatusParameterNameSt(id, givenID);
-            m_statusParameterNameList.Add(st);
+            
+            ModTypeSt st = new ModTypeSt(id, givenID);
+            m_modTypeList.Add(st);
         }
 
         m_fullDic.Clear();
     }
+
+    void ReadCommonPrefixDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/CommonPrefix");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("CommonPrefix");
+
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "ID":
+                        partialDic.Add("ID", content.InnerText);
+                        break;
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "ModName":
+                        partialDic.Add("ModName", content.InnerText);
+                        break;
+                    case "Level":
+                        partialDic.Add("Level", content.InnerText);
+                        break;
+                    case "MinValue":
+                        partialDic.Add("MinValue", content.InnerText);
+                        break;
+                    case "MaxValue":
+                        partialDic.Add("MaxValue", content.InnerText);
+                        break;
+                    case "ModType":
+                        partialDic.Add("ModType", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    void MakeCommonPrefixDataList()
+    {
+        m_commonPrefixModDataList = new List<ModData>();
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+
+            int id = int.Parse(dic["ID"]);
+            int givenID = int.Parse(dic["GivenID"]);
+            string name = dic["ModName"];
+            int level = int.Parse(dic["Level"]);
+            int minValue = int.Parse(dic["MinValue"]);
+            int maxValue = int.Parse(dic["MaxValue"]);
+
+            int givenStatusParameterID = int.Parse(dic["ModType"]);
+            ModType spn = ModType.None;
+
+            for (int j = 0; j < m_modTypeList.Count; j++)
+            {
+                ModTypeSt st = m_modTypeList[j];
+                int getId = st.GetGivenID(givenStatusParameterID);
+
+                if (getId == -1)
+                    continue;
+
+                spn = (ModType)getId;
+                break;
+            }
+
+            ModData mod = new ModData(id,givenID,level, AffixType.Prefix, name, minValue, maxValue, spn);
+            m_commonPrefixModDataList.Add(mod);
+        }
+        m_fullDic.Clear();
+    }
+
+    void ReadCommonSuffixDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/CommonSuffix");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("CommonSuffix");
+
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "ID":
+                        partialDic.Add("ID", content.InnerText);
+                        break;
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "ModName":
+                        partialDic.Add("ModName", content.InnerText);
+                        break;
+                    case "Level":
+                        partialDic.Add("Level", content.InnerText);
+                        break;
+                    case "MinValue":
+                        partialDic.Add("MinValue", content.InnerText);
+                        break;
+                    case "MaxValue":
+                        partialDic.Add("MaxValue", content.InnerText);
+                        break;
+                    case "ModType":
+                        partialDic.Add("ModType", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    void MakeCommonSuffixDataList()
+    {
+        m_commonSuffixModDataList = new List<ModData>();
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+
+            int id = int.Parse(dic["ID"]);
+            int givenID = int.Parse(dic["GivenID"]);
+            string name = dic["ModName"];
+            int level = int.Parse(dic["Level"]);
+            int minValue = int.Parse(dic["MinValue"]);
+            int maxValue = int.Parse(dic["MaxValue"]);
+
+            int givenStatusParameterID = int.Parse(dic["ModType"]);
+            ModType spn = ModType.None;
+
+            for (int j = 0; j < m_modTypeList.Count; j++)
+            {
+                ModTypeSt st = m_modTypeList[j];
+                int getId = st.GetGivenID(givenStatusParameterID);
+
+                if (getId == -1)
+                    continue;
+
+                spn = (ModType)getId;
+                break;
+            }
+
+            ModData mod = new ModData(id,givenID,level, AffixType.Suffix, name, minValue, maxValue, spn);
+            m_commonSuffixModDataList.Add(mod);
+        }
+        m_fullDic.Clear();
+    }
+
+    void ReadRingImplicitModDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/RingImplicitMod");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("RingImplicitMod");
+
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "ID":
+                        partialDic.Add("ID", content.InnerText);
+                        break;
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "ModName":
+                        partialDic.Add("ModName", content.InnerText);
+                        break;
+                    case "Level":
+                        partialDic.Add("Level", content.InnerText);
+                        break;
+                    case "MinValue":
+                        partialDic.Add("MinValue", content.InnerText);
+                        break;
+                    case "MaxValue":
+                        partialDic.Add("MaxValue", content.InnerText);
+                        break;
+                    case "ModType":
+                        partialDic.Add("ModType", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    void MakeRingImplicitModDataList()
+    {
+        m_ringImplicitModDataList = new List<ModData>();
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+
+            
+            int id = int.Parse(dic["ID"]);
+            int givenID = int.Parse(dic["GivenID"]);
+            string name = dic["ModName"];
+            int level = int.Parse(dic["Level"]);
+            int minValue = int.Parse(dic["MinValue"]);
+            int maxValue = int.Parse(dic["MaxValue"]);
+
+            int givenStatusParameterID = int.Parse(dic["ModType"]);
+            ModType spn = ModType.None;
+
+            for (int j = 0; j < m_modTypeList.Count; j++)
+            {
+                ModTypeSt st = m_modTypeList[j];
+                int getId = st.GetGivenID(givenStatusParameterID);
+
+                if (getId == -1)
+                    continue;
+
+                spn = (ModType)getId;
+                break;
+            }
+
+            ModData mod = new ModData(id,givenID,level, AffixType.Implicit, name, minValue, maxValue, spn);
+            m_ringImplicitModDataList.Add(mod);
+        }
+        m_fullDic.Clear();
+    }
+
+    void ReadAmuletImplicitModDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/AmuletImplicitMod");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("AmuletImplicitMod");
+
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "ID":
+                        partialDic.Add("ID", content.InnerText);
+                        break;
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "ModName":
+                        partialDic.Add("ModName", content.InnerText);
+                        break;
+                    case "Level":
+                        partialDic.Add("Level", content.InnerText);
+                        break;
+                    case "MinValue":
+                        partialDic.Add("MinValue", content.InnerText);
+                        break;
+                    case "MaxValue":
+                        partialDic.Add("MaxValue", content.InnerText);
+                        break;
+                    case "ModType":
+                        partialDic.Add("ModType", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    void MakeAmuletImplicitModDataList()
+    {
+        m_amuletImplicitModDataList = new List<ModData>();
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+
+
+            int id = int.Parse(dic["ID"]);
+            int givenID = int.Parse(dic["GivenID"]);
+            string name = dic["ModName"];
+            int level = int.Parse(dic["Level"]);
+            int minValue = int.Parse(dic["MinValue"]);
+            int maxValue = int.Parse(dic["MaxValue"]);
+
+            int givenStatusParameterID = int.Parse(dic["ModType"]);
+            ModType spn = ModType.None;
+
+            for (int j = 0; j < m_modTypeList.Count; j++)
+            {
+                ModTypeSt st = m_modTypeList[j];
+                int getId = st.GetGivenID(givenStatusParameterID);
+
+                if (getId == -1)
+                    continue;
+
+                spn = (ModType)getId;
+                break;
+            }
+
+            ModData mod = new ModData(id, givenID, level, AffixType.Implicit, name, minValue, maxValue, spn);
+            m_amuletImplicitModDataList.Add(mod);
+        }
+        m_fullDic.Clear();
+    }
+
+    /*
+     *  아이템 초기화 
+     */
 
     void ReadSwordBaseDataFromXML()
     {
@@ -792,8 +1230,6 @@ public class ItemModel : MonoBehaviour, IItemModel
         m_fullDic.Clear();
     }
 
-
-
     void ReadBootsBaseDataFromXML()
     {
         TextAsset textAsset = (TextAsset)Resources.Load("XML/Boots");
@@ -1043,14 +1479,13 @@ public class ItemModel : MonoBehaviour, IItemModel
         m_fullDic.Clear();
     }
 
-
-    void ReadPrefixDataFromXML()
+    void ReadGlovesBaseDataFromXML()
     {
-        TextAsset textAsset = (TextAsset)Resources.Load("XML/Prefix");
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/Gloves");
 
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(textAsset.text);
-        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Prefix");
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Gloves");
 
 
         foreach (XmlNode itemInfo in itemList)
@@ -1065,71 +1500,74 @@ public class ItemModel : MonoBehaviour, IItemModel
                     case "GivenID":
                         partialDic.Add("GivenID", content.InnerText);
                         break;
-                    case "ModName":
-                        partialDic.Add("ModName", content.InnerText);
+                    case "ItemName":
+                        partialDic.Add("ItemName", content.InnerText);
                         break;
                     case "Level":
                         partialDic.Add("Level", content.InnerText);
                         break;
-                    case "MinValue":
-                        partialDic.Add("MinValue", content.InnerText);
+                    case "Armor":
+                        partialDic.Add("Armor", content.InnerText);
                         break;
-                    case "MaxValue":
-                        partialDic.Add("MaxValue", content.InnerText);
+                    case "EvasionRating":
+                        partialDic.Add("EvasionRating", content.InnerText);
                         break;
-                    case "StatusParameterName":
-                        partialDic.Add("StatusParameterName", content.InnerText);
+                    case "EnergyShield":
+                        partialDic.Add("EnergyShield", content.InnerText);
+                        break;
+                    case "RequiredStr":
+                        partialDic.Add("RequiredStr", content.InnerText);
+                        break;
+                    case "RequiredDex":
+                        partialDic.Add("RequiredDex", content.InnerText);
+                        break;
+                    case "RequiredInt":
+                        partialDic.Add("RequiredInt", content.InnerText);
                         break;
                     default:
                         break;
                 }
             }
+
             m_fullDic.Add(partialDic);
         }
     }
-    void MakePrefixDataList()
+    void MakeGlovesDataList()
     {
-        m_prefixDataList = new List<ModData>();
+        List<ArmorBaseData> list = GetArmorDataList(ArmorLowerClass.Gloves);
 
         for (int i = 0; i < m_fullDic.Count; i++)
         {
             Dictionary<string, string> dic = m_fullDic[i];
 
             int givenID = int.Parse(dic["GivenID"]);
-            string name = dic["ModName"];
+            string name = dic["ItemName"];
             int level = int.Parse(dic["Level"]);
-            int minValue = int.Parse(dic["MinValue"]);
-            int maxValue = int.Parse(dic["MaxValue"]);
+            int armor = int.Parse(dic["Armor"]);
+            int evasionRating = int.Parse(dic["EvasionRating"]);
+            int energyShield = int.Parse(dic["EnergyShield"]);
+            int requiredStr = int.Parse(dic["RequiredStr"]);
+            int requiredDex = int.Parse(dic["RequiredDex"]);
+            int requiredInt = int.Parse(dic["RequiredInt"]);
+            Attribute attr = new Attribute(requiredStr, requiredDex, requiredInt);
 
-            int givenStatusParameterID = int.Parse(dic["StatusParameterName"]);
-            StatusParameterName spn = StatusParameterName.None;
+            ArmorBaseData glovesBase = new ArmorBaseData(ArmorLowerClass.Gloves, givenID, name, level,
+                new Attribute(requiredStr, requiredDex, requiredInt), armor, evasionRating,
+                energyShield);
 
-            for (int j = 0; j < m_statusParameterNameList.Count; j++)
-            {
-                StatusParameterNameSt st = m_statusParameterNameList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
-
-                if (getId == -1)
-                    continue;
-
-                spn = (StatusParameterName)getId;
-                break;
-            }
-
-            ModData mod = new ModData(level, AffixType.Prefix, name, minValue, maxValue, spn);
-            m_prefixDataList.Add(mod);
+            list.Add(glovesBase);
         }
+
         m_fullDic.Clear();
     }
 
-    void ReadSuffixDataFromXML()
+    void ReadRingBaseDataFromXML()
     {
-        TextAsset textAsset = (TextAsset)Resources.Load("XML/Suffix");
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/Ring");
 
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(textAsset.text);
-        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Suffix");
-
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Ring");
 
         foreach (XmlNode itemInfo in itemList)
         {
@@ -1143,20 +1581,17 @@ public class ItemModel : MonoBehaviour, IItemModel
                     case "GivenID":
                         partialDic.Add("GivenID", content.InnerText);
                         break;
-                    case "ModName":
-                        partialDic.Add("ModName", content.InnerText);
+                    case "ItemName":
+                        partialDic.Add("ItemName", content.InnerText);
                         break;
                     case "Level":
                         partialDic.Add("Level", content.InnerText);
                         break;
-                    case "MinValue":
-                        partialDic.Add("MinValue", content.InnerText);
+                    case "ImplicitMod1":
+                        partialDic.Add("ImplicitMod1", content.InnerText);
                         break;
-                    case "MaxValue":
-                        partialDic.Add("MaxValue", content.InnerText);
-                        break;
-                    case "StatusParameterName":
-                        partialDic.Add("StatusParameterName", content.InnerText);
+                    case "ImplicitMod2":
+                        partialDic.Add("ImplicitMod2", content.InnerText);
                         break;
                     default:
                         break;
@@ -1165,40 +1600,123 @@ public class ItemModel : MonoBehaviour, IItemModel
             m_fullDic.Add(partialDic);
         }
     }
-    void MakeSuffixDataList()
+    void MakeRingDataList()
     {
-        m_suffixDataList = new List<ModData>();
-        
-        for(int i = 0; i < m_fullDic.Count;i++)
+        List<MiscBaseData> list = GetMiscDataList(MiscLowerClass.Ring);
+
+        for (int i = 0; i < m_fullDic.Count; i++)
         {
             Dictionary<string, string> dic = m_fullDic[i];
 
             int givenID = int.Parse(dic["GivenID"]);
-            string name = dic["ModName"];
+            string name = dic["ItemName"];
             int level = int.Parse(dic["Level"]);
-            int minValue = int.Parse(dic["MinValue"]);
-            int maxValue = int.Parse(dic["MaxValue"]);
 
-            int givenStatusParameterID = int.Parse(dic["StatusParameterName"]);
-            StatusParameterName spn = StatusParameterName.None;
+            int implicitModID1 = int.Parse(dic["ImplicitMod1"]);
+            int implicitModID2 = int.Parse(dic["ImplicitMod2"]);
 
-            for (int j = 0; j < m_statusParameterNameList.Count;j++)
-            {
-                StatusParameterNameSt st = m_statusParameterNameList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
+            ModData implicitMod1 = GetRingImplicitModDataUsingID(implicitModID1);
+            ModData implicitMod2 = GetRingImplicitModDataUsingID(implicitModID2);
 
-                if (getId == -1)
-                    continue;
-
-                spn = (StatusParameterName)getId;
-                break;
-            }
-
-            ModData mod = new ModData(level, AffixType.Suffix, name, minValue, maxValue, spn);
-            m_suffixDataList.Add(mod);
+            list.Add(new MiscBaseData(MiscLowerClass.Ring, givenID, name, level, implicitMod1,
+                implicitMod2));
         }
+
         m_fullDic.Clear();
     }
+    ModData GetRingImplicitModDataUsingID(int _id)
+    {        
+        int count = m_ringImplicitModDataList.Count;
 
-     
+        for (int i = 0; i < count; i++)
+        {
+            ModData data = m_ringImplicitModDataList[i];
+
+            if (data.GetGivenID == _id)
+                return data;
+        }
+
+        Debug.Log("에러");
+        return null;
+    }
+
+    void ReadAmuletBaseDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/Amulet");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("Amulet");
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "ItemName":
+                        partialDic.Add("ItemName", content.InnerText);
+                        break;
+                    case "Level":
+                        partialDic.Add("Level", content.InnerText);
+                        break;
+                    case "ImplicitMod1":
+                        partialDic.Add("ImplicitMod1", content.InnerText);
+                        break;
+                    case "ImplicitMod2":
+                        partialDic.Add("ImplicitMod2", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    void MakeAmuletDataList()
+    {
+        List<MiscBaseData> list = GetMiscDataList(MiscLowerClass.Amulet);
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+
+            int givenID = int.Parse(dic["GivenID"]);
+            string name = dic["ItemName"];
+            int level = int.Parse(dic["Level"]);
+
+            int implicitModID1 = int.Parse(dic["ImplicitMod1"]);
+            int implicitModID2 = int.Parse(dic["ImplicitMod2"]);
+
+            ModData implicitMod1 = GetAmuletImplicitModDataUsingID(implicitModID1);
+            ModData implicitMod2 = GetAmuletImplicitModDataUsingID(implicitModID2);
+
+            list.Add(new MiscBaseData(MiscLowerClass.Amulet, givenID, name, level, implicitMod1,
+                implicitMod2));
+        }
+
+        m_fullDic.Clear();   
+    }
+    ModData GetAmuletImplicitModDataUsingID(int _id)
+    {
+        int count = m_amuletImplicitModDataList.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            ModData data = m_amuletImplicitModDataList[i];
+
+            if (data.GetGivenID == _id)
+                return data;
+        }
+
+        Debug.Log("에러");
+        return null;
+    }
+
 }

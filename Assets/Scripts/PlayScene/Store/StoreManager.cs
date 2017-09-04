@@ -14,6 +14,10 @@ public class StoreManager : MonoBehaviour,IStoreManager
     private StoreModel m_model;
     private StoreView m_view;
     private static StoreManager m_inst;
+    
+    public List<SlotData> GetSlotDataList { get { return m_model.SlotDataList; } }
+
+
     public static StoreManager Inst
     {
         get
@@ -21,9 +25,10 @@ public class StoreManager : MonoBehaviour,IStoreManager
             return m_inst;
         }
     }
-
-    public List<SlotData> GetSlotDataList { get { return m_model.SlotDataList; } }
-
+    public StoreManager()
+    {
+        m_inst = this;
+    }
     public StoreModel Model
     {
         get
@@ -31,11 +36,7 @@ public class StoreManager : MonoBehaviour,IStoreManager
             return m_model;
         }
     }
-
-    public StoreManager()
-    {
-        m_inst = this;
-    }
+    
     public void InitManager()
     {
         m_model = Utils.MakeGameObjectWithComponent<StoreModel>(this.gameObject);
@@ -47,18 +48,7 @@ public class StoreManager : MonoBehaviour,IStoreManager
         m_view.OnSlotClicked += M_view_OnSlotClicked;
     }
 
-    private void M_view_OnSlotClicked(object sender, SlotClickedArgs e)
-    {
-        SlotData slotdata = GetSlotData(e.m_slot);
-
-        if (!slotdata.IsInit)
-            return;
-
-        ItemData itemData = slotdata.ItemData;
-
-        m_view.ShowItemInfoPanel(itemData);    
-    }
-    internal void MenuButtonClicked(MenuName menuName)
+    public void MenuButtonClicked(MenuName menuName)
     {
         if (menuName == MenuName.Store)
             m_view.Show(m_model);
@@ -89,18 +79,26 @@ public class StoreManager : MonoBehaviour,IStoreManager
         Slot slot = m_view.GetSlot(_id);
         return slot;
     }
-
-    public int GetNumOfSlotRow()
+    public int GetMaxNumOfSlot()
     {
-        return m_model.NumOfSlotRow;
+        return m_model.MaxNumOfSlot;
     }
-    public int GetNumOfSlotCol()
-    {
-        return m_model.NumOfSlotCol;
-    }
-
+    
     public void AddItemData(ItemData _data)
     {
         m_model.AddItemData(_data);
+    }
+
+    // 이벤트 핸들러
+    private void M_view_OnSlotClicked(object sender, SlotClickedArgs e)
+    {
+        SlotData slotdata = GetSlotData(e.m_slot);
+
+        if (!slotdata.IsInit)
+            return;
+
+        ItemData itemData = slotdata.ItemData;
+
+        m_view.ShowItemInfoPanel(itemData);
     }
 }

@@ -20,6 +20,9 @@ public class Slot : MonoBehaviour ,ISlot{
 
     [SerializeField] private Color m_emptyColor;
     [SerializeField] private Color m_fullColor;
+    [SerializeField] private LayoutElement m_layoutEle;
+    [SerializeField] private Text m_text;
+
     
     public int Id
     {
@@ -42,17 +45,14 @@ public class Slot : MonoBehaviour ,ISlot{
     {
         m_id = _id;
         m_image = this.GetComponent<Image>();
-
+        m_layoutEle = this.GetComponent<LayoutElement>();
         m_btn = this.GetComponent<Button>();
+        m_text = this.GetComponentInChildren<Text>();
         m_btn.onClick.AddListener(() => OnSlotClicked(this, EventArgs.Empty));        
     }
-
     public void Show(SlotData _data)
     {
-        if (_data.IsInit)
-            SetClickable();
-        else
-            SetUnclickable();
+        m_text.text = _data.ItemData.GetItemInfo();
 
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
@@ -62,16 +62,8 @@ public class Slot : MonoBehaviour ,ISlot{
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }
-    
-
-    void SetClickable()
+    public void SetHeight(float _height)
     {
-        m_image.color = m_fullColor;
-        m_btn.interactable = true;
-    }
-    void SetUnclickable()
-    {
-        m_image.color = m_emptyColor;
-        m_btn.interactable = false;
-    }
+        m_layoutEle.preferredHeight = _height;
+    } 
 }

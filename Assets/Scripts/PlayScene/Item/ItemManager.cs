@@ -34,31 +34,42 @@ public class ItemManager : MonoBehaviour,IItemManager
 
         m_view = Utils.MakeGameObjectWithComponent<ItemView>(this.gameObject);
         m_view.InitView(m_model);
+
     }
     public void UpdateThis()
     {
+
+
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ItemData data = GenerateWeapon();
-            StoreManager.Inst.AddItemData(data);
-        }
+            TestMakeWeapon();
 
         if( Input.GetKeyDown(KeyCode.B))
         {
             ItemData data = GenerateArmor();
             StoreManager.Inst.AddItemData(data);
         }
+
+        if( Input.GetKeyDown(KeyCode.R))
+        {
+            ItemData data = GenerateMisc();
+            StoreManager.Inst.AddItemData(data);
+        }
     }
 
+    public void TestMakeWeapon()
+    {
+        ItemData data = GenerateWeapon();
+        StoreManager.Inst.AddItemData(data);
+    }
     
 
-    public ModData GetPrefix()
+    public ModData GetPrefix(ItemData _data)
     {
         ModData prefix = m_model.GetPrefixData();
         ModData copiedPrefix = new ModData(prefix);
         return copiedPrefix;
     }
-    public ModData GetSuffix()
+    public ModData GetSuffix(ItemData _data)
     {
         ModData suffix = m_model.GetSuffixData();
         ModData copiedSuffix = new ModData(suffix);
@@ -110,9 +121,82 @@ public class ItemManager : MonoBehaviour,IItemManager
         }
     }
 
+    public ItemData GenerateArmor()
+    {
+        ArmorBaseData abd = m_model.GetRandomArmorBaseData();
+        return UpgradeToRandomRarity(abd);
+    }
+    public ItemData GenerateWeapon()
+    {
+        WeaponBaseData wbd = m_model.GetRandomWeaponBaseData();
+        return UpgradeToRandomRarity(wbd);
+    }
+    public ItemData GenerateMisc()
+    {
+        MiscBaseData mbd = m_model.GetRandomMiscBaseData();
+        return UpgradeToRandomRarity(mbd);
+    }
+
+
+    private ItemData UpgradeToRandomRarity(ItemBaseData _base)
+    {
+        ItemRarity rarity = (ItemRarity)UnityEngine.Random.Range(0, 4);
+
+        ItemData data = new ItemData(_base, rarity);
+
+        int numOfAddedSuffix = 0;
+        int numOfAddedPrefix = 0;
+
+        switch (rarity)
+        {
+            case ItemRarity.Normal:
+                break;
+            case ItemRarity.Magic:
+                numOfAddedPrefix = UnityEngine.Random.Range(0, 2); // 0 ~ 1
+                numOfAddedSuffix = UnityEngine.Random.Range(0, 2); // 0 ~ 1
+
+                if (numOfAddedPrefix == 0 && numOfAddedSuffix == 0)
+                {
+                    AffixType affix = (AffixType)UnityEngine.Random.Range(0, 2);
+
+                    if (affix == AffixType.Prefix)
+                        numOfAddedPrefix = 1;
+                    else
+                        numOfAddedSuffix = 1;
+                }
+                break;
+            case ItemRarity.Rare:
+                numOfAddedPrefix = UnityEngine.Random.Range(1, 3); // 1 ~ 2
+                numOfAddedSuffix = UnityEngine.Random.Range(1, 3); // 1 ~ 2
+                break;
+            case ItemRarity.Unique:
+                numOfAddedPrefix = UnityEngine.Random.Range(2, 4); // 2 ~ 3
+                numOfAddedSuffix = UnityEngine.Random.Range(2, 4); // 2 ~ 3
+                break;
+            default:
+                break;
+        }
+
+        for (int i = 0; i < numOfAddedPrefix; i++)
+        {
+            ModData prefix = GetPrefix(data);
+            data.AddPrefix(prefix);
+        }
+
+        for (int i = 0; i < numOfAddedSuffix; i++)
+        {
+            ModData suffix = GetSuffix(data);
+            data.AddSuffix(suffix);
+        }
+
+        return data;
+    }
+
     private void CraftCurruption(ItemData item)
     {
-        Debug.Log("아직 구현 안됐음");
+        ModData newImplicitMod = m_model.GetImplicitMod(item);
+
+        item.Currupt(newImplicitMod);        
     }
     private void CraftDivine(ItemData item)
     {
@@ -231,12 +315,12 @@ public class ItemManager : MonoBehaviour,IItemManager
 
         for (int i = 0; i < numOfAddedPrefix; i++)
         {
-            ModData prefix = GetPrefix();
+            ModData prefix = GetPrefix(item);
             item.AddPrefix(prefix);
         }
         for (int i = 0; i < numOfAddedSuffix; i++)
         {
-            ModData suffix = GetSuffix();
+            ModData suffix = GetSuffix(item);
             item.AddSuffix(suffix);
         }
 
@@ -256,7 +340,7 @@ public class ItemManager : MonoBehaviour,IItemManager
                     if (item.GetNumOfPrefix == 3)
                         continue;
 
-                    ModData prefix = GetPrefix();
+                    ModData prefix = GetPrefix(item);
                     item.AddPrefix(prefix);
                     isAdded = true;
                     break;
@@ -265,7 +349,7 @@ public class ItemManager : MonoBehaviour,IItemManager
                     if (item.GetNumOfSuffix == 3)
                         continue;
 
-                    ModData suffix = GetSuffix();
+                    ModData suffix = GetSuffix(item);
                     item.AddSuffix(suffix);
                     isAdded = true;
                     break;
@@ -305,7 +389,7 @@ public class ItemManager : MonoBehaviour,IItemManager
             if (item.GetNumOfPrefix >= 3)
                 break;
 
-            ModData prefix = GetPrefix();
+            ModData prefix = GetPrefix(item);
             item.AddPrefix(prefix);
         }
 
@@ -314,74 +398,9 @@ public class ItemManager : MonoBehaviour,IItemManager
             if (item.GetNumOfSuffix >= 3)
                 break;
                 
-            ModData suffix = GetSuffix();
+            ModData suffix = GetSuffix(item);
             item.AddSuffix(suffix);
         }             
     }
 
-    private ItemData GenerateArmor()
-    {
-        ArmorBaseData abd = m_model.GetRandomArmorBaseData();
-        return UpgradeToRandomRarity(abd);
-    }
-    private ItemData GenerateWeapon()
-    {
-
-        WeaponBaseData wbd = m_model.GetRandomWeaponBaseData();
-        return UpgradeToRandomRarity(wbd);
-    }
-
-    private ItemData UpgradeToRandomRarity(ItemBaseData _base)
-    {
-        ItemRarity rarity = (ItemRarity)UnityEngine.Random.Range(0, 4);
-
-        ItemData data = new ItemData(_base, rarity);
-
-        int numOfAddedSuffix = 0;
-        int numOfAddedPrefix = 0;
-
-        switch (rarity)
-        {
-            case ItemRarity.Normal:
-                break;
-            case ItemRarity.Magic:
-                numOfAddedPrefix = UnityEngine.Random.Range(0, 2); // 0 ~ 1
-                numOfAddedSuffix = UnityEngine.Random.Range(0, 2); // 0 ~ 1
-
-                if (numOfAddedPrefix == 0 && numOfAddedSuffix == 0)
-                {
-                    AffixType affix = (AffixType)UnityEngine.Random.Range(0, 2);
-
-                    if (affix == AffixType.Prefix)
-                        numOfAddedPrefix = 1;
-                    else
-                        numOfAddedSuffix = 1;
-                }
-                break;
-            case ItemRarity.Rare:
-                numOfAddedPrefix = UnityEngine.Random.Range(1, 3); // 1 ~ 2
-                numOfAddedSuffix = UnityEngine.Random.Range(1, 3); // 1 ~ 2
-                break;
-            case ItemRarity.Unique:
-                numOfAddedPrefix = UnityEngine.Random.Range(2, 4); // 2 ~ 3
-                numOfAddedSuffix = UnityEngine.Random.Range(2, 4); // 2 ~ 3
-                break;
-            default:
-                break;
-        }
-
-        for (int i = 0; i < numOfAddedPrefix; i++)
-        {
-            ModData prefix = GetPrefix();
-            data.AddPrefix(prefix);
-        }
-
-        for (int i = 0; i < numOfAddedSuffix; i++)
-        {
-            ModData suffix = GetSuffix();
-            data.AddSuffix(suffix);
-        }
-
-        return data;
-    }
 }

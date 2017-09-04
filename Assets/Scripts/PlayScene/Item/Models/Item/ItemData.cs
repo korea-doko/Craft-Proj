@@ -15,12 +15,17 @@ public interface IItemData
     int GetNumOfPrefix { get; }
     int GetNumOfSuffix { get; }
 
+    bool IsCurrupted { get; }
+
     void AddPrefix(ModData _data);
     void AddSuffix(ModData _data);
 
     void RollAllMod();
     void RemoveOneRandomPrefix();
     void RemoveOneRandomSuffix();
+
+    void Currupt(ModData _data);
+    
 
     string GetItemInfo();
 }
@@ -32,13 +37,15 @@ public class ItemData : IItemData
     [SerializeField] protected ItemRarity m_rarity;
     [SerializeField] protected List<ModData> m_prefixList;
     [SerializeField] protected List<ModData> m_suffixList;
+    [SerializeField] protected bool m_isCurrupted;
         
     public ItemData(ItemBaseData _baseData,ItemRarity _rarity)
     {
         m_itemBaseData = _baseData;
         m_rarity = _rarity;
         m_suffixList = new List<ModData>();
-        m_prefixList = new List<ModData>();       
+        m_prefixList = new List<ModData>();
+        m_isCurrupted = false;
     }    
     public ItemRarity GetItemRarity { get { return m_rarity; } set { m_rarity = value; } }
     public List<ModData> GetPrefixes { get { return m_prefixList; } }
@@ -47,7 +54,19 @@ public class ItemData : IItemData
     public int GetNumOfSuffix { get { return m_suffixList.Count; } }
 
     public ItemBaseData GetItemBaseData { get { return m_itemBaseData; } }
-    
+
+    public bool IsCurrupted
+    {
+        get
+        {
+            return m_isCurrupted;
+        }
+
+        set
+        {
+            m_isCurrupted = value;
+        }
+    }
     public void AddPrefix(ModData _data)
     {
         m_prefixList.Add(_data);
@@ -56,9 +75,6 @@ public class ItemData : IItemData
     {
         m_suffixList.Add(_data);
     }
-
-    
-
     public void RemoveOneRandomPrefix()
     {
         int rand = UnityEngine.Random.Range(0, m_prefixList.Count);
@@ -82,12 +98,15 @@ public class ItemData : IItemData
             suffix.ChangeSetValue();
         }
     }
-
+    public void Currupt(ModData _data)
+    {
+        m_isCurrupted = true;
+        m_itemBaseData.Currupt(_data);
+    }
     public string GetItemInfo()
     {
         string info = m_itemBaseData.GetItemName + "\n" +
             m_rarity.ToString() + "\n";
-
 
         switch (m_itemBaseData.GetItemUpperClass)
         {
@@ -102,7 +121,10 @@ public class ItemData : IItemData
             default:
                 break;
         }
-      
+        info += "-------------\n";
+
+        info += GetImplicitItemInfo();
+    
         info += "-------------\n";
 
         info += GetPrefixInfo();
@@ -117,7 +139,7 @@ public class ItemData : IItemData
     }
 
 
-    private int GetAllParameterValueInList(StatusParameterName _name)
+    private int GetAllModValueInList(ModType _modType)
     {
         int value = 0;
 
@@ -125,7 +147,7 @@ public class ItemData : IItemData
         {
             ModData data = m_prefixList[i];
 
-            if (data.GetAffectedParameterName == _name)
+            if (data.GetModType == _modType)
                 value = data.GetSetValue;
         }
 
@@ -133,7 +155,7 @@ public class ItemData : IItemData
         {
             ModData data = m_suffixList[i];
 
-            if (data.GetAffectedParameterName == _name)
+            if (data.GetModType == _modType)
                 value = data.GetSetValue;
         }
 
@@ -141,7 +163,21 @@ public class ItemData : IItemData
 
         return value;
     }
+    private string GetImplicitItemInfo()
+    {
+        string info = "";
 
+        ModData implicitMod1 = m_itemBaseData.GetImplicitMod1;
+        ModData implicitMod2 = m_itemBaseData.GetImplicitMod2;
+
+        if (implicitMod1 != null)
+            info += implicitMod1.GetName + " " + implicitMod1.GetSetValue + "\n";
+
+        if ( implicitMod2 != null)
+            info += implicitMod2.GetName + " " + implicitMod2.GetSetValue + "\n";
+
+        return info;
+    }
     private string GetWeaponItemInfo()
     {
         WeaponBaseData wbd = (WeaponBaseData)m_itemBaseData;
@@ -151,10 +187,10 @@ public class ItemData : IItemData
         int physicalMin = wbd.PhysicalMinDamage;
         int physicalMax = wbd.PhysicalMaxDamage;
 
-        int addedPhysicalMinDamage = GetAllParameterValueInList(StatusParameterName.AddedPhysicalMinDamage);
-        int addedPhysicalMaxDamage = GetAllParameterValueInList(StatusParameterName.AddedPhysicalMaxDamage);
-        int increasedPhysicalMinDamage = GetAllParameterValueInList(StatusParameterName.IncreasedPhysicalMinDamage);
-        int increasedPhysicalMaxDamage = GetAllParameterValueInList(StatusParameterName.IncreasedPhysicalMaxDamage);
+        int addedPhysicalMinDamage = GetAllModValueInList(ModType.AddedPhysicalMinDamage);
+        int addedPhysicalMaxDamage = GetAllModValueInList(ModType.AddedPhysicalMaxDamage);
+        int increasedPhysicalMinDamage = GetAllModValueInList(ModType.IncreasedPhysicalMinDamage);
+        int increasedPhysicalMaxDamage = GetAllModValueInList(ModType.IncreasedPhysicalMaxDamage);
 
         if (increasedPhysicalMinDamage == 0) increasedPhysicalMinDamage = 1;
         if (increasedPhysicalMaxDamage == 0) increasedPhysicalMaxDamage = 1;
@@ -164,10 +200,10 @@ public class ItemData : IItemData
 
         info += "PhysicalDamage = " + physicalMin + " ~ " + physicalMax + "\n";
 
-        int addedfireMinDamage = GetAllParameterValueInList(StatusParameterName.AddedFireMinDamage);
-        int addedfireMaxDamage = GetAllParameterValueInList(StatusParameterName.AddedFireMaxDamage);
-        int increasedfireMinDamage = GetAllParameterValueInList(StatusParameterName.IncreasedFireMinDamge);
-        int increasedfireMaxDamage = GetAllParameterValueInList(StatusParameterName.IncreasedFireMaxDamage);
+        int addedfireMinDamage = GetAllModValueInList(ModType.AddedFireMinDamage);
+        int addedfireMaxDamage = GetAllModValueInList(ModType.AddedFireMaxDamage);
+        int increasedfireMinDamage = GetAllModValueInList(ModType.IncreasedFireMinDamge);
+        int increasedfireMaxDamage = GetAllModValueInList(ModType.IncreasedFireMaxDamage);
 
         if (increasedfireMinDamage == 0) increasedfireMinDamage = 1;
         if (increasedfireMaxDamage == 0) increasedfireMaxDamage = 1;
@@ -177,8 +213,8 @@ public class ItemData : IItemData
 
         info += "<color=red>FireDamage = " + fireMin + " ~ " + fireMax + "</color>\n";
 
-        int addedAttackSpeed = GetAllParameterValueInList(StatusParameterName.AddedAttackSpeed);
-        int increasedAttackSpeed = GetAllParameterValueInList(StatusParameterName.IncreasedAttackSpeed);
+        int addedAttackSpeed = GetAllModValueInList(ModType.AddedAttackSpeed);
+        int increasedAttackSpeed = GetAllModValueInList(ModType.IncreasedAttackSpeed);
 
         if (increasedAttackSpeed == 0) increasedAttackSpeed = 1;
 
@@ -190,14 +226,13 @@ public class ItemData : IItemData
 
         return info;
     }
-
     private string GetArmorItemInfo()
     {
         ArmorBaseData abd = (ArmorBaseData)m_itemBaseData;
         string info = "";
 
         int armor = abd.Armor;
-        //int addedArmor = GetAllParameterValueInList(StatusParameterName.armor)
+        //int addedArmor = GetAllModValueInList(ModType.armor)
 
         info += "Armor = " + armor + "\n";
 
@@ -211,8 +246,7 @@ public class ItemData : IItemData
 
         return info;
     }
-
-    string GetPrefixInfo()
+    private string GetPrefixInfo()
     {
         string info = "";
 
@@ -220,13 +254,12 @@ public class ItemData : IItemData
         {
             ModData data = m_prefixList[i];
 
-            info += data.GetAffectedParameterName.ToString() + " " + data.GetSetValue + "\n";
+            info += data.GetModType.ToString() + " " + data.GetSetValue + "\n";
         }
 
         return info;
     }
-
-    string GetSuffixInfo()
+    private string GetSuffixInfo()
     {
         string info = "";
 
@@ -234,9 +267,9 @@ public class ItemData : IItemData
         {
             ModData data = m_suffixList[i];
 
-            info += data.GetAffectedParameterName.ToString() + " " + data.GetSetValue + "\n";
+            info += data.GetModType.ToString() + " " + data.GetSetValue + "\n";
         }
 
         return info;
     }
-}
+ }

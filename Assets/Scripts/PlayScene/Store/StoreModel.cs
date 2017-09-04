@@ -11,29 +11,12 @@ public interface IStoreModel: IModel
 [System.Serializable]
 public class StoreModel : MonoBehaviour, IStoreModel
 {
-    [SerializeField] private int m_numOfSlotRow;        //세로갯수
-    [SerializeField] private int m_numOfSlotCol;        //가로갯수
     [SerializeField] private int m_maxNumOfSlot;
-
     [SerializeField] private List<SlotData> m_slotDataList;
-
+    [SerializeField] private int m_currentNumOfStoredItem;
     
 
-
-    public int NumOfSlotRow
-    {
-        get
-        {
-            return m_numOfSlotRow;
-        }        
-    }
-    public int NumOfSlotCol
-    {
-        get
-        {
-            return m_numOfSlotCol;
-        }
-    }
+   
     public List<SlotData> SlotDataList
     {
         get
@@ -48,13 +31,19 @@ public class StoreModel : MonoBehaviour, IStoreModel
             return m_maxNumOfSlot;
         }
     }
+    public int CurrentNumOfStoredItem
+    {
+        get
+        {
+            return m_currentNumOfStoredItem;
+        }        
+    }
 
     public void InitModel()
     {
-        m_numOfSlotCol = 5;
-        m_numOfSlotRow = 9;
-
-        m_maxNumOfSlot = m_numOfSlotCol * m_numOfSlotRow;
+    
+        m_maxNumOfSlot = 40;
+        m_currentNumOfStoredItem = 0;
 
         m_slotDataList = new List<SlotData>();
 
@@ -76,7 +65,7 @@ public class StoreModel : MonoBehaviour, IStoreModel
                 continue;
 
             slotData.ItemData = data;
-
+            m_currentNumOfStoredItem++;
             return;
         }
 

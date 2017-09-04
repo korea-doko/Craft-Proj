@@ -23,39 +23,37 @@ public interface IInventoryPanel
 public class InventoryPanel : MonoBehaviour ,IInventoryPanel{
 
     [SerializeField] private RectTransform m_rect;
-    [SerializeField] private GridLayoutGroup m_gridLayout;
-    //[SerializeField] private Slot[][] m_slotAry;
     [SerializeField] private List<Slot> m_slotList;
-
-    [SerializeField] private float m_cellWidth;
-    [SerializeField] private float m_cellHeight;
-
-    [SerializeField] private bool m_isCellSizeInit;
-
+    
     [SerializeField] private int m_numOfSlotRow;
     [SerializeField] private int m_numOfSlotCol;
     [SerializeField] private int m_maxNumOfSlot;
 
+    [SerializeField] private GameObject m_slotParent;
+    [SerializeField] private int m_numOfSeenSlot;
+    [SerializeField] private float m_slotPreferHeight;
+    [SerializeField] private bool m_isSlotHeightInit;
+
     public event EventHandler<SlotClickedArgs> OnSlotClicked;
 
-    public void Init(int _numOfSlotRow, int _numOfSlotCol)
+    public void Init(int _maxNumOfSlot)
     {
+        m_numOfSeenSlot = 3;
+        m_slotPreferHeight = 0.0f;
+        m_isSlotHeightInit = false;
+
         m_rect = this.GetComponent<RectTransform>();
 
         m_rect.anchorMin = new Vector2(0.0f, 0.0f);
-        m_rect.anchorMax = new Vector2(1.0f, 1.0f);
+        m_rect.anchorMax = new Vector2(1.0f, 0.8f);
 
         m_rect.offsetMax = Vector2.zero;
         m_rect.offsetMin = Vector2.zero;
+        
 
-        m_gridLayout = this.GetComponent<GridLayoutGroup>();
-
-        m_numOfSlotRow = _numOfSlotRow;
-        m_numOfSlotCol = _numOfSlotCol;
-        m_maxNumOfSlot = m_numOfSlotCol * m_numOfSlotRow;
+        m_maxNumOfSlot = _maxNumOfSlot;
 
         InitSlot();
-
     }
 
     internal Slot GetSlot(int id)
@@ -65,27 +63,23 @@ public class InventoryPanel : MonoBehaviour ,IInventoryPanel{
 
     public void Show(StoreModel _model)
     {
-        if (!m_isCellSizeInit)
-            InitCellSize();
+        if (!m_isSlotHeightInit)
+            InitSlotHeight();
 
+        HideAllSlot();
         
         for(int i = 0; i < m_maxNumOfSlot;i++)
         {
             Slot slot = m_slotList[i];
-            SlotData data = _model.SlotDataList[i];            
+            SlotData data = _model.SlotDataList[i];
+
+            if (!data.IsInit)
+                continue;
+
             slot.Show(data);
         }
     }
-
-
-    private void Slot_OnSlotClicked(object sender, EventArgs e)
-    {
-        Slot slot = (Slot)sender;
-
-        OnSlotClicked(this, new SlotClickedArgs(slot));
-    }
-
-    
+      
     void InitSlot()
     {
         GameObject prefab = Resources.Load("PlayScene/Store/Slot") as GameObject;
@@ -95,23 +89,40 @@ public class InventoryPanel : MonoBehaviour ,IInventoryPanel{
         for(int i = 0; i < m_maxNumOfSlot;i++)
         {
             Slot slot = ((GameObject)Instantiate(prefab)).GetComponent<Slot>();
-            slot.transform.SetParent(this.transform);
+            slot.transform.SetParent(m_slotParent.transform);
             slot.Init(i);
             m_slotList.Add(slot);
             slot.OnSlotClicked += Slot_OnSlotClicked;
         }
     }
-    void InitCellSize()
+    void InitSlotHeight()
     {
-        m_cellWidth = m_rect.rect.width / (float)m_numOfSlotCol;
-        m_cellHeight = m_rect.rect.height / (float)m_numOfSlotRow;
 
-        m_gridLayout.cellSize = new Vector2(m_cellWidth, m_cellHeight);
+        m_slotPreferHeight = m_rect.rect.size.y / (float)m_numOfSeenSlot;
 
-        if (m_cellWidth != 0.0f && m_cellHeight != 0.0f)
-            m_isCellSizeInit = true;
+        if (m_slotPreferHeight == 0.0f)
+            m_isSlotHeightInit = false;
         else
-            m_isCellSizeInit = false;
+        {
+            for(int i = 0; i < m_maxNumOfSlot;i++)
+            {
+                Slot slot = m_slotList[i];
+                slot.SetHeight(m_slotPreferHeight);
+            }
+
+            m_isSlotHeightInit = true;
+        }
+    }
+    void HideAllSlot()
+    {
+        for (int i = 0; i < m_maxNumOfSlot; i++)
+            m_slotList[i].Hide();
+    }
+    private void Slot_OnSlotClicked(object sender, EventArgs e)
+    {
+        Slot slot = (Slot)sender;
+
+        OnSlotClicked(this, new SlotClickedArgs(slot));
     }
 
 

@@ -22,30 +22,31 @@ public interface IItemSelectInventoryPanel
 public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,ILoadable{
 
     [SerializeField] private RectTransform m_rect;
-    [SerializeField] private GridLayoutGroup m_gridLayout;
     [SerializeField] private bool m_isActive;
     [SerializeField] private List<ItemSelectSlot> m_itemSelectSlotList;
     [SerializeField] private int m_numOfSlotRow;
     [SerializeField] private int m_numOfSlotCol;
     [SerializeField] private int m_numOfSlot;
-    [SerializeField] private bool m_isCellSizeInit;
+    [SerializeField] private GameObject m_slotParent;
+
+    [SerializeField] private int m_numOfSeenPanel;
+    [SerializeField] private bool m_isItemSelectSlotHeightInitialized;
+
 
     public event EventHandler<ItemSelectSlotArgs> OnItemSelectSlotClicked;
 
-    internal void Init()
+    public void Init()
     {
         m_rect = this.GetComponent<RectTransform>();
-        m_gridLayout = this.GetComponent<GridLayoutGroup>();
         m_itemSelectSlotList = new List<ItemSelectSlot>();
-        m_isCellSizeInit = false;
-
+        m_isItemSelectSlotHeightInitialized = false;
+        m_numOfSeenPanel = 3;
         Hide();
     }
-
     public void Show(List<SlotData> _dataList)
     {
-        if (!m_isCellSizeInit)
-            InitCellSize();
+        if (!m_isItemSelectSlotHeightInitialized)
+            InitSlotHeight();
 
         foreach (ItemSelectSlot slot in m_itemSelectSlotList)
             slot.Hide();
@@ -68,24 +69,22 @@ public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }
-    public void InitCellSize()
+    public void InitSlotHeight()
     {
-        float cellWidth = m_rect.rect.width / (float)m_numOfSlotCol;
-        float cellHeight = m_rect.rect.height / (float)m_numOfSlotRow;
+        float height = m_rect.rect.height / (float)m_numOfSeenPanel;
+        
+        foreach (ItemSelectSlot slot in m_itemSelectSlotList)
+            slot.SetHeight(height);
 
-        m_gridLayout.cellSize = new Vector2(cellWidth, cellHeight);
-
-        m_isCellSizeInit = true;
+        m_isItemSelectSlotHeightInitialized = true;
     }
     public bool Load()
     {
         if (m_itemSelectSlotList.Count != 0)
             return true;
 
-        m_numOfSlotCol = StoreManager.Inst.GetNumOfSlotCol();
-        m_numOfSlotRow = StoreManager.Inst.GetNumOfSlotRow();
 
-        m_numOfSlot = m_numOfSlotRow * m_numOfSlotCol;
+        m_numOfSlot = StoreManager.Inst.GetMaxNumOfSlot();
 
         
         GameObject prefab = Resources.Load("PlayScene/Upgrade/ItemSelectSlot") as GameObject;
@@ -93,7 +92,7 @@ public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,
         for(int i = 0; i < m_numOfSlot; i++)
         {
             ItemSelectSlot slot = ((GameObject)Instantiate(prefab)).GetComponent<ItemSelectSlot>();
-            slot.transform.SetParent(this.transform);
+            slot.transform.SetParent(m_slotParent.transform);
             slot.Init(i);
             slot.OnItemSelectSlotClicked += Slot_OnItemSelectSlotClicked;
             m_itemSelectSlotList.Add(slot);
@@ -108,7 +107,5 @@ public class ItemSelectInventoryPanel :MonoBehaviour ,IItemSelectInventoryPanel,
         ItemSelectSlot selectedSlot = (ItemSelectSlot)sender;
 
         OnItemSelectSlotClicked(this, new ItemSelectSlotArgs(selectedSlot.Id));        
-    }
-
-    
+    }    
 }

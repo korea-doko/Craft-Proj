@@ -29,11 +29,11 @@ public class ItemSelectPanel : MonoBehaviour , IItemSelectPanel{
 
     internal void ShowSelectedItem(ItemData itemData)
     {
-        Debug.Log("이미지 바꾸자");
+        m_itemSelectButton.ShowSelectedItem(itemData);
     }
 
     internal void Hide()
     {
-
+        m_itemSelectButton.Hide();
     }
 }

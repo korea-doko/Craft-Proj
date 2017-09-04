@@ -11,16 +11,16 @@ public class ItemDescPanel : MonoBehaviour {
 	public void Init()
     {
         m_descText = this.GetComponentInChildren<Text>();
-        m_descText.text = "Initialized";
+        m_descText.text = " - - - ";
     }
 
-    internal void ShowSelectedItem(ItemData itemData)
+    internal void ShowItemInfoAtDescPanel(ItemData itemData)
     {
         m_descText.text = itemData.GetItemInfo();
     }
 
     internal void Hide()
     {
-        m_descText.text = "init";
+        m_descText.text = " - - - ";
     }
 }

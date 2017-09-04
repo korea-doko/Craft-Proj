@@ -26,8 +26,41 @@ public class UpgradeViewPanel : MonoBehaviour, IUpgradeViewPanel, ILoadable
         InitRuneIconPanel();
         InitBaseItemPanel();
         InitItemSelectInventoryPanel();
-    }   
-    void InitRuneIconPanel()
+    }
+    public bool Load()
+    {
+        return m_itemSelectInventoryPanel.Load();
+    }
+  
+    public void ShowItemSelectInventoryPanel(List<SlotData> _dataList)
+    {
+        m_itemSelectInventoryPanel.Show(_dataList);
+    }
+    public void ShowSelectedItem(ItemData itemData)
+    {
+        m_baseItemPanel.ShowSelectedItem(itemData);
+    }
+    public void ShowItemInfoAtDescPanel(ItemData _data)
+    {
+        m_baseItemPanel.ShowItemInfoAtDescPanel(_data);        
+    }
+    public void HideItemSelectInventoryPanel()
+    {
+        m_itemSelectInventoryPanel.Hide();
+    }
+
+
+    public void Hide()
+    {
+        m_baseItemPanel.Hide();
+        m_itemSelectInventoryPanel.Hide();
+    }
+    public void Show()
+    {
+        m_runeIconPanel.Show();
+    }
+
+    private void InitRuneIconPanel()
     {
         GameObject prefab = Resources.Load("Playscene/Upgrade/RuneIconPanel") as GameObject;
 
@@ -36,25 +69,7 @@ public class UpgradeViewPanel : MonoBehaviour, IUpgradeViewPanel, ILoadable
         m_runeIconPanel.Init();
         m_runeIconPanel.OnRuneButtonClicked += M_runeIconPanel_OnRuneButtonClicked;
     }
-
-    private void M_runeIconPanel_OnRuneButtonClicked(object sender, RuneButtonClickArgs e)
-    {
-        OnRuneButtonClicked(this, e);
-    }
-
-    internal void ShowItemSelectInventoryPanel(List<SlotData> _dataList)
-    {
-        m_itemSelectInventoryPanel.Show(_dataList);
-    }
-
-    internal void ShowSelectedItem(ItemData itemData)
-    {
-        m_itemSelectInventoryPanel.Hide();
-        m_baseItemPanel.ShowSelectedItem(itemData);
-
-    }
-
-    void InitBaseItemPanel()
+    private void InitBaseItemPanel()
     {
         GameObject prefab = Resources.Load("PlayScene/Upgrade/BaseItemPanel") as GameObject;
 
@@ -63,17 +78,6 @@ public class UpgradeViewPanel : MonoBehaviour, IUpgradeViewPanel, ILoadable
         m_baseItemPanel.Init();
         m_baseItemPanel.OnItemSelectButtonClicked += M_baseItemPanel_OnItemSelectButtonClicked;
     }
-
-    internal void Hide()
-    {
-        m_baseItemPanel.Hide();
-        m_itemSelectInventoryPanel.Hide();
-    }
-    internal void Show()
-    {
-        m_runeIconPanel.Show();
-    }
-
     private void InitItemSelectInventoryPanel()
     {
         GameObject prefab = Resources.Load("PlayScene/Upgrade/ItemSelectInventoryPanel") as GameObject;
@@ -83,17 +87,17 @@ public class UpgradeViewPanel : MonoBehaviour, IUpgradeViewPanel, ILoadable
         m_itemSelectInventoryPanel.OnItemSelectSlotClicked += M_itemSelectInventoryPanel_OnItemSelectSlotClicked;
     }
 
+    // 이벤트 핸들러
     private void M_itemSelectInventoryPanel_OnItemSelectSlotClicked(object sender, ItemSelectSlotArgs e)
     {
         OnItemSelectSlotClicked(this, e);
     }
-
     private void M_baseItemPanel_OnItemSelectButtonClicked(object sender, EventArgs e)
     {
         OnItemSelectButtonClicked(this, EventArgs.Empty);
     }
-    public bool Load()
+    private void M_runeIconPanel_OnRuneButtonClicked(object sender, RuneButtonClickArgs e)
     {
-        return m_itemSelectInventoryPanel.Load();        
+        OnRuneButtonClicked(this, e);
     }
 }

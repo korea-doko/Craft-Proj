@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IStatus
 {
-    int GetStatus(StatusParameterName _name);        
+    int GetStatus(ModType _name);        
 }
 [System.Serializable]
 public class Status : IStatus
@@ -15,7 +15,7 @@ public class Status : IStatus
 
     public Status()
     {
-        int numOfStatusParameter = System.Enum.GetNames(typeof(StatusParameterName)).Length;
+        int numOfStatusParameter = System.Enum.GetNames(typeof(ModType)).Length;
 
         m_value = new int[numOfStatusParameter];
 
@@ -23,34 +23,34 @@ public class Status : IStatus
             m_value[i] = 0;
     }
 
-    public int GetStatus(StatusParameterName _name)
+    public int GetStatus(ModType _name)
     {
         return m_value[(int)_name];
     }
 
-    public void ChangeStatusParameterTo(StatusParameterName _name, int _value)
+    public void ChangeStatusParameterTo(ModType _name, int _value)
     {
         m_value[(int)_name] = _value;
     }
 
-    public void AddStatusParameter(StatusParameterName _name,int _value)
+    public void AddStatusParameter(ModType _name,int _value)
     {
         m_value[(int)_name] += _value;
     }
-    public void MinusStatusParameter(StatusParameterName _name,int _value)
+    public void MinusStatusParameter(ModType _name,int _value)
     {
         m_value[(int)_name] -= _value;
     }
     public void AddStatus(Status _status)
     {
-        int numOfStats = System.Enum.GetNames(typeof(StatusParameterName)).Length;
+        int numOfStats = System.Enum.GetNames(typeof(ModType)).Length;
 
         for (int i = 0; i < numOfStats; i++)
             m_value[i] = m_value[i] + _status.m_value[i];
     }
     public void MinusStatus(Status _status)
     {
-        int numOfStats = System.Enum.GetNames(typeof(StatusParameterName)).Length;
+        int numOfStats = System.Enum.GetNames(typeof(ModType)).Length;
 
         for (int i = 0; i < numOfStats; i++)
             m_value[i] = m_value[i] - _status.m_value[i];
@@ -58,7 +58,7 @@ public class Status : IStatus
 
     public string GetStatusInfo()
     {
-        int numOfStatus = System.Enum.GetNames(typeof(StatusParameterName)).Length;
+        int numOfStatus = System.Enum.GetNames(typeof(ModType)).Length;
         string str = "";
 
         for (int i = 0; i < numOfStatus; i++)
@@ -68,7 +68,7 @@ public class Status : IStatus
             if (value == 0)
                 continue;
 
-            str += ((StatusParameterName)i).ToString() + " = " + value.ToString() + "\n";
+            str += ((ModType)i).ToString() + " = " + value.ToString() + "\n";
         }
 
         return str;

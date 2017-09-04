@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum StatusParameterName
+public enum ModType
 {
     None = -1
 
@@ -109,11 +109,13 @@ public enum ItemRarity
 public enum AffixType
 {
     Prefix,
-    Suffix
+    Suffix,
+    Implicit,
 }
 
 public enum EHeroClass
 {
+    None = -1,
     Fighter,
     Ranger
 }
@@ -127,16 +129,14 @@ public enum EEquipParts
     Neck,               // Amulet              
     Finger              // Ring          
 }
-
 public enum MenuName
 {
     Upgrade,
-    Traveller,
+    Hero,
     Quest,
     Guild,
     Store,    
 }
-
 /// <summary>
 ///  Reinforcement/어규멘테이션 ||
 ///  MagicPower/리갈 ||

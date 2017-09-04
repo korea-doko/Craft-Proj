@@ -39,11 +39,13 @@ public class BaseItemPanel : MonoBehaviour, IBaseItemPanel {
     {
         OnItemSelectButtonClicked(this, EventArgs.Empty);
     }
-
+    public void ShowItemInfoAtDescPanel(ItemData _data)
+    {
+        m_itemDescPanel.ShowItemInfoAtDescPanel(_data);
+    }
     internal void ShowSelectedItem(ItemData itemData)
     {
         m_itemSelectPanel.ShowSelectedItem(itemData);
-        m_itemDescPanel.ShowSelectedItem(itemData);
     }
 
     internal void Hide()

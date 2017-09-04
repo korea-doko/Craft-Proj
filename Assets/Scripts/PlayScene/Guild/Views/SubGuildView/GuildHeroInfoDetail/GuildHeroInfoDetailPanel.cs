@@ -36,7 +36,7 @@ public class GuildHeroInfoDetailPanel : MonoBehaviour, IGuildHeroInfoDetailPanel
     public void Show(HeroData _data)
     {
         m_equipPanel.Show(_data);
-        m_testText.text = _data.BaseHeroData.HeroClass.ToString();
+        m_testText.text = _data.GetHeroClass.ToString();
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }
