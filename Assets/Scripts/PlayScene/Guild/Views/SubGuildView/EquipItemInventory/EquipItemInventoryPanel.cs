@@ -20,7 +20,7 @@ public class EquipItemInventoryPanel : MonoBehaviour ,IEquipItemInventoryPanel{
 
     public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
 
-    internal void Init()
+    public void Init()
     {
         m_backBtn.onClick.AddListener(() => Hide());
 
@@ -29,12 +29,7 @@ public class EquipItemInventoryPanel : MonoBehaviour ,IEquipItemInventoryPanel{
         Hide();
     }
 
-    private void Slot_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
-    {
-        OnEquipItemInventorySlotClicked(this, e);
-        Hide();
-    }
-
+  
     public void Show(List<SlotData> slotDataList)
     {
         HideAllSlots();
@@ -59,13 +54,6 @@ public class EquipItemInventoryPanel : MonoBehaviour ,IEquipItemInventoryPanel{
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }
-
-    void HideAllSlots()
-    {
-        for (int i = 0; i < m_numOfSlotPanel; i++)
-            m_equipItemInventorySlotList[i].Hide();
-    }
-   
     public bool Load()
     {
         m_numOfSlotPanel = StoreManager.Inst.Model.MaxNumOfSlot;
@@ -82,5 +70,19 @@ public class EquipItemInventoryPanel : MonoBehaviour ,IEquipItemInventoryPanel{
             m_equipItemInventorySlotList.Add(slot);
         }
         return true;
+    }
+
+    private void HideAllSlots()
+    {
+        for (int i = 0; i < m_numOfSlotPanel; i++)
+            m_equipItemInventorySlotList[i].Hide();
+    }
+
+    // 이벤트 핸들러
+
+    private void Slot_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
+    {
+        OnEquipItemInventorySlotClicked(this, e);
+        Hide();
     }
 }

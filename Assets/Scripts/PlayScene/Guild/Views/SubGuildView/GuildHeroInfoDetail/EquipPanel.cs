@@ -11,9 +11,9 @@ public class EquipPanel : MonoBehaviour , IEquipPanel{
 
     public event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
 
-    private EquipItemPanel[] m_equipItemPanelAry;
+    [SerializeField] private EquipItemPanel[] m_equipItemPanelAry;
 
-    internal void Init()
+    public void Init()
     {
         m_equipItemPanelAry = this.GetComponentsInChildren<EquipItemPanel>();
 
@@ -25,29 +25,33 @@ public class EquipPanel : MonoBehaviour , IEquipPanel{
             
         }
     }
-
-    private void P_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
-    {
-        OnEquipItemPanelClicked(this, e);
-    }
-
-    internal void Show(HeroData data)
+ 
+    public void Show(HeroData data)
     {
         ClearAry();
 
-        for(int i = 0; i < data.EquipDataAry.Length;i++)
+        for(int i = 0; i < data.GetEquipDataAry.Length;i++)
         {
             EquipItemPanel p = m_equipItemPanelAry[i];
-            ItemData itemData = data.EquipDataAry[i];
+            ItemData itemData = data.GetEquipDataAry[i];
             p.Show(itemData);
         }
     }
-    void ClearAry()
+
+
+
+    private void ClearAry()
     {
         for(int i = 0; i < m_equipItemPanelAry.Length;i++)
         {
             EquipItemPanel p = m_equipItemPanelAry[i];
             p.Clear();
         }
+    }
+
+    // 이벤트 핸들러
+    private void P_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
+    {
+        OnEquipItemPanelClicked(this, e);
     }
 }

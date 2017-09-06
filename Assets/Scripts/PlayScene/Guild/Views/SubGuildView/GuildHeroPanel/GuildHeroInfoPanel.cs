@@ -20,6 +20,10 @@ public class GuildHeroInfoPanel : MonoBehaviour, IGuildHeroInfoPanel {
     [SerializeField] private bool m_isActive;
     [SerializeField] private Button m_btn;
 
+    [SerializeField] private Text m_simpleInfoText;
+    [SerializeField] private Text m_coolDownText;
+
+
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
 
     public bool IsActive
@@ -38,13 +42,13 @@ public class GuildHeroInfoPanel : MonoBehaviour, IGuildHeroInfoPanel {
     internal void Init(int _id)
     {
         m_id = _id;
-        m_btn = this.GetComponent<Button>();
         m_btn.onClick.AddListener(() => OnGuildHeroInfoPanelClicked(this, new GuildHeroInfoPanelClickedArgs(m_id)));
         Hide();
     }
 
     public void Show(HeroData _data)
     {
+        m_simpleInfoText.text = _data.GetName + "\n" + _data.GetHeroClass.ToString();
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }

@@ -7,6 +7,7 @@ public interface IPlayerModel : IModel
 {
 
 }
+
 public class PlayerModel : MonoBehaviour , IPlayerModel{
 
     [SerializeField] private List<HeroData> m_heroList;

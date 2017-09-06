@@ -7,10 +7,10 @@ public interface IHeroData
 {
     EHeroClass GetHeroClass { get; }
     string GetName { get; }
-    ItemData[] EquipDataAry { get; set; }
+    ItemData[] GetEquipDataAry { get; set; }
     Attribute GetBaseAttribute { get; }
     Attribute GetOffsetAttribute { get; }
-
+    int GetLevel { get; }
     void EquipItemWith(ItemData _data);
 }
 [System.Serializable]
@@ -25,7 +25,7 @@ public class HeroData : IHeroData
     [SerializeField] private int[] m_modTypeAry;
     
 
-    [SerializeField] private ItemData[] m_equipDataAry;
+    [SerializeField] private ItemData[] m_GetEquipDataAry;
 
     public HeroData(string _name,EHeroClass _class, Attribute _baseAttr,Attribute _offsetAttr)
     {
@@ -38,19 +38,19 @@ public class HeroData : IHeroData
         m_modTypeAry = new int[numOfModType];
 
         int numOfEquipParts = System.Enum.GetNames(typeof(EEquipParts)).Length;
-        m_equipDataAry = new ItemData[numOfEquipParts];
+        m_GetEquipDataAry = new ItemData[numOfEquipParts];
     }
     
-    public ItemData[] EquipDataAry
+    public ItemData[] GetEquipDataAry
     {
         get
         {
-            return m_equipDataAry;
+            return m_GetEquipDataAry;
         }
 
         set
         {
-            m_equipDataAry = value;
+            m_GetEquipDataAry = value;
         }
     }
     public EHeroClass GetHeroClass
@@ -83,6 +83,14 @@ public class HeroData : IHeroData
         }
     }
 
+    public int GetLevel
+    {
+        get
+        {
+            return m_level;
+        }
+    }
+
     public void EquipItemWith(ItemData _data)
     {
         switch (_data.GetItemBaseData.GetItemUpperClass)
@@ -94,23 +102,23 @@ public class HeroData : IHeroData
                 switch (abd.LowerClassName)
                 {
                     case ArmorLowerClass.Helmet:
-                        EquipDataAry[(int)EEquipParts.Head] = _data;
+                        GetEquipDataAry[(int)EEquipParts.Head] = _data;
                         break;
                     case ArmorLowerClass.BodyArmor:
-                        EquipDataAry[(int)EEquipParts.Body] = _data;
+                        GetEquipDataAry[(int)EEquipParts.Body] = _data;
                         break;
                     case ArmorLowerClass.Boots:
-                        EquipDataAry[(int)EEquipParts.Foot] = _data;
+                        GetEquipDataAry[(int)EEquipParts.Foot] = _data;
                         break;
                     case ArmorLowerClass.Gloves:
-                        EquipDataAry[(int)EEquipParts.GloveHand] = _data;
+                        GetEquipDataAry[(int)EEquipParts.GloveHand] = _data;
                         break;
                     default:
                         break;
                 }
                 break;
             case ItemUpperClass.Weapon:
-                EquipDataAry[(int)EEquipParts.WeaponHand] = _data;
+                GetEquipDataAry[(int)EEquipParts.WeaponHand] = _data;
                 break;
             case ItemUpperClass.Misc:
 
@@ -120,10 +128,10 @@ public class HeroData : IHeroData
                 {
                     case MiscLowerClass.Ring:
 
-                        EquipDataAry[(int)EEquipParts.Finger] = _data;
+                        GetEquipDataAry[(int)EEquipParts.Finger] = _data;
                         break;
                     case MiscLowerClass.Amulet:
-                        EquipDataAry[(int)EEquipParts.Neck] = _data;
+                        GetEquipDataAry[(int)EEquipParts.Neck] = _data;
                         break;
                     default:
                         break;

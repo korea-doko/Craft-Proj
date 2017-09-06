@@ -45,8 +45,5 @@ public class PlayerManager : MonoBehaviour, IPlayerManager
         return m_model.HeroList[_id];
     }
 
-    internal void EquipItemWith()
-    {
-        throw new NotImplementedException();
-    }
+
 }

@@ -33,9 +33,32 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
         m_view = Utils.MakeGameObjectWithComponent<GuildView>(this.gameObject);
         m_view.InitView(m_model);
         m_view.OnGuildHeroInfoPanelClicked += M_view_OnGuildHeroInfoPanelClicked;
-        m_view.OnEquipItemPanelClicked += M_view_OnEquipItemPanelClicked;
+        m_view.OnClickItemChangedButton += M_view_OnClickItemChangedButton;
         m_view.OnEquipItemInventorySlotClicked += M_view_OnEquipItemInventorySlotClicked;
     }
+
+    
+
+    public bool Load()
+    {
+        return m_view.Load();
+    }
+
+    public void MenuButtonClicked(MenuName menuName)
+    {
+        if (menuName != MenuName.Guild)
+        {
+            m_view.HideAll();
+        }
+        else
+        {
+            List<HeroData> heroList = PlayerManager.Inst.GetOwnedHeroDataList();
+            m_view.ShowAll(heroList);
+        }
+    }
+
+
+    // 이벤트 핸들러
 
     private void M_view_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
     {
@@ -45,7 +68,7 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
 
         List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
         SlotData selectedSlot = slotDataList[e.m_id];
-                
+
         HeroData hero = m_model.SelectedHeroData;
         // 내가 누른 히어로 정보 가져오기
 
@@ -62,16 +85,16 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
                 switch (abd.LowerClassName)
                 {
                     case ArmorLowerClass.Helmet:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.Head];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.Head];
                         break;
                     case ArmorLowerClass.BodyArmor:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.Body];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.Body];
                         break;
                     case ArmorLowerClass.Boots:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.Foot];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.Foot];
                         break;
                     case ArmorLowerClass.Gloves:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.GloveHand];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.GloveHand];
                         break;
                     default:
                         break;
@@ -81,7 +104,7 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
 
                 WeaponBaseData wbd = (WeaponBaseData)selectedSlot.ItemData.GetItemBaseData;
 
-                equippedData = hero.EquipDataAry[(int)EEquipParts.WeaponHand];
+                equippedData = hero.GetEquipDataAry[(int)EEquipParts.WeaponHand];
 
                 break;
             case ItemUpperClass.Misc:
@@ -91,10 +114,10 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
                 switch (mbd.LowerClassName)
                 {
                     case MiscLowerClass.Ring:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.Finger];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.Finger];
                         break;
                     case MiscLowerClass.Amulet:
-                        equippedData = hero.EquipDataAry[(int)EEquipParts.Neck];
+                        equippedData = hero.GetEquipDataAry[(int)EEquipParts.Neck];
                         break;
                     default:
                         break;
@@ -117,36 +140,18 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
         // 바뀐 정보 보여주기
 
     }
-
-    private void M_view_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
-    {
-        List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
-       
-        m_view.ShowEquipItemInventory(slotDataList);        
-    }
-
     private void M_view_OnGuildHeroInfoPanelClicked(object sender, GuildHeroInfoPanelClickedArgs e)
     {
         HeroData data = PlayerManager.Inst.GetHeroData(e.m_id);
         m_model.SelectedHeroData = data;
         m_view.ShowHeroInfoDetailPanel(data);
     }
-
-    public bool Load()
+    private void M_view_OnClickItemChangedButton(object sender, OnItemChangedButtonClickedArgs e)
     {
-        return m_view.Load();
-    }
+        Debug.Log("해당 부위의 아이템을 가져와서 보여주고 싶긴하다. " + e.m_changedParts.ToString());
+        // 그러나 그냥 전체 아이템창 띄우자
 
-    internal void MenuButtonClicked(MenuName menuName)
-    {
-        if (menuName != MenuName.Guild)
-        {
-            m_view.HideAll();
-        }
-        else
-        {
-            List<HeroData> heroList = PlayerManager.Inst.GetOwnedHeroDataList();
-            m_view.ShowAll(heroList);
-        }
+        List<SlotData> inventory = StoreManager.Inst.GetSlotDataList;
+        m_view.ShowEquipItemInventory(inventory);
     }
 }

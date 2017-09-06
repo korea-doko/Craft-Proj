@@ -2,13 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 
 public interface IGuildViewPanel : ILoadable
 {
     event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
-    event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
+    
     event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
+
+    event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
 }
 
 public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
@@ -17,77 +21,38 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
     [SerializeField] private GuildHeroInfoDetailPanel m_guildHeroInfoDetailPanel;
     [SerializeField] private EquipItemInventoryPanel m_equipItemInventoryPanel;
 
+    [SerializeField] private Button m_guildBtn;
+    [SerializeField] private Button m_heroBtn;
+
+
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
-    public event EventHandler<EquipItemPanelClickedArgs> OnEquipItemPanelClicked;
     public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
+    public event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
 
     public void Init()
     {
+        InitButtonEventHandler();
+
         InitGuildHeroPanel();
         InitGuildHeroInfoDetailPanel();
         InitEquipItemInventoryPanel();
     }
 
-    private void InitEquipItemInventoryPanel()
-    {
-        GameObject prefab = Resources.Load("PlayScene/Guild/EquipItemInventoryPanel") as GameObject;
-        m_equipItemInventoryPanel = ((GameObject)Instantiate(prefab)).GetComponent<EquipItemInventoryPanel>();
-        m_equipItemInventoryPanel.Init();
-        m_equipItemInventoryPanel.OnEquipItemInventorySlotClicked += M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked;
-        m_equipItemInventoryPanel.transform.SetParent(this.transform);
-    }
-
-    private void M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
-    {
-        OnEquipItemInventorySlotClicked(this, e);
-    }
-
-    internal void Show(List<HeroData> heroList)
+  
+    public void Show(List<HeroData> heroList)
     {
         m_guildHeroPanel.Show(heroList);
     }
-    void InitGuildHeroPanel()
-    {
-        GameObject prefab = Resources.Load("PlayScene/Guild/GuildHeroPanel") as GameObject;
-        m_guildHeroPanel = ((GameObject)Instantiate(prefab)).GetComponent<GuildHeroPanel>();
-        m_guildHeroPanel.Init();
-        m_guildHeroPanel.OnGuildHeroInfoPanelClicked += M_guildHeroPanel_OnGuildHeroInfoPanelClicked;
-        m_guildHeroPanel.transform.SetParent(this.transform);
-    }
-
-    private void M_guildHeroPanel_OnGuildHeroInfoPanelClicked(object sender, GuildHeroInfoPanelClickedArgs e)
-    {
-        OnGuildHeroInfoPanelClicked(this, e);
-    }
-
-    internal void Hide()
+    public void Hide()
     {
         m_guildHeroInfoDetailPanel.Hide();
         m_equipItemInventoryPanel.Hide();
     }
-
-    internal void ShowEquipItemInventory(List<SlotData> slotDataList)
+    public void ShowEquipItemInventory(List<SlotData> slotDataList)
     {
         m_equipItemInventoryPanel.Show(slotDataList);
     }
-
-    private void M_guildHeroInfoDetailPanel_OnEquipItemPanelClicked(object sender, EquipItemPanelClickedArgs e)
-    {
-        OnEquipItemPanelClicked(this, e);
-    }
-
-    void InitGuildHeroInfoDetailPanel()
-    {
-        GameObject prefab = Resources.Load("PlayScene/Guild/GuildHeroInfoDetailPanel") as GameObject;
-
-        m_guildHeroInfoDetailPanel = ((GameObject)Instantiate(prefab)).GetComponent<GuildHeroInfoDetailPanel>();
-        m_guildHeroInfoDetailPanel.transform.SetParent(this.transform);
-        m_guildHeroInfoDetailPanel.Init();
-        m_guildHeroInfoDetailPanel.OnEquipItemPanelClicked += M_guildHeroInfoDetailPanel_OnEquipItemPanelClicked;
-    }
-
-    
-    internal void ShowHeroInfoDetailPanel(HeroData data)
+    public void ShowHeroInfoDetailPanel(HeroData data)
     {
         m_guildHeroInfoDetailPanel.Show(data);
     }
@@ -96,4 +61,54 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
     {
         return m_equipItemInventoryPanel.Load();
     }
+
+    private void InitButtonEventHandler()
+    {
+        m_guildBtn.onClick.AddListener(() => ShowGuildPanels());
+        m_heroBtn.onClick.AddListener(() => ShowHeroPanels());
+    }
+    private void InitGuildHeroPanel()
+    {
+        m_guildHeroPanel.Init();
+        m_guildHeroPanel.OnGuildHeroInfoPanelClicked += M_guildHeroPanel_OnGuildHeroInfoPanelClicked;
+    }
+    private void InitGuildHeroInfoDetailPanel()
+    {
+        m_guildHeroInfoDetailPanel.Init();
+        m_guildHeroInfoDetailPanel.OnClickItemChangedButton += M_guildHeroInfoDetailPanel_OnClickItemChangedButton;
+    }
+
+   
+
+    private void InitEquipItemInventoryPanel()
+    {
+        m_equipItemInventoryPanel.Init();
+        m_equipItemInventoryPanel.OnEquipItemInventorySlotClicked += M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked;
+    }
+
+    private void ShowGuildPanels()
+    {
+
+    }
+    private void ShowHeroPanels()
+    {
+
+    }
+
+    // 이벤트 핸들러 처리
+
+  
+    private void M_guildHeroPanel_OnGuildHeroInfoPanelClicked(object sender, GuildHeroInfoPanelClickedArgs e)
+    {
+        OnGuildHeroInfoPanelClicked(this, e);
+    }
+    private void M_equipItemInventoryPanel_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
+    {
+        OnEquipItemInventorySlotClicked(this, e);
+    }
+    private void M_guildHeroInfoDetailPanel_OnClickItemChangedButton(object sender, OnItemChangedButtonClickedArgs e)
+    {
+        OnClickItemChangedButton(this, e);
+    }
+
 }
