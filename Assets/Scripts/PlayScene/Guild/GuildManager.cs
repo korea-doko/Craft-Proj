@@ -33,11 +33,12 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
         m_view = Utils.MakeGameObjectWithComponent<GuildView>(this.gameObject);
         m_view.InitView(m_model);
         m_view.OnGuildHeroInfoPanelClicked += M_view_OnGuildHeroInfoPanelClicked;
-        m_view.OnClickItemChangedButton += M_view_OnClickItemChangedButton;
+        m_view.OnItemChangedButtonClicked += M_view_OnItemChangedButtonClicked;
         m_view.OnEquipItemInventorySlotClicked += M_view_OnEquipItemInventorySlotClicked;
+        m_view.OnItemRemoveButtonClicked += M_view_OnItemRemoveButtonClicked;
     }
 
-    
+   
 
     public bool Load()
     {
@@ -132,6 +133,11 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
 
         hero.EquipItemWith(selectedItem);
         // 히어로한테 아이템을 넘겨주면 부위에 맞는 것으로 착용
+        // 장착한 모드 적용시키기
+
+        if (equippedData != null)
+            hero.RemoveModTypeValueInItemData(equippedData);
+        // 장착했던 것 모드 다 제거, 없으면 제거 안함
 
         selectedSlot.ItemData = equippedData;
         // 이미 착용되어 있던 장비를 다시 창고에 넣기
@@ -146,12 +152,29 @@ public class GuildManager : MonoBehaviour ,IGuildManager{
         m_model.SelectedHeroData = data;
         m_view.ShowHeroInfoDetailPanel(data);
     }
-    private void M_view_OnClickItemChangedButton(object sender, OnItemChangedButtonClickedArgs e)
+    private void M_view_OnItemChangedButtonClicked(object sender, OnItemChangedButtonClickedArgs e)
     {
         Debug.Log("해당 부위의 아이템을 가져와서 보여주고 싶긴하다. " + e.m_changedParts.ToString());
         // 그러나 그냥 전체 아이템창 띄우자
 
         List<SlotData> inventory = StoreManager.Inst.GetSlotDataList;
         m_view.ShowEquipItemInventory(inventory);
+    }
+    private void M_view_OnItemRemoveButtonClicked(object sender, OnItemRemoveButtonClickedArgs e)
+    {
+        HeroData heroData = e.m_hero;
+        EEquipParts parts = e.m_removeParts;
+
+        ItemData itemData = heroData.GetEquipDataAry[(int)parts];
+
+        if( itemData != null)
+        {
+            // 아이템이 존재해야 뺀다.
+
+            heroData.RemoveItemParts(parts);
+            StoreManager.Inst.AddItemData(itemData);
+        }
+        m_view.ShowHeroInfoDetailPanel(m_model.SelectedHeroData);
+        // 화면 갱신
     }
 }

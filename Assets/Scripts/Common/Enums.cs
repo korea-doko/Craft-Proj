@@ -123,8 +123,8 @@ public enum EEquipParts
 {
     Head,               // Helmet
     Body,               // Armor
-    WeaponHand,          // Weapon
-    GloveHand,           // Gloves           
+    WeaponHand,         // Weapon
+    GloveHand,          // Gloves           
     Foot,               // Boots
     Neck,               // Amulet              
     Finger              // Ring          

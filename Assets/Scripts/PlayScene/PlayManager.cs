@@ -8,6 +8,7 @@ public class PlayManager : MonoBehaviour {
 
     private enum PlaySceneManagerName
     {
+        Mod,
         Player,
         Item,
         Hero,

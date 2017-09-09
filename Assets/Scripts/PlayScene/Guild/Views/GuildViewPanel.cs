@@ -8,11 +8,10 @@ using UnityEngine.UI;
 
 public interface IGuildViewPanel : ILoadable
 {
-    event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
-    
+    event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;   
     event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
-
-    event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
+    event EventHandler<OnItemChangedButtonClickedArgs> OnItemChangedButtonClicked;
+    event EventHandler<OnItemRemoveButtonClickedArgs> OnItemRemoveButtonClicked;
 }
 
 public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
@@ -27,7 +26,8 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
 
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
-    public event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
+    public event EventHandler<OnItemChangedButtonClickedArgs> OnItemChangedButtonClicked;
+    public event EventHandler<OnItemRemoveButtonClickedArgs> OnItemRemoveButtonClicked;
 
     public void Init()
     {
@@ -75,10 +75,11 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
     private void InitGuildHeroInfoDetailPanel()
     {
         m_guildHeroInfoDetailPanel.Init();
-        m_guildHeroInfoDetailPanel.OnClickItemChangedButton += M_guildHeroInfoDetailPanel_OnClickItemChangedButton;
+        m_guildHeroInfoDetailPanel.OnItemChangedButtonClicked += M_guildHeroInfoDetailPanel_OnItemChangedButtonClicked;
+        m_guildHeroInfoDetailPanel.OnItemRemoveButtonClicked += M_guildHeroInfoDetailPanel_OnItemRemoveButtonClicked;
     }
 
-   
+    
 
     private void InitEquipItemInventoryPanel()
     {
@@ -106,9 +107,12 @@ public class GuildViewPanel : MonoBehaviour , IGuildViewPanel{
     {
         OnEquipItemInventorySlotClicked(this, e);
     }
-    private void M_guildHeroInfoDetailPanel_OnClickItemChangedButton(object sender, OnItemChangedButtonClickedArgs e)
+    private void M_guildHeroInfoDetailPanel_OnItemChangedButtonClicked(object sender, OnItemChangedButtonClickedArgs e)
     {
-        OnClickItemChangedButton(this, e);
+        OnItemChangedButtonClicked(this, e);
     }
-
+    private void M_guildHeroInfoDetailPanel_OnItemRemoveButtonClicked(object sender, OnItemRemoveButtonClickedArgs e)
+    {
+        OnItemRemoveButtonClicked(this, e);
+    }
 }

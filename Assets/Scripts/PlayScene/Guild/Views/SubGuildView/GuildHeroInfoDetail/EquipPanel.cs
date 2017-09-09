@@ -39,7 +39,6 @@ public class EquipPanel : MonoBehaviour , IEquipPanel{
     }
 
 
-
     private void ClearAry()
     {
         for(int i = 0; i < m_equipItemPanelAry.Length;i++)

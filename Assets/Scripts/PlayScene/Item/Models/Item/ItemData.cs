@@ -26,6 +26,8 @@ public interface IItemData
 
     void Currupt(ModData _data);
     
+    ModData GetImplicitMod1 { get; }
+    ModData GetImplicitMod2 { get; }
 
     string GetItemInfo();
 }
@@ -67,6 +69,10 @@ public class ItemData : IItemData
             m_isCurrupted = value;
         }
     }
+
+    public ModData GetImplicitMod1 { get { return m_itemBaseData.GetImplicitMod1; } }
+    public ModData GetImplicitMod2 { get { return m_itemBaseData.GetImplicitMod2; } }
+
     public void AddPrefix(ModData _data)
     {
         m_prefixList.Add(_data);
@@ -117,6 +123,7 @@ public class ItemData : IItemData
                 info += GetWeaponItemInfo();
                 break;
             case ItemUpperClass.Misc:
+                info += GetMiscItemInfo();
                 break;
             default:
                 break;
@@ -170,11 +177,11 @@ public class ItemData : IItemData
         ModData implicitMod1 = m_itemBaseData.GetImplicitMod1;
         ModData implicitMod2 = m_itemBaseData.GetImplicitMod2;
 
-        if (implicitMod1 != null)
-            info += implicitMod1.GetName + " " + implicitMod1.GetSetValue + "\n";
+        if (implicitMod1 != null && implicitMod1.GetSetValue != 0)
+            info += implicitMod1.GetModType.ToString() + " " + implicitMod1.GetSetValue + "\n";
 
-        if ( implicitMod2 != null)
-            info += implicitMod2.GetName + " " + implicitMod2.GetSetValue + "\n";
+        if (implicitMod2 != null && implicitMod2.GetSetValue != 0)
+            info += implicitMod2.GetModType.ToString() + " " + implicitMod2.GetSetValue + "\n";
 
         return info;
     }
@@ -232,7 +239,6 @@ public class ItemData : IItemData
         string info = "";
 
         int armor = abd.Armor;
-        //int addedArmor = GetAllModValueInList(ModType.armor)
 
         info += "Armor = " + armor + "\n";
 
@@ -246,6 +252,19 @@ public class ItemData : IItemData
 
         return info;
     }
+    private string GetMiscItemInfo()
+    {
+        MiscBaseData mbd = (MiscBaseData)m_itemBaseData;
+
+        string info = "";
+
+        
+
+
+
+        return info;
+    }
+
     private string GetPrefixInfo()
     {
         string info = "";

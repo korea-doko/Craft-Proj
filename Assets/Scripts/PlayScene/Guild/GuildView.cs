@@ -8,7 +8,8 @@ public interface IGuildView<T> : IView<T> , ILoadable
 {
     event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
-    event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
+    event EventHandler<OnItemChangedButtonClickedArgs> OnItemChangedButtonClicked;
+    event EventHandler<OnItemRemoveButtonClickedArgs> OnItemRemoveButtonClicked;
 
 }
 public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
@@ -17,7 +18,8 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
 
     public event EventHandler<GuildHeroInfoPanelClickedArgs> OnGuildHeroInfoPanelClicked;
     public event EventHandler<EquipItemInventorySlotClickedArgs> OnEquipItemInventorySlotClicked;
-    public event EventHandler<OnItemChangedButtonClickedArgs> OnClickItemChangedButton;
+    public event EventHandler<OnItemChangedButtonClickedArgs> OnItemChangedButtonClicked;
+    public event EventHandler<OnItemRemoveButtonClickedArgs> OnItemRemoveButtonClicked;
 
     public void InitView(IGuildModel _model)
     {
@@ -26,11 +28,13 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
         m_guildViewPanel = ((GameObject)Instantiate(prefab)).GetComponent<GuildViewPanel>();
         m_guildViewPanel.Init();
         m_guildViewPanel.OnGuildHeroInfoPanelClicked += M_guildViewPanel_OnGuildHeroInfoPanelClicked;
-        m_guildViewPanel.OnClickItemChangedButton += M_guildViewPanel_OnClickItemChangedButton;
+        m_guildViewPanel.OnItemChangedButtonClicked += M_guildViewPanel_OnItemChangedButtonClicked;
         m_guildViewPanel.OnEquipItemInventorySlotClicked += M_guildViewPanel_OnEquipItemInventorySlotClicked;
+        m_guildViewPanel.OnItemRemoveButtonClicked += M_guildViewPanel_OnItemRemoveButtonClicked;
+    
     }
 
-  
+    
 
     public void ShowEquipItemInventory(List<SlotData> slotDataList)
     {
@@ -62,9 +66,9 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
     }
 
     // 이벤트 핸들러
-    private void M_guildViewPanel_OnClickItemChangedButton(object sender, OnItemChangedButtonClickedArgs e)
+    private void M_guildViewPanel_OnItemChangedButtonClicked(object sender, OnItemChangedButtonClickedArgs e)
     {
-        OnClickItemChangedButton(this, e);
+        OnItemChangedButtonClicked(this, e);
     }
     private void M_guildViewPanel_OnGuildHeroInfoPanelClicked(object sender, GuildHeroInfoPanelClickedArgs e)
     {
@@ -73,5 +77,9 @@ public class GuildView : MonoBehaviour , IGuildView<IGuildModel>{
     private void M_guildViewPanel_OnEquipItemInventorySlotClicked(object sender, EquipItemInventorySlotClickedArgs e)
     {
         OnEquipItemInventorySlotClicked(this, e);
+    }    
+    private void M_guildViewPanel_OnItemRemoveButtonClicked(object sender, OnItemRemoveButtonClickedArgs e)
+    {
+        OnItemRemoveButtonClicked(this, e);
     }
 }

@@ -4,39 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 
-[System.Serializable]
-public struct ModTypeSt
-{
-    public int m_id;
-    public int m_givenID;
-    public ModType m_modType;
 
-    public ModTypeSt(int _id, int _givenId)
-    {
-        m_id = _id;
-        m_givenID = _givenId;
-        m_modType = (ModType)m_givenID;
-    }
-
-    public int GetID(int _givenId)
-    {
-        if (_givenId != m_givenID)
-            return -1;
-
-        return m_id;
-    }
-    public int GetGivenID(int _id)
-    {
-        if (_id != m_id)
-            return -1;
-
-        return m_givenID;
-    }   
-    public ModType GetModType()
-    {
-        return m_modType;
-    }
-}
 
 public interface IItemModel : IModel
 {
@@ -71,9 +39,9 @@ public class ItemModel : MonoBehaviour, IItemModel
         // 리스트 만들기
 
 
-        ReadModTypeFromXML();
-        MakeModTypeList();
-        // 모드 타입 초기화
+        //ReadModTypeFromXML();
+        //MakeModTypeList();
+        //// 모드 타입 초기화
 
 
         ReadCommonPrefixDataFromXML();
@@ -386,19 +354,19 @@ public class ItemModel : MonoBehaviour, IItemModel
             int maxValue = int.Parse(dic["MaxValue"]);
 
             int givenStatusParameterID = int.Parse(dic["ModType"]);
-            ModType spn = ModType.None;
+            ModType spn = ModManager.Inst.GetModTypeUsingID(givenStatusParameterID);
 
-            for (int j = 0; j < m_modTypeList.Count; j++)
-            {
-                ModTypeSt st = m_modTypeList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
+            //for (int j = 0; j < m_modTypeList.Count; j++)
+            //{
+            //    ModTypeSt st = m_modTypeList[j];
+            //    int getId = st.GetGivenID(givenStatusParameterID);
 
-                if (getId == -1)
-                    continue;
+            //    if (getId == -1)
+            //        continue;
 
-                spn = (ModType)getId;
-                break;
-            }
+            //    spn = (ModType)getId;
+            //    break;
+            //}
 
             ModData mod = new ModData(id,givenID,level, AffixType.Prefix, name, minValue, maxValue, spn);
             m_commonPrefixModDataList.Add(mod);
@@ -468,19 +436,19 @@ public class ItemModel : MonoBehaviour, IItemModel
             int maxValue = int.Parse(dic["MaxValue"]);
 
             int givenStatusParameterID = int.Parse(dic["ModType"]);
-            ModType spn = ModType.None;
+            ModType spn = ModManager.Inst.GetModTypeUsingID(givenStatusParameterID);
 
-            for (int j = 0; j < m_modTypeList.Count; j++)
-            {
-                ModTypeSt st = m_modTypeList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
+            //for (int j = 0; j < m_modTypeList.Count; j++)
+            //{
+            //    ModTypeSt st = m_modTypeList[j];
+            //    int getId = st.GetGivenID(givenStatusParameterID);
 
-                if (getId == -1)
-                    continue;
+            //    if (getId == -1)
+            //        continue;
 
-                spn = (ModType)getId;
-                break;
-            }
+            //    spn = (ModType)getId;
+            //    break;
+            //}
 
             ModData mod = new ModData(id,givenID,level, AffixType.Suffix, name, minValue, maxValue, spn);
             m_commonSuffixModDataList.Add(mod);
@@ -551,19 +519,19 @@ public class ItemModel : MonoBehaviour, IItemModel
             int maxValue = int.Parse(dic["MaxValue"]);
 
             int givenStatusParameterID = int.Parse(dic["ModType"]);
-            ModType spn = ModType.None;
+            ModType spn = ModManager.Inst.GetModTypeUsingID(givenStatusParameterID);
 
-            for (int j = 0; j < m_modTypeList.Count; j++)
-            {
-                ModTypeSt st = m_modTypeList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
+            //for (int j = 0; j < m_modTypeList.Count; j++)
+            //{
+            //    ModTypeSt st = m_modTypeList[j];
+            //    int getId = st.GetGivenID(givenStatusParameterID);
 
-                if (getId == -1)
-                    continue;
+            //    if (getId == -1)
+            //        continue;
 
-                spn = (ModType)getId;
-                break;
-            }
+            //    spn = (ModType)getId;
+            //    break;
+            //}
 
             ModData mod = new ModData(id,givenID,level, AffixType.Implicit, name, minValue, maxValue, spn);
             m_ringImplicitModDataList.Add(mod);
@@ -634,19 +602,19 @@ public class ItemModel : MonoBehaviour, IItemModel
             int maxValue = int.Parse(dic["MaxValue"]);
 
             int givenStatusParameterID = int.Parse(dic["ModType"]);
-            ModType spn = ModType.None;
+            ModType spn = ModManager.Inst.GetModTypeUsingID(givenStatusParameterID);
 
-            for (int j = 0; j < m_modTypeList.Count; j++)
-            {
-                ModTypeSt st = m_modTypeList[j];
-                int getId = st.GetGivenID(givenStatusParameterID);
+            //for (int j = 0; j < m_modTypeList.Count; j++)
+            //{
+            //    ModTypeSt st = m_modTypeList[j];
+            //    int getId = st.GetGivenID(givenStatusParameterID);
 
-                if (getId == -1)
-                    continue;
+            //    if (getId == -1)
+            //        continue;
 
-                spn = (ModType)getId;
-                break;
-            }
+            //    spn = (ModType)getId;
+            //    break;
+            //}
 
             ModData mod = new ModData(id, givenID, level, AffixType.Implicit, name, minValue, maxValue, spn);
             m_amuletImplicitModDataList.Add(mod);
@@ -713,7 +681,6 @@ public class ItemModel : MonoBehaviour, IItemModel
     }
     void MakeSwordDataList()
     {
-        //m_swordBaseDataList = new List<WeaponBaseData>();
         List<WeaponBaseData> list = GetWeaponDataList(WeaponLowerClass.Sword);
         for (int i = 0; i < m_fullDic.Count;i++)
         {

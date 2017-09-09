@@ -33,6 +33,7 @@ public class ModData : IModData
     [SerializeField] protected int m_maxValue;
     [SerializeField] protected ModType m_modType;
     [SerializeField] protected int m_setValue;
+    [SerializeField] protected bool m_isInit;
 
 
     public ModData(int _givenID,int _id,int _level, AffixType _affixType, string _name
@@ -47,6 +48,7 @@ public class ModData : IModData
         m_maxValue = _maxValue;
         m_modType = _modType;
         m_setValue = 0;
+        m_isInit = false;
     }
     public ModData( ModData _data)
     {
@@ -57,6 +59,9 @@ public class ModData : IModData
         m_maxValue = _data.m_maxValue;
         m_modType = _data.m_modType;
         m_setValue = UnityEngine.Random.Range(m_minValue, m_maxValue);
+
+        if (m_modType != ModType.None)
+            m_isInit = true;
     }
 
     public int GetLevel { get { return m_level; } }

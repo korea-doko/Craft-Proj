@@ -81,7 +81,8 @@ public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
     }
     public void ShowHeroPanel(List<HeroDataWithLimitedTime> _heroDataWithLimitTimeList)
     {
-        Hide();
+        foreach (HeroPanel panel in m_heroPanelList)
+            panel.Hide();
 
         int count = _heroDataWithLimitTimeList.Count;
         
@@ -105,8 +106,7 @@ public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
     }
     public void Hide()
     {
-        foreach (HeroPanel panel in m_heroPanelList)
-            panel.Hide();
+        m_heroDetailPanel.Hide();     
     }
     
 

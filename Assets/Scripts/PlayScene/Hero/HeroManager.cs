@@ -127,7 +127,13 @@ public class HeroManager : MonoBehaviour,IHeroManager
         Attribute baseAttr = data.GetBaseAttr;
         Attribute offsetAttr = data.GetOffsetAttr;
 
-        HeroData heroData = new HeroData(name, heroClass, baseAttr, offsetAttr);
+        PersonalityData personalityData = m_model.GetRandomPersonalityData();
+        SpecialityData specialityData = m_model.GetRandomSpecialityDataUsingHeroClass(heroClass);
+
+        TraitData trait = m_model.GetRandomTrait();
+
+        HeroData heroData = new HeroData(name, heroClass, baseAttr, offsetAttr,
+            personalityData, specialityData,trait);
 
 
         Debug.Log("랜덤하게 아이템 일단 끼워준다.");
