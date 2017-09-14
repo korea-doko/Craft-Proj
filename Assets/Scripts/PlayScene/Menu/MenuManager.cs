@@ -45,7 +45,10 @@ public class MenuManager : MonoBehaviour,IMenuManager
     {
         return m_view.GetMenuPanel(_name);
     }
-
+    public MenuCanvas GetMenuCanvas()
+    {
+        return m_view.MenuCanvas;
+    }
     private void HandleMenuButtonClicked(object _sender, EventArgs _args)
     {
         MenuButtonArgs args = (MenuButtonArgs)_args;

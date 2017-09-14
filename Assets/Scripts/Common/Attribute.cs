@@ -7,38 +7,38 @@ using UnityEngine;
 [System.Serializable]
 public class Attribute
 {
-    [SerializeField] private int m_str;
-    [SerializeField] private int m_dex;
-    [SerializeField] private int m_int;
-
+    [SerializeField] private int[] m_stats;
+    
     public Attribute()
     {
-        m_dex = m_str = m_int = 0;
+        m_stats = new int[3];           
     }
 
     public Attribute(int _str, int _dex, int _int)
     {
-        m_str = _str;
-        m_dex = _dex;
-        m_int = _int;
+        m_stats = new int[3];
+        m_stats[0] = _str;
+        m_stats[1] = _dex;
+        m_stats[2] = _int;
     }
     public Attribute(Attribute _attr)
     {
-        m_str = _attr.Str;
-        m_dex = _attr.Dex;
-        m_int = _attr.Int;
+        m_stats = new int[3];
+
+        for (int i = 0; i < 3; i ++)
+            m_stats[i] = _attr.m_stats[i];
     }
 
     public int Str
     {
         get
         {
-            return m_str;
+            return m_stats[(int)AttributeType.Str];
         }
 
         set
         {
-            m_str = value;
+            m_stats[(int)AttributeType.Str] = value;
         }
     }
 
@@ -46,12 +46,12 @@ public class Attribute
     {
         get
         {
-            return m_dex;
+            return m_stats[(int)AttributeType.Dex];
         }
 
         set
         {
-            m_dex = value;
+            m_stats[(int)AttributeType.Dex] = value;
         }
     }
 
@@ -59,12 +59,17 @@ public class Attribute
     {
         get
         {
-            return m_int;
+            return m_stats[(int)AttributeType.Int];
         }
 
         set
         {
-            m_int = value;
+            m_stats[(int)AttributeType.Int] = value;
         }
+    }
+
+    public int[] Stats
+    {
+        get { return m_stats; }
     }
 }

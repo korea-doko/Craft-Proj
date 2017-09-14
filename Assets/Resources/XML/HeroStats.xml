@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="HeroStats.xsd" generated="2017-09-03T19:49:26">
+<HeroStats>
+<ID>1</ID>
+<BaseMinStr>10</BaseMinStr>
+<BaseMaxStr>20</BaseMaxStr>
+<BaseMinDex>10</BaseMinDex>
+<BaseMaxDex>15</BaseMaxDex>
+<BaseMinInt>5</BaseMinInt>
+<BaseMaxInt>10</BaseMaxInt>
+<Class>1</Class>
+<OffsetMinStr>3</OffsetMinStr>
+<OffsetMaxStr>4</OffsetMaxStr>
+<OffsetMinDex>2</OffsetMinDex>
+<OffsetMaxDex>3</OffsetMaxDex>
+<OffsetMinInt>1</OffsetMinInt>
+<OffsetMaxInt>2</OffsetMaxInt>
+</HeroStats>
+<HeroStats>
+<ID>2</ID>
+<BaseMinStr>10</BaseMinStr>
+<BaseMaxStr>15</BaseMaxStr>
+<BaseMinDex>10</BaseMinDex>
+<BaseMaxDex>20</BaseMaxDex>
+<BaseMinInt>5</BaseMinInt>
+<BaseMaxInt>10</BaseMaxInt>
+<Class>2</Class>
+<OffsetMinStr>1</OffsetMinStr>
+<OffsetMaxStr>2</OffsetMaxStr>
+<OffsetMinDex>4</OffsetMinDex>
+<OffsetMaxDex>6</OffsetMaxDex>
+<OffsetMinInt>1</OffsetMinInt>
+<OffsetMaxInt>2</OffsetMaxInt>
+</HeroStats>
+</dataroot>

@@ -32,9 +32,9 @@ public class PlayerManager : MonoBehaviour, IPlayerManager
         m_view.InitView(m_model);
     }
     
-    public void HiredHero(HeroData _data)
+    public bool HiredHero(HeroData _data)
     {
-        m_model.AddHeroData(_data);
+        return m_model.AddHeroData(_data);
     }
     public List<HeroData> GetOwnedHeroDataList()
     {
@@ -44,6 +44,20 @@ public class PlayerManager : MonoBehaviour, IPlayerManager
     {
         return m_model.HeroList[_id];
     }
-
-
+    public int GetNumOfLimitOwnedHero()
+    {
+        return m_model.HeroOwnedLimit;
+    }
+    public int GetNumOfCurOwnedHero()
+    {
+        return m_model.HeroList.Count;
+    }
+    public int GetNumOfOwnedRune(RuneType _type)
+    {
+        return m_model.GetNumOfOwnedRune(_type);
+    }
+    public int[] GetOwnedRunes()
+    {
+        return m_model.NumOfOwnedRune;
+    }
 }

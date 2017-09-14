@@ -13,44 +13,34 @@ public class BaseItemPanel : MonoBehaviour, IBaseItemPanel {
 
     [SerializeField] private RectTransform m_rect;
     [SerializeField] private ItemSelectPanel m_itemSelectPanel;
-    [SerializeField] private ItemDescPanel m_itemDescPanel;
+
 
     public event EventHandler OnItemSelectButtonClicked;
 
     public void Init()
     {
         m_rect = this.GetComponent<RectTransform>();
-
-        m_rect.anchorMin = Vector2.zero;
-        m_rect.anchorMax = new Vector2(1.0f, 0.8f);
-
-        m_rect.offsetMax = Vector2.zero;
-        m_rect.offsetMin = Vector2.zero;
-
+        
         m_itemSelectPanel = this.GetComponentInChildren<ItemSelectPanel>();
         m_itemSelectPanel.Init();
-        m_itemSelectPanel.OnItemSelectButtonClicked += M_itemSelectPanel_OnItemSelectButtonClicked;
-
-        m_itemDescPanel = this.GetComponentInChildren<ItemDescPanel>();
-        m_itemDescPanel.Init();
+        m_itemSelectPanel.OnItemSelectButtonClicked += M_itemSelectPanel_OnItemSelectButtonClicked;        
     }
 
-    private void M_itemSelectPanel_OnItemSelectButtonClicked(object sender, EventArgs e)
-    {
-        OnItemSelectButtonClicked(this, EventArgs.Empty);
-    }
-    public void ShowItemInfoAtDescPanel(ItemData _data)
-    {
-        m_itemDescPanel.ShowItemInfoAtDescPanel(_data);
-    }
-    internal void ShowSelectedItem(ItemData itemData)
+   
+    public void ShowSelectedItem(ItemData itemData)
     {
         m_itemSelectPanel.ShowSelectedItem(itemData);
     }
 
-    internal void Hide()
+    public void Hide()
     {
-        m_itemDescPanel.Hide();
         m_itemSelectPanel.Hide();
     }
+
+    /// 이벤트 핸들러
+    private void M_itemSelectPanel_OnItemSelectButtonClicked(object sender, EventArgs e)
+    {
+        OnItemSelectButtonClicked(this, EventArgs.Empty);
+    }
+   
 }

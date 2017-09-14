@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Amulet.xsd" generated="2017-09-01T21:57:50">
+<Amulet>
+<ID>1</ID>
+<GivenID>0</GivenID>
+<Level>0</Level>
+<ItemName>스파인퓨즈 탈리스만</ItemName>
+<ImplicitMod1>2</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>2</ID>
+<GivenID>1</GivenID>
+<Level>0</Level>
+<ItemName>맨디블 탈리스만</ItemName>
+<ImplicitMod1>3</ImplicitMod1>
+<ImplicitMod2>9</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>3</ID>
+<GivenID>2</GivenID>
+<Level>0</Level>
+<ItemName>헥스클로 탈리스만</ItemName>
+<ImplicitMod1>4</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>4</ID>
+<GivenID>3</GivenID>
+<Level>0</Level>
+<ItemName>프라이멀 스컬 탈리스만</ItemName>
+<ImplicitMod1>5</ImplicitMod1>
+<ImplicitMod2>9</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>5</ID>
+<GivenID>4</GivenID>
+<Level>0</Level>
+<ItemName>웨어클로 탈리스만</ItemName>
+<ImplicitMod1>6</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>6</ID>
+<GivenID>5</GivenID>
+<Level>0</Level>
+<ItemName>에이비안 탈리스만</ItemName>
+<ImplicitMod1>7</ImplicitMod1>
+<ImplicitMod2>9</ImplicitMod2>
+</Amulet>
+<Amulet>
+<ID>7</ID>
+<GivenID>6</GivenID>
+<Level>0</Level>
+<ItemName>팽죠 탈리스만</ItemName>
+<ImplicitMod1>8</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Amulet>
+</dataroot>

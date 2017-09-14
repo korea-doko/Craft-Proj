@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUpgradeManager : IManager, ILoadable
+public interface IUpgradeManager : IManager, ILoadable,IUpdatable
 {
 
 }
 
-public class UpgradeManager : MonoBehaviour,IUpgradeManager
+public class UpgradeManager : MonoBehaviour, IUpgradeManager
 {
 
     private UpgradeView m_view;
@@ -34,11 +34,18 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
         m_view.OnItemSelectButtonClicked += M_view_OnItemSelectButtonClicked;
         m_view.OnItemSelectSlotClicked += M_view_OnItemSelectSlotClicked;
         m_view.OnRuneButtonClicked += M_view_OnRuneButtonClicked;
+        m_view.OnRuneButtonLongPressed += M_view_OnRuneButtonLongPressed;
     }
+
+    
+
     public void MenuButtonClicked(MenuName menuName)
     {
         if (menuName == MenuName.Upgrade)
-            m_view.Show();
+        {
+            int[] playerOwnedRunes = PlayerManager.Inst.GetOwnedRunes();
+            m_view.Show(playerOwnedRunes);
+        }
         else
             m_view.Hide();
     }
@@ -46,15 +53,19 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
     {
         return m_view.Load();
     }
+    public void UpdateThis()
+    {
+        m_view.UpdateThis();
+    }
 
-    private bool IsPossibleToBeCrafted(ItemData _data, RuneName _name)
+    private bool IsPossibleToBeCrafted(ItemData _data, RuneType _name)
     {
         if (_data.IsCurrupted)
             return false;
 
         switch (_name)
         {
-            case RuneName.Reinforcement:
+            case RuneType.Reinforcement:
 
                 if (_data.GetItemRarity != ItemRarity.Magic)
                     return false;
@@ -64,15 +75,15 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
 
                 return true;
 
-            case RuneName.MagicPower:
-            case RuneName.Alteration:
+            case RuneType.MagicPower:
+            case RuneType.Alteration:
 
                 if (_data.GetItemRarity != ItemRarity.Magic)
                     return false;
                 else
                     return true;
 
-            case RuneName.Unholy:
+            case RuneType.Unholy:
 
                 if (_data.GetItemRarity != ItemRarity.Rare)
                     return false;
@@ -82,31 +93,31 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
 
                 return true;
 
-            case RuneName.Chaos:
+            case RuneType.Chaos:
 
                 if (_data.GetItemRarity != ItemRarity.Rare)
                     return false;
                 else
                     return true;
 
-            case RuneName.BlackSmith:
-            case RuneName.Luck:
-            case RuneName.Wizard:
+            case RuneType.BlackSmith:
+            case RuneType.Luck:
+            case RuneType.Wizard:
 
                 if (_data.GetItemRarity != ItemRarity.Normal)
                     return false;
                 else
                     return true;
 
-            case RuneName.Purification:
-            case RuneName.Divine:
+            case RuneType.Purification:
+            case RuneType.Divine:
 
                 if (_data.GetItemRarity == ItemRarity.Normal)
                     return false;
                 else
                     return true;
 
-            case RuneName.Void:
+            case RuneType.Void:
 
                 if (_data.GetItemRarity == ItemRarity.Normal || _data.GetItemRarity == ItemRarity.Unique)
                     return false;
@@ -116,9 +127,9 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
 
                 return true;
 
-            case RuneName.Curruption:
-                    return true;
-                
+            case RuneType.Curruption:
+                return true;
+
             default:
                 return false;
         }
@@ -137,24 +148,27 @@ public class UpgradeManager : MonoBehaviour,IUpgradeManager
     }
     private void M_view_OnItemSelectButtonClicked(object sender, EventArgs e)
     {
-        Debug.Log("Item select btn clicked");      
+        Debug.Log("Item select btn clicked");
         List<SlotData> slotDataList = StoreManager.Inst.GetSlotDataList;
         m_view.ShowItemSelectInventoryPanel(slotDataList);
     }
     private void M_view_OnRuneButtonClicked(object sender, RuneButtonClickArgs e)
     {
-        Debug.Log(e.m_clickRune.ToString() + " 입력 됨 ");
+        if (!m_model.IsSelectedItemExist)
+            return;
 
         if (IsPossibleToBeCrafted(m_model.SelectedItemData, e.m_clickRune))
         {
-            m_view.ShowItemInfoAtDescPanel(m_model.SelectedItemData);
             ItemManager.Inst.CraftItem(m_model.SelectedItemData, e.m_clickRune);
             m_view.ShowSelectedItem(m_model.SelectedItemData);
             m_view.HideItemSelectInventoryPanel();
+
         }
-        else
-        {
-            Debug.Log("아이템과 룬의 사용이 맞지 않음 인풋 룬  = " + e.m_clickRune.ToString());
-        }
+    }
+    private void M_view_OnRuneButtonLongPressed(object sender, RuneButtonLongPressedArgs e)
+    {
+        IAlarmTrigger runeDataAlarmTrigger = ItemManager.Inst.GetRuneData(e.m_pressedRune);
+
+        AlarmManager.Inst.Alarm(runeDataAlarmTrigger);
     }
 }

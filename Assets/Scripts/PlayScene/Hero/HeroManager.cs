@@ -26,8 +26,7 @@ public class HeroManager : MonoBehaviour,IHeroManager
     [SerializeField] private int m_regenTime;
     [SerializeField] private int m_currentTime;
     [SerializeField] private float m_passedTime;
-
-    [SerializeField] private bool m_isActiveNow;
+    
     [SerializeField] private int m_clickedID;
     [SerializeField] private List<HeroDataWithLimitedTime> m_availableHeroDataList;
     [SerializeField] private int m_maxNumOfAvailableHero;
@@ -55,7 +54,7 @@ public class HeroManager : MonoBehaviour,IHeroManager
         m_regenTime = 10;
         m_currentTime = m_regenTime;
         m_passedTime = 0.0f;
-        m_isActiveNow = false;        
+
         m_clickedID = -1;
         m_availableHeroDataList = new List<HeroDataWithLimitedTime>();
         m_maxNumOfAvailableHero = 8;
@@ -80,9 +79,7 @@ public class HeroManager : MonoBehaviour,IHeroManager
 
             for (int i = 0; i < 5; i++)
                 MakeAvailableHeroData();
-
-            m_view.ShowHeroNumCount(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
-
+           
             m_isLoaded = true;
         }
 
@@ -92,12 +89,11 @@ public class HeroManager : MonoBehaviour,IHeroManager
     {
         if (menuName == MenuName.Hero)
         {
-            m_isActiveNow = true;
-            m_view.ShowHeroPanel(m_availableHeroDataList);
+            UpdateOwnedHeroAndLimit();
+            m_view.ShowVisitedHero(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
         }
         else
         {
-            m_isActiveNow = false;
             m_view.Hide();        
         }
     }
@@ -185,11 +181,10 @@ public class HeroManager : MonoBehaviour,IHeroManager
             {
                 MakeAvailableHeroData();
                 m_view.ShowHeroPanel(m_availableHeroDataList);
+                m_view.ShowVisitedHero(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
             }
             else
                 Debug.Log("갯수 꽉참");
-
-            m_view.ShowHeroNumCount(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
         }
 
         //시간 지나간 것을 표시해준다.
@@ -220,21 +215,34 @@ public class HeroManager : MonoBehaviour,IHeroManager
         }
 
         m_view.ShowHeroPanel(m_availableHeroDataList);
-
-        m_view.ShowHeroNumCount(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
+        m_view.ShowVisitedHero(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
     }
-   
+    private void UpdateOwnedHeroAndLimit()
+    {
+        m_view.ShowOwnedHeroAndLimit(PlayerManager.Inst.GetNumOfCurOwnedHero(), PlayerManager.Inst.GetNumOfLimitOwnedHero());
+        m_view.ShowHeroPanel(m_availableHeroDataList);
+
+    }
     /// 메시지 핸들러
 
     private void M_view_OnHeroDetailPanelBuyBtnClicked(object sender, EventArgs e)
     {
         HeroData heroData = GetHeroData(m_clickedID);
-        RemoveAvailableHeroData(m_clickedID);
+       
+        if( PlayerManager.Inst.HiredHero(heroData))
+        {
+            RemoveAvailableHeroData(m_clickedID);
 
-        m_view.ShowHeroPanel(m_availableHeroDataList);
-        m_view.ShowHeroNumCount(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
+            m_view.ShowHeroPanel(m_availableHeroDataList);
 
-        PlayerManager.Inst.HiredHero(heroData);
+            m_view.ShowVisitedHero(m_availableHeroDataList.Count, m_maxNumOfAvailableHero);
+        }
+        else
+        {
+            Debug.Log("영웅 고용 에러. 현재는 갯수제한만 했음");
+        }
+
+        UpdateOwnedHeroAndLimit();
     }
     private void M_view_OnHeroPanelClicked(object sender, HeroPanelClickedArgs e)
     {

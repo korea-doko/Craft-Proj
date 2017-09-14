@@ -12,7 +12,6 @@ using System;
 public class MenuPanel : MonoBehaviour {
 
     [SerializeField] private MenuName m_menuName;
-    [SerializeField] private RectTransform m_rect;
     [SerializeField] private LayoutElement m_layoutEle;
     [SerializeField] private ScrollRect m_scrollRect;
     [SerializeField] private float m_width;
@@ -43,7 +42,6 @@ public class MenuPanel : MonoBehaviour {
 
     public void Init(MenuName _name)
     {
-        m_rect = this.GetComponent<RectTransform>();
         m_layoutEle = this.GetComponent<LayoutElement>();
         m_scrollRect = this.GetComponent<ScrollRect>();
 

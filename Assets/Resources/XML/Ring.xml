@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Ring.xsd" generated="2017-09-01T21:42:44">
+<Ring>
+<ID>1</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>블리치 링</ItemName>
+<ImplicitMod1>2</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>2</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>아이언 링</ItemName>
+<ImplicitMod1>3</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>3</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>코랄 링</ItemName>
+<ImplicitMod1>4</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>4</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>푸아 링</ItemName>
+<ImplicitMod1>5</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>5</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>사파이어 링</ItemName>
+<ImplicitMod1>6</ImplicitMod1>
+<ImplicitMod2>1</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>6</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>토파즈 링</ItemName>
+<ImplicitMod1>7</ImplicitMod1>
+<ImplicitMod2>11</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>7</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>제트 링</ItemName>
+<ImplicitMod1>8</ImplicitMod1>
+<ImplicitMod2>12</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>8</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>루비 링</ItemName>
+<ImplicitMod1>9</ImplicitMod1>
+<ImplicitMod2>13</ImplicitMod2>
+</Ring>
+<Ring>
+<ID>9</ID>
+<GivenID>0</GivenID>
+<Level>1</Level>
+<ItemName>골드 링</ItemName>
+<ImplicitMod1>10</ImplicitMod1>
+<ImplicitMod2>15</ImplicitMod2>
+</Ring>
+</dataroot>

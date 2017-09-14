@@ -60,7 +60,7 @@ public class MenuButton : MonoBehaviour , IMenuButton{
         m_layoutEle = this.GetComponent<LayoutElement>();
 
         m_button = this.GetComponent<Button>();
-        this.GetComponentInChildren<Text>().text = _name.ToString();
+        //this.GetComponentInChildren<Text>().text = _name.ToString();
         m_button.onClick.AddListener(() => OnButtonClicked(this, new MenuButtonArgs(m_menuName)));
         m_menuName = _name;
         m_width = _width;

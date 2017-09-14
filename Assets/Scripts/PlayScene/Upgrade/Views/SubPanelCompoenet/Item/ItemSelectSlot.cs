@@ -12,14 +12,12 @@ public interface IItemSelectSlot
 public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
 
     [SerializeField] private int m_id;
-    [SerializeField] private Color m_emptyColor;
-    [SerializeField] private Color m_fullColor;
     [SerializeField] private SlotData m_slotData;
     [SerializeField] private Image m_image;
     [SerializeField] private bool m_isActive;
     [SerializeField] private Button m_btn;
     [SerializeField] private LayoutElement m_layoutEle;
-    [SerializeField] private Text m_text;
+    [SerializeField] private TestItemInfoPanel m_itemInfoPanel;
 
     public event EventHandler OnItemSelectSlotClicked;
 
@@ -37,31 +35,34 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
             return m_isActive;
         }        
     }
-
-    internal void Init(int _id)
+    public void Init(int _id)
     {
         m_id = _id;
 
         m_image = this.GetComponent<Image>();
         m_btn = this.GetComponent<Button>();
-        m_text = this.GetComponentInChildren<Text>();
         m_layoutEle = this.GetComponent<LayoutElement>();
         m_btn.onClick.AddListener( ()=> OnItemSelectSlotClicked(this, EventArgs.Empty));
+
+        GameObject prefab = Resources.Load("PlayScene/Common/ItemInfoPanel") as GameObject;
+        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<TestItemInfoPanel>();
+        m_itemInfoPanel.transform.SetParent(this.transform);
+        m_itemInfoPanel.Init();
+
         Hide();
     }
 
     public void Show(SlotData _slotData)
     {
         m_slotData = _slotData;
-        m_image.color = m_fullColor;
-        m_text.text = _slotData.ItemData.GetItemInfo();
+        m_itemInfoPanel.Show(_slotData.ItemData);
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }
     public void Hide()
     {
         m_isActive = false;
-        m_image.color = m_emptyColor;
+        m_itemInfoPanel.Hide();
         this.gameObject.SetActive(m_isActive);
     }
     public void SetHeight(float _height)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="HeroClass.xsd" generated="2017-09-03T19:49:19">
+<HeroClass>
+<ID>1</ID>
+<GivenID>0</GivenID>
+<Class>Fighter</Class>
+</HeroClass>
+<HeroClass>
+<ID>2</ID>
+<GivenID>1</GivenID>
+<Class>Ranger</Class>
+</HeroClass>
+</dataroot>

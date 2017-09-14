@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Speciality.xsd" generated="2017-09-09T18:02:08">
+<Speciality>
+<ID>1</ID>
+<SpecialityName>전투적인</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>8</ModType>
+<Desc>전투적인 전사입니다.</Desc>
+<OwnedClass>1</OwnedClass>
+</Speciality>
+<Speciality>
+<ID>2</ID>
+<SpecialityName>방어적인</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>10</ModType>
+<Desc>방어적인 전사입니다.</Desc>
+<OwnedClass>1</OwnedClass>
+</Speciality>
+<Speciality>
+<ID>3</ID>
+<SpecialityName>공격적인</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>13</ModType>
+<Desc>공격적인 전사입니다.</Desc>
+<OwnedClass>1</OwnedClass>
+</Speciality>
+<Speciality>
+<ID>4</ID>
+<SpecialityName>먼 곳을 보는</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>14</ModType>
+<Desc>더 먼 곳을 봅니다.</Desc>
+<OwnedClass>2</OwnedClass>
+</Speciality>
+<Speciality>
+<ID>5</ID>
+<SpecialityName>민첩한</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>16</ModType>
+<Desc>민첩합니다.</Desc>
+<OwnedClass>2</OwnedClass>
+</Speciality>
+<Speciality>
+<ID>6</ID>
+<SpecialityName>날카로운</SpecialityName>
+<ModValue>10</ModValue>
+<ModType>4</ModType>
+<Desc>날카롭습니다.</Desc>
+<OwnedClass>2</OwnedClass>
+</Speciality>
+</dataroot>

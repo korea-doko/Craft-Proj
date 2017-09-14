@@ -14,6 +14,8 @@ public interface IItemModel : IModel
 [System.Serializable]
 public class ItemModel : MonoBehaviour, IItemModel
 {
+    [SerializeField] private List<RuneData> m_runeList;
+
     [SerializeField] private List<ModTypeSt> m_modTypeList;
 
     [SerializeField] private List<List<WeaponBaseData>> m_weaponDataList;
@@ -33,16 +35,16 @@ public class ItemModel : MonoBehaviour, IItemModel
     {
         m_fullDic = new List<Dictionary<string, string>>();
 
+        
+
         InitWeaponList();
         InitArmorList();
         InitMiscList();
         // 리스트 만들기
 
-
-        //ReadModTypeFromXML();
-        //MakeModTypeList();
-        //// 모드 타입 초기화
-
+        ReadRuneDataFromXML();
+        MakeRuneDataList();
+        // 룬 데이터 초기화
 
         ReadCommonPrefixDataFromXML();
         MakeCommonPrefixDataList();
@@ -118,6 +120,8 @@ public class ItemModel : MonoBehaviour, IItemModel
         // 목걸이
     }
 
+    
+
 
     public ArmorBaseData GetRandomArmorBaseData()
     {
@@ -191,16 +195,20 @@ public class ItemModel : MonoBehaviour, IItemModel
         return m_ringImplicitModDataList[rand];
     }
 
+    public RuneData GetRuneData(RuneType _type)
+    {
+        return m_runeList[(int)_type];
+    }
 
-    List<WeaponBaseData> GetWeaponDataList(WeaponLowerClass _class)
+    private List<WeaponBaseData> GetWeaponDataList(WeaponLowerClass _class)
     {
         return m_weaponDataList[(int)_class];
     }
-    List<ArmorBaseData> GetArmorDataList(ArmorLowerClass _class)
+    private List<ArmorBaseData> GetArmorDataList(ArmorLowerClass _class)
     {
         return m_armorDataList[(int)_class];
     }
-    List<MiscBaseData> GetMiscDataList(MiscLowerClass _class)
+    private List<MiscBaseData> GetMiscDataList(MiscLowerClass _class)
     {
         return m_miscDataList[(int)_class];
     }
@@ -238,6 +246,64 @@ public class ItemModel : MonoBehaviour, IItemModel
         for (int i = 0; i < numOfMiscType; i++)
             m_miscDataList.Add(new List<MiscBaseData>());
     }
+
+    /*
+     *      룬 데이터 초기화      
+     */
+    private void ReadRuneDataFromXML()
+    {
+        TextAsset textAsset = (TextAsset)Resources.Load("XML/RuneName");
+
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(textAsset.text);
+        XmlNodeList itemList = xmlDoc.GetElementsByTagName("RuneName");
+
+        foreach (XmlNode itemInfo in itemList)
+        {
+            XmlNodeList itemContent = itemInfo.ChildNodes;
+            Dictionary<string, string> partialDic = new Dictionary<string, string>(); // ItemName is TestItem;
+
+            foreach (XmlNode content in itemContent)
+            {
+                switch (content.Name)
+                {
+                    case "ID":
+                        partialDic.Add("ID", content.InnerText);
+                        break;
+                    case "GivenID":
+                        partialDic.Add("GivenID", content.InnerText);
+                        break;
+                    case "RuneNames":
+                        partialDic.Add("RuneNames", content.InnerText);
+                        break;
+                    case "Desc":
+                        partialDic.Add("Desc", content.InnerText);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            m_fullDic.Add(partialDic);
+        }
+    }
+    private void MakeRuneDataList()
+    {
+        m_runeList = new List<RuneData>();
+
+        for (int i = 0; i < m_fullDic.Count; i++)
+        {
+            Dictionary<string, string> dic = m_fullDic[i];
+            int id = int.Parse(dic["ID"]);
+            int givenID = int.Parse(dic["GivenID"]);
+            string runeNames = dic["RuneNames"];
+
+            RuneData runeData = new RuneData(runeNames, (RuneType)givenID);
+            m_runeList.Add(runeData);
+        }
+
+        m_fullDic.Clear();
+    }
+
 
     /*
      *      모든 모드 초기화 
@@ -1271,7 +1337,7 @@ public class ItemModel : MonoBehaviour, IItemModel
             Attribute attr = new Attribute(requiredStr, requiredDex, requiredInt);
             
             ArmorBaseData armorBase = new ArmorBaseData(ArmorLowerClass.Boots,givenID, name, level,
-                new Attribute(requiredStr, requiredDex, requiredInt), armor, evasionRating,
+               attr, armor, evasionRating,
                 energyShield);
 
             list.Add(armorBase);
@@ -1354,7 +1420,7 @@ public class ItemModel : MonoBehaviour, IItemModel
             Attribute attr = new Attribute(requiredStr, requiredDex, requiredInt);
 
             ArmorBaseData armorBase = new ArmorBaseData(ArmorLowerClass.BodyArmor,givenID, name, level,
-                new Attribute(requiredStr, requiredDex, requiredInt), armor, evasionRating,
+                attr, armor, evasionRating,
                 energyShield);
 
             list.Add(armorBase);
@@ -1437,7 +1503,7 @@ public class ItemModel : MonoBehaviour, IItemModel
             Attribute attr = new Attribute(requiredStr, requiredDex, requiredInt);
 
             ArmorBaseData helmetBase = new ArmorBaseData(ArmorLowerClass.Helmet,givenID, name, level,
-                new Attribute(requiredStr, requiredDex, requiredInt), armor, evasionRating,
+                attr, armor, evasionRating,
                 energyShield);
 
             list.Add(helmetBase);
@@ -1519,7 +1585,7 @@ public class ItemModel : MonoBehaviour, IItemModel
             Attribute attr = new Attribute(requiredStr, requiredDex, requiredInt);
 
             ArmorBaseData glovesBase = new ArmorBaseData(ArmorLowerClass.Gloves, givenID, name, level,
-                new Attribute(requiredStr, requiredDex, requiredInt), armor, evasionRating,
+                    attr, armor, evasionRating,
                 energyShield);
 
             list.Add(glovesBase);

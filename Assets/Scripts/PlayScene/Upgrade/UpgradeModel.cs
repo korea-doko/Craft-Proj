@@ -32,6 +32,14 @@ public class UpgradeModel : MonoBehaviour , IUpgradeModel{
         }
     }
 
+    public bool IsSelectedItemExist
+    {
+        get
+        {
+            return m_isSelectedItemExist;
+        }
+    }
+
     public void InitModel()
     {
         m_selectedItemData = null;

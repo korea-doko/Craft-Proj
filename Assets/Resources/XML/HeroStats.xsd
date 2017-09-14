@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:od="urn:schemas-microsoft-com:officedata">
+<xsd:element name="dataroot">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element ref="HeroStats" minOccurs="0" maxOccurs="unbounded"/>
+</xsd:sequence>
+<xsd:attribute name="generated" type="xsd:dateTime"/>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="HeroStats">
+<xsd:annotation>
+<xsd:appinfo>
+<od:index index-name="PrimaryKey" index-key="ID " primary="yes" unique="yes" clustered="no" order="asc"/>
+<od:tableProperty name="PublishToWeb" type="2" value="1"/>
+<od:tableProperty name="GUID" type="9" value="hp4hidHzf0amwFqhKOxumg==
+"/>
+<od:tableProperty name="Orientation" type="2" value="0"/>
+<od:tableProperty name="OrderByOn" type="1" value="0"/>
+<od:tableProperty name="NameMap" type="11" value="CswOVQAAAACGniGJ0fN/RqbAWqEo7G6aAAAAACVWqFq6/ORAAAAAAAAAAABIAGUA
+cgBvAFMAdABhAHQAcwAAAAAAAADSY0u+9IHNTbCGEZupeirDBwAAAIaeIYnR839G
+psBaoSjsbppJAEQAAAAAAAAAQ/sljjqBIUGEkddZIKlubgcAAACGniGJ0fN/RqbA
+WqEo7G6aQgBhAHMAZQBNAGkAbgBTAHQAcgAAAAAAAAAcbFWk9NR3QL/T9v0q1fCP
+BwAAAIaeIYnR839GpsBaoSjsbppCAGEAcwBlAE0AYQB4AFMAdAByAAAAAAAAAMDF
+tsPLIppHhF2gC0jnksUHAAAAhp4hidHzf0amwFqhKOxumkIAYQBzAGUATQBpAG4A
+RABlAHgAAAAAAAAABX3EMY79CEqt5vGYIT14FQcAAACGniGJ0fN/RqbAWqEo7G6a
+QgBhAHMAZQBNAGEAeABEAGUAeAAAAAAAAACKoqo4btf5TIay1461pOtTBwAAAIae
+IYnR839GpsBaoSjsbppCAGEAcwBlAE0AaQBuAEkAbgB0AAAAAAAAANsPPTWClBRK
+gxxoxzCOfBUHAAAAhp4hidHzf0amwFqhKOxumkIAYQBzAGUATQBhAHgASQBuAHQA
+AAAAAAAAjNv12QGgvE69FqOh40A/AwAAAABBUFtouvzkQAAAAAAAAAAASABlAHIA
+bwBDAGwAYQBzAHMAAAAAAAAASits7bgM/Ey2C8w3xt89JQcAAACM2/XZAaC8Tr0W
+o6HjQD8DSQBEAAAAAAAAADb76minZrFClmb6PQpaj10HAAAAjNv12QGgvE69FqOh
+40A/A0MAbABhAHMAcwAAAAAAAAD4b+b+N4vRTLltkbPY4fBCBwAAAIaeIYnR839G
+psBaoSjsbppDAGwAYQBzAHMAAAAAAAAATFK/WpRvT0+FALniojog6AcAAACGniGJ
+0fN/RqbAWqEo7G6aTwBmAGYAcwBlAHQATQBpAG4AUwB0AHIAAAAAAAAAhmCry3Gy
+GkKNqVg32fhy7wcAAACGniGJ0fN/RqbAWqEo7G6aTwBmAGYAcwBlAHQATQBhAHgA
+UwB0AHIAAAAAAAAAxx6z/f8wnU2ThpOhv0hTQwcAAACGniGJ0fN/RqbAWqEo7G6a
+TwBmAGYAcwBlAHQATQBpAG4ARABlAHgAAAAAAAAA+hhzTQmGbkO2JvY/QaYwhAcA
+AACGniGJ0fN/RqbAWqEo7G6aTwBmAGYAcwBlAHQATQBhAHgARABlAHgAAAAAAAAA
+Ifk2ssMV/0OkKpQhYepm6gcAAACGniGJ0fN/RqbAWqEo7G6aTwBmAGYAcwBlAHQA
+TQBpAG4ASQBuAHQAAAAAAAAANTe1OTK8UkKWY9K3mF7RXgcAAACGniGJ0fN/RqbA
+WqEo7G6aTwBmAGYAcwBlAHQATQBhAHgASQBuAHQAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAwAAAAFAAAAAAAAAAAAAAAAAAAAAAA=
+"/>
+<od:tableProperty name="DefaultView" type="2" value="2"/>
+<od:tableProperty name="DisplayViewsOnSharePointSite" type="2" value="1"/>
+<od:tableProperty name="TotalsRow" type="1" value="0"/>
+<od:tableProperty name="FilterOnLoad" type="1" value="0"/>
+<od:tableProperty name="OrderByOnLoad" type="1" value="1"/>
+<od:tableProperty name="HideNewField" type="1" value="0"/>
+<od:tableProperty name="BackTint" type="6" value="100"/>
+<od:tableProperty name="BackShade" type="6" value="100"/>
+<od:tableProperty name="ThemeFontIndex" type="4" value="1"/>
+<od:tableProperty name="AlternateBackThemeColorIndex" type="4" value="1"/>
+<od:tableProperty name="AlternateBackTint" type="6" value="100"/>
+<od:tableProperty name="AlternateBackShade" type="6" value="95"/>
+<od:tableProperty name="ReadOnlyWhenDisconnected" type="1" value="0"/>
+<od:tableProperty name="DatasheetGridlinesThemeColorIndex" type="4" value="3"/>
+<od:tableProperty name="DatasheetForeThemeColorIndex" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element name="ID" minOccurs="1" od:jetType="autonumber" od:sqlSType="int" od:autoUnique="yes" od:nonNullable="yes" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="0mNLvvSBzU2whhGbqXoqww==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="-1"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="1"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMinStr" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="Q/sljjqBIUGEkddZIKlubg==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="600"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="3"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMaxStr" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="HGxVpPTUd0C/0/b9KtXwjw==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="510"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="4"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMinDex" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="wMW2w8simkeEXaALSOeSxQ==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="885"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="5"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMaxDex" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="BX3EMY79CEqt5vGYIT14FQ==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="720"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="6"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMinInt" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="iqKqOG7X+UyGsteOtaTrUw==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="945"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="7"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="BaseMaxInt" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="2w89NYKUFEqDHGjHMI58FQ==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="645"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="8"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="Class" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="+G/m/jeL0Uy5bZGz2OHwQg==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="2025"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="2"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="111"/>
+<od:fieldProperty name="RowSourceType" type="10" value="Table/Query"/>
+<od:fieldProperty name="RowSource" type="12" value="SELECT [HeroClass].[ID], [HeroClass].[Class] FROM HeroClass; "/>
+<od:fieldProperty name="BoundColumn" type="3" value="1"/>
+<od:fieldProperty name="ColumnCount" type="3" value="2"/>
+<od:fieldProperty name="ColumnHeads" type="1" value="0"/>
+<od:fieldProperty name="ColumnWidths" type="10" value="0;1440"/>
+<od:fieldProperty name="ListRows" type="3" value="16"/>
+<od:fieldProperty name="ListWidth" type="10" value="1440트윕"/>
+<od:fieldProperty name="LimitToList" type="1" value="1"/>
+<od:fieldProperty name="AllowMultipleValues" type="1" value="0"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AllowValueListEdits" type="1" value="1"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ShowOnlyRowSourceValues" type="1" value="0"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMinStr" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="TFK/WpRvT0+FALniojog6A==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="1365"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="9"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMaxStr" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="hmCry3GyGkKNqVg32fhy7w==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="1275"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="10"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMinDex" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="xx6z/f8wnU2ThpOhv0hTQw==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="930"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="11"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMaxDex" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="+hhzTQmGbkO2JvY/QaYwhA==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="915"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="12"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMinInt" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="Ifk2ssMV/0OkKpQhYepm6g==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="810"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="13"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+<xsd:element name="OffsetMaxInt" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int">
+<xsd:annotation>
+<xsd:appinfo>
+<od:fieldProperty name="GUID" type="9" value="NTe1OTK8UkKWY9K3mF7RXg==
+"/>
+<od:fieldProperty name="ColumnWidth" type="3" value="1740"/>
+<od:fieldProperty name="ColumnOrder" type="3" value="14"/>
+<od:fieldProperty name="ColumnHidden" type="1" value="0"/>
+<od:fieldProperty name="DecimalPlaces" type="2" value="255"/>
+<od:fieldProperty name="DefaultValue" type="12" value="0"/>
+<od:fieldProperty name="Required" type="1" value="0"/>
+<od:fieldProperty name="DisplayControl" type="3" value="109"/>
+<od:fieldProperty name="TextAlign" type="2" value="0"/>
+<od:fieldProperty name="AggregateType" type="4" value="-1"/>
+<od:fieldProperty name="ResultType" type="2" value="0"/>
+<od:fieldProperty name="CurrencyLCID" type="4" value="0"/>
+</xsd:appinfo>
+</xsd:annotation>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>

@@ -30,6 +30,7 @@ public interface IItemData
     ModData GetImplicitMod2 { get; }
 
     string GetItemInfo();
+    // 나중에 얘 없어질 듯
 }
 
 [System.Serializable]
@@ -72,6 +73,8 @@ public class ItemData : IItemData
 
     public ModData GetImplicitMod1 { get { return m_itemBaseData.GetImplicitMod1; } }
     public ModData GetImplicitMod2 { get { return m_itemBaseData.GetImplicitMod2; } }
+
+
 
     public void AddPrefix(ModData _data)
     {
@@ -146,7 +149,7 @@ public class ItemData : IItemData
     }
 
 
-    private int GetAllModValueInList(ModType _modType)
+    public int GetAllModValueInList(ModType _modType)
     {
         int value = 0;
 

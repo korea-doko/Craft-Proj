@@ -9,13 +9,15 @@ public class PlayManager : MonoBehaviour {
     private enum PlaySceneManagerName
     {
         Mod,
+        Sprite,
         Player,
         Item,
         Hero,
         Menu,
         Upgrade,
         Store,
-        Guild
+        Guild,
+        Alarm
     }
 
     private IManager[] m_mgrAry;

@@ -87,7 +87,12 @@ public enum MiscLowerClass
     Amulet
 }
 
-
+public enum AttributeType
+{
+    Str,
+    Dex,
+    Int
+}
 
 public enum DamageType
 {
@@ -151,7 +156,7 @@ public enum MenuName
 ///  Divine/디바인 ||
 ///  Curruption/바알
 /// </summary>
-public enum RuneName
+public enum RuneType
 {
     Reinforcement,  //어규멘테이션
     MagicPower,     //리갈

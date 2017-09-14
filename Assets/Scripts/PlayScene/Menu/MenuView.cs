@@ -12,7 +12,15 @@ public class MenuView : MonoBehaviour, IMenuView<MenuModel>{
     public EventHandler OnMenuButtonClicked;
 
     private MenuCanvas m_menuCanvas;
-    
+
+    public MenuCanvas MenuCanvas
+    {
+        get
+        {
+            return m_menuCanvas;
+        }
+    }
+
     public void InitView(MenuModel _model)
     {
         GameObject menuCanvasPrefab = Resources.Load("PlayScene/Menu/MenuCanvas") as GameObject;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="Personality.xsd" generated="2017-09-09T18:02:19">
+<Personality>
+<ID>1</ID>
+<PersonalityName>강인한</PersonalityName>
+<GivenID>0</GivenID>
+<ModValue>20</ModValue>
+<ModType>2</ModType>
+<Desc>강인한 성격입니다.</Desc>
+</Personality>
+<Personality>
+<ID>2</ID>
+<PersonalityName>조심성 많은</PersonalityName>
+<GivenID>1</GivenID>
+<ModValue>30</ModValue>
+<ModType>2</ModType>
+<Desc>조심성 많은 성격입니다.</Desc>
+</Personality>
+<Personality>
+<ID>3</ID>
+<PersonalityName>힘 센</PersonalityName>
+<GivenID>2</GivenID>
+<ModValue>40</ModValue>
+<ModType>3</ModType>
+<Desc>힘 센 성격입니다.</Desc>
+</Personality>
+<Personality>
+<ID>4</ID>
+<PersonalityName>민첩한</PersonalityName>
+<GivenID>3</GivenID>
+<ModValue>50</ModValue>
+<ModType>3</ModType>
+<Desc>민첩한 성격입니다.</Desc>
+</Personality>
+<Personality>
+<ID>5</ID>
+<PersonalityName>공격적인</PersonalityName>
+<GivenID>4</GivenID>
+<ModValue>60</ModValue>
+<ModType>2</ModType>
+<Desc>공격적인 성격입니다.</Desc>
+</Personality>
+</dataroot>

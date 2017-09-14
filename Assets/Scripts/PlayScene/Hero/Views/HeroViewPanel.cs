@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public interface IHeroViewPanel
 {
@@ -16,6 +18,7 @@ public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
     [SerializeField] private HeroTimeCountPanel m_heroTimeCountPanel;
     [SerializeField] private HeroNumCountPanel m_heroNumCountPanel;
     [SerializeField] private GameObject m_heroPanelParent;
+    [SerializeField] private Text m_visitedText;
 
     public event EventHandler<HeroPanelClickedArgs> OnHeroPanelClicked;
     public event EventHandler OnHeroDetailPanelBuyBtnClicked;
@@ -50,6 +53,14 @@ public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
         m_heroDetailPanel.OnHeroDetailPanelBuyBtnClicked += M_heroDetailPanel_OnHeroDetailPanelBuyBtnClicked;
     }
 
+    public void ShowOwnedHeroAndLimit(int numOfOwn, int numOfLimit)
+    {
+        m_heroNumCountPanel.Show(numOfOwn, numOfLimit);
+    }
+    public void ShowVisitedHero(int _curVisited,int _limit)
+    {
+        m_visitedText.text = _curVisited.ToString() + " / " + _limit.ToString();
+    }
     public void HideDetailPanel()
     {
         m_heroDetailPanel.Hide();
@@ -75,10 +86,7 @@ public class HeroViewPanel : MonoBehaviour ,IHeroViewPanel{
     {
         m_heroTimeCountPanel.UpdateRegenTime(_currentTime, _regenTime);
     }
-    public void ShowHeroNumCount(int _cur,int _max)
-    {
-        m_heroNumCountPanel.Show(_cur,_max);
-    }
+   
     public void ShowHeroPanel(List<HeroDataWithLimitedTime> _heroDataWithLimitTimeList)
     {
         foreach (HeroPanel panel in m_heroPanelList)

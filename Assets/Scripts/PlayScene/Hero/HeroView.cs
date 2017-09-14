@@ -50,15 +50,19 @@ public class HeroView : MonoBehaviour , IHeroView<HeroModel>,ILoadable{
     {
         m_heroViewPanel.HideDetailPanel();
     }
-
+    public void ShowOwnedHeroAndLimit(int _numOfOwn, int _numOfLimit)
+    {
+        m_heroViewPanel.ShowOwnedHeroAndLimit(_numOfOwn, _numOfLimit);
+    }
+    public void ShowVisitedHero(int _curVisited,int _limit)
+    {
+        m_heroViewPanel.ShowVisitedHero(_curVisited, _limit);
+    }
     public void ShowHeroPanel(List<HeroDataWithLimitedTime> _availableHeroDataList)
     {
         m_heroViewPanel.ShowHeroPanel(_availableHeroDataList);
     }
-    public void ShowHeroNumCount(int _cur, int _max)
-    {
-        m_heroViewPanel.ShowHeroNumCount(_cur, _max);
-    }    
+ 
     public void UpdateRegenTime(int _currentTime, int _regenTime)
     {
         m_heroViewPanel.UpdateRegenTime(_currentTime, _regenTime);
@@ -74,5 +78,4 @@ public class HeroView : MonoBehaviour , IHeroView<HeroModel>,ILoadable{
         OnHeroPanelClicked(this, e);
     }
 
-   
 }

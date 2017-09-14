@@ -17,12 +17,11 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
     [SerializeField] private Vector3 m_destPos;
     [SerializeField] private Vector3 m_dir;
     [SerializeField] private bool m_isMoving;
-    [SerializeField] private float m_moveSpeed;
     [SerializeField] private float m_moveTime;
     [SerializeField] private float m_passedTime;
     [SerializeField] private int m_currentOrder;
     [SerializeField] private float m_timeCorrectionValue;
-    [SerializeField] private Vector2 m_beginDragPos;
+
     
     public void Init(float _width, float _height)
     {
@@ -46,7 +45,7 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
 
         m_isMoving = false;
         m_dir = Vector3.zero;
-        m_moveSpeed = 100.0f;
+
         m_startPos = Vector3.zero;
         m_destPos = Vector3.zero;
         m_moveTime = 0.25f;
@@ -56,7 +55,7 @@ public class ScrollPanel : MonoBehaviour, IUpdatable {
         
         m_rect.transform.position = new Vector3(- m_currentOrder* m_width, 0.0f, 0.0f);
 
-        m_beginDragPos = Vector2.zero;
+
     } 
     public void MovePanelToCenter(MenuName _name)
     {

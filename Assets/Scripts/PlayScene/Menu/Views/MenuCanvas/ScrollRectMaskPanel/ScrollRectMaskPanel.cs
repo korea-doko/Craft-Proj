@@ -8,14 +8,14 @@ using UnityEngine.EventSystems;
 public class ScrollRectMaskPanel : MonoBehaviour, IUpdatable
 {
     [SerializeField] private ScrollPanel m_scrollPanel;
-    [SerializeField] private ScrollRect m_scrollRect;
+
     [SerializeField] private float m_width;
     [SerializeField] private float m_height;
 
     public void Init()
     {
         RectTransform rect = this.GetComponent<RectTransform>();
-        m_scrollRect = this.GetComponent<ScrollRect>();
+
 
         m_width = rect.rect.width;
         m_height = rect.rect.height;

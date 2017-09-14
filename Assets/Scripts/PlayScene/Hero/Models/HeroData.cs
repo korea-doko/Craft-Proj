@@ -13,7 +13,9 @@ public interface IHeroData
     int GetLevel { get; }
 
     string GetHeroInfos();
-
+    PersonalityData GetPersonality { get; }
+    SpecialityData GetSpeciality { get; }
+    List<TraitData> GetTraitList { get; }
     void EquipItemWith(ItemData _data);
 }
 [System.Serializable]
@@ -28,7 +30,7 @@ public class HeroData : IHeroData
     [SerializeField] private int[] m_modTypeAry;   
     [SerializeField] private ItemData[] m_equipDataAry;
     [SerializeField] private int[] m_modValueAry;
-
+    
     [SerializeField] private PersonalityData m_personality;
     [SerializeField] private SpecialityData m_speciality;
     [SerializeField] private List<TraitData> m_traitList;
@@ -41,13 +43,11 @@ public class HeroData : IHeroData
         m_baseAttr = _baseAttr;
         m_offsetAttr = _offsetAttr;
 
-        int numOfModType = System.Enum.GetNames(typeof(ModType)).Length;
-        m_modTypeAry = new int[numOfModType];
-
+        
         int numOfEquipParts = System.Enum.GetNames(typeof(EEquipParts)).Length;
         m_equipDataAry = new ItemData[numOfEquipParts];
 
-        int numOfModtype = System.Enum.GetNames(typeof(ModType)).Length;
+        int numOfModType = System.Enum.GetNames(typeof(ModType)).Length;
         m_modValueAry = new int[numOfModType];
 
         m_personality = new PersonalityData(_personalityData);
@@ -60,6 +60,9 @@ public class HeroData : IHeroData
 
         TraitData traitData = new TraitData(_traitData);
         AddTraitData(traitData);
+        
+        Debug.Log("임시적으로 히어로 비용 책정");
+
 
     }
     
@@ -111,6 +114,10 @@ public class HeroData : IHeroData
             m_equipDataAry = value;
         }
     }
+
+    public PersonalityData GetPersonality { get { return m_personality; } }      
+    public SpecialityData GetSpeciality { get { return m_speciality; } }
+    public List<TraitData> GetTraitList { get { return m_traitList; } }
 
     public void EquipItemWith(ItemData _data)
     {

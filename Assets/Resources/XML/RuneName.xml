@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataroot xmlns:od="urn:schemas-microsoft-com:officedata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="RuneName.xsd" generated="2017-09-13T10:54:46">
+<RuneName>
+<ID>1</ID>
+<GivenID>0</GivenID>
+<Desc>강화의 룬은 &lt;color=blue&gt;매직&lt;/color&gt;등급의 아이템의 모드를 1개 추가합니다.</Desc>
+<RuneNames>강화의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>2</ID>
+<GivenID>1</GivenID>
+<Desc>마력의 룬은 &lt;color=blue&gt;매직&lt;/color&gt;등급의 아이템을 &lt;color=yellow&gt;레어&lt;/color&gt;등급의 아이템으로 바꿔줍니다.</Desc>
+<RuneNames>마력의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>3</ID>
+<GivenID>2</GivenID>
+<Desc>부정의 룬은 &lt;color=yellow&gt;레어&lt;/color&gt;등급의 아이템의 모드를 1개 추가합니다.</Desc>
+<RuneNames>부정의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>4</ID>
+<GivenID>3</GivenID>
+<Desc>대장장이의 룬은 &lt;color=white&gt;노말&lt;/color&gt;등급의 아이템을 &lt;color=blue&gt;매직&lt;/color&gt;등급의 아이템으로 바꿔줍니다.</Desc>
+<RuneNames>대장장이의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>5</ID>
+<GivenID>4</GivenID>
+<Desc>행운의 룬은 &lt;color=white&gt;노말&lt;/color&gt;등급의 아이템을 &lt;color=blue&gt;매직&lt;/color&gt; 또는 &lt;color=yellow&gt;레어&lt;/color&gt; 또는 &lt;color=orange&gt;유니크&lt;/color&gt;등급의 아이템으로 바꿔줍니다.</Desc>
+<RuneNames>행운의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>6</ID>
+<GivenID>5</GivenID>
+<Desc>마법사의 룬은 &lt;color=white&gt;노말&lt;/color&gt;등급의 아이템을 &lt;color=yellow&gt;레어&lt;/color&gt;등급의 아이템으로 바꿔줍니다.</Desc>
+<RuneNames>마법사의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>7</ID>
+<GivenID>6</GivenID>
+<Desc>변화의 룬은 &lt;color=blue&gt;매직&lt;/color&gt;등급의 아이템에 있는 모든 모드를 무작위로 바꿔줍니다.</Desc>
+<RuneNames>변화의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>8</ID>
+<GivenID>7</GivenID>
+<Desc>혼돈의 룬은 &lt;color=yellow&gt;레어&lt;/color&gt;등급의 아이템에 있는 모든 모드를 무작위로 바꿔줍니다.</Desc>
+<RuneNames>혼돈의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>9</ID>
+<GivenID>8</GivenID>
+<Desc>정화의 룬은 &lt;color=white&gt;노말&lt;/color&gt;등급으로 아이템을 바꿔줍니다.</Desc>
+<RuneNames>정화의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>10</ID>
+<GivenID>9</GivenID>
+<Desc>공허의 룬은 &lt;color=blue&gt;매직&lt;/color&gt; 또는 &lt;color=yellow&gt;레어&lt;/color&gt; 등급의 아이템에 있는 모드 중 하나를 제거합니다.</Desc>
+<RuneNames>공허의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>11</ID>
+<GivenID>10</GivenID>
+<Desc>신성의 룬은 &lt;color=blue&gt;매직&lt;/color&gt; 또는 &lt;color=yellow&gt;레어&lt;/color&gt; 또는 &lt;color=orange&gt;유니크&lt;/color&gt; 등급의 아이템에 있는 모든 모드의 옵션을 무작위로 바꿔줍니다.</Desc>
+<RuneNames>신성의 룬</RuneNames>
+</RuneName>
+<RuneName>
+<ID>12</ID>
+<GivenID>11</GivenID>
+<RuneNames>타락의 룬</RuneNames>
+</RuneName>
+</dataroot>

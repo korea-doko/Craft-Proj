@@ -5,17 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemInfoPanel : MonoBehaviour {
-
-    [SerializeField] RectTransform m_rect;
+    
     [SerializeField] private bool m_isActive;
     [SerializeField] private Button m_closeBtn;
     [SerializeField] private Button m_sellBtn;
     [SerializeField] private Text m_infoText;
 
     internal void Init()
-    {
-        m_rect = this.GetComponent<RectTransform>();
-
+    {        
         m_closeBtn.onClick.AddListener(() => { Hide(); });
 
         Hide();

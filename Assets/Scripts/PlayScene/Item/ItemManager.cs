@@ -76,44 +76,44 @@ public class ItemManager : MonoBehaviour,IItemManager
         return copiedSuffix;
     }
 
-    public void CraftItem(ItemData _item,RuneName _name)
+    public void CraftItem(ItemData _item, RuneType _name)
     {
         switch (_name)
         {
-            case RuneName.Reinforcement:
+            case RuneType.Reinforcement:
                 CraftReinforcement(_item);
                 break;
-            case RuneName.MagicPower:
+            case RuneType.MagicPower:
                 CraftMagicPower(_item);
                 break;
-            case RuneName.Unholy:
+            case RuneType.Unholy:
                 CraftUnholy(_item);
                 break;
-            case RuneName.BlackSmith:
+            case RuneType.BlackSmith:
                 CraftBlackSmith(_item);
                 break;
-            case RuneName.Luck:
+            case RuneType.Luck:
                 CraftLuck(_item);
                 break;
-            case RuneName.Wizard:
+            case RuneType.Wizard:
                 CraftWizard(_item);
                 break;
-            case RuneName.Alteration:
+            case RuneType.Alteration:
                 CraftAlteration(_item);
                 break;
-            case RuneName.Chaos:
+            case RuneType.Chaos:
                 CraftChaos(_item);
                 break;
-            case RuneName.Purification:
+            case RuneType.Purification:
                 CraftPurification(_item);
                 break;
-            case RuneName.Void:
+            case RuneType.Void:
                 CraftVoid(_item);
                 break;
-            case RuneName.Divine:
+            case RuneType.Divine:
                 CraftDivine(_item);
                 break;
-            case RuneName.Curruption:
+            case RuneType.Curruption:
                 CraftCurruption(_item);
                 break;
             default:
@@ -136,7 +136,10 @@ public class ItemManager : MonoBehaviour,IItemManager
         MiscBaseData mbd = m_model.GetRandomMiscBaseData();
         return UpgradeToRandomRarity(mbd);
     }
-
+    public RuneData GetRuneData(RuneType _type)
+    {
+        return m_model.GetRuneData(_type);
+    }
 
     private ItemData UpgradeToRandomRarity(ItemBaseData _base)
     {
