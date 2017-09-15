@@ -22,11 +22,13 @@ public class HeroPanel : MonoBehaviour , IHeroPanel{
 
     [SerializeField] private bool m_isHidden;
     [SerializeField] private LayoutElement m_layoutEle;
-    [SerializeField] private Button m_btn;
+    [SerializeField] private Button m_detailInfobtn;
+    
     [SerializeField] private int m_id;
 
     [SerializeField] private SimpleHeroInfoPanel m_simpleHeroInfoPanel;
     [SerializeField] private CountDownPanel m_countDownPanel; 
+
 
 
     public event EventHandler<HeroPanelClickedArgs> OnHeroPanelClicked;
@@ -47,11 +49,13 @@ public class HeroPanel : MonoBehaviour , IHeroPanel{
     {
         m_id = _id;
         m_layoutEle = this.GetComponent<LayoutElement>();
-        m_btn = this.GetComponent<Button>();
-        m_btn.onClick.AddListener(() => OnHeroPanelClicked(this, new HeroPanelClickedArgs(m_id)));
+
         m_simpleHeroInfoPanel.Init();
         m_countDownPanel.Init();
         Hide();
+
+        m_detailInfobtn.onClick.AddListener(() => OnHeroPanelClicked(this, new HeroPanelClickedArgs(m_id)));
+        
     }
     public void Load(float _width, float _height)
     {

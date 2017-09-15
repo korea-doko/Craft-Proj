@@ -16,6 +16,6 @@ public class CountDownPanel : MonoBehaviour {
 
     internal void Show(float _limitedTime)
     {
-        m_text.text = "남은 시간 \n " + _limitedTime.ToString();
+        m_text.text = _limitedTime.ToString();
     }
 }

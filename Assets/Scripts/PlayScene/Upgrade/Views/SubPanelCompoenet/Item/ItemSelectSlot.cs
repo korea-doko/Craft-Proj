@@ -17,7 +17,7 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
     [SerializeField] private bool m_isActive;
     [SerializeField] private Button m_btn;
     [SerializeField] private LayoutElement m_layoutEle;
-    [SerializeField] private TestItemInfoPanel m_itemInfoPanel;
+    [SerializeField] private ItemInfoPanel m_itemInfoPanel;
 
     public event EventHandler OnItemSelectSlotClicked;
 
@@ -45,7 +45,7 @@ public class ItemSelectSlot : MonoBehaviour , IItemSelectSlot{
         m_btn.onClick.AddListener( ()=> OnItemSelectSlotClicked(this, EventArgs.Empty));
 
         GameObject prefab = Resources.Load("PlayScene/Common/ItemInfoPanel") as GameObject;
-        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<TestItemInfoPanel>();
+        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<ItemInfoPanel>();
         m_itemInfoPanel.transform.SetParent(this.transform);
         m_itemInfoPanel.Init();
 

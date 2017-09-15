@@ -11,14 +11,14 @@ public interface IItemSelectPanel
 public class ItemSelectPanel : MonoBehaviour , IItemSelectPanel{
 
     [SerializeField] private ItemSelectButton m_itemSelectButton;
-    [SerializeField] private TestItemInfoPanel m_itemInfoPanel;
+    [SerializeField] private ItemInfoPanel m_itemInfoPanel;
     
     public event EventHandler OnItemSelectButtonClicked;
 
     public void Init()
     {
         GameObject prefab = Resources.Load("PlayScene/Common/ItemInfoPanel") as GameObject;
-        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<TestItemInfoPanel>();
+        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<ItemInfoPanel>();
         m_itemInfoPanel.transform.SetParent(this.transform);
         m_itemInfoPanel.Init();
 

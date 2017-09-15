@@ -18,10 +18,8 @@ public class Slot : MonoBehaviour ,ISlot{
     [SerializeField] private bool m_isActive;
     [SerializeField] private Image m_image;
 
-    [SerializeField] private Color m_emptyColor;
-    [SerializeField] private Color m_fullColor;
     [SerializeField] private LayoutElement m_layoutEle;
-    [SerializeField] private Text m_text;
+    [SerializeField] private ItemInfoPanel m_itemInfoPanel;
 
     
     public int Id
@@ -47,18 +45,23 @@ public class Slot : MonoBehaviour ,ISlot{
         m_image = this.GetComponent<Image>();
         m_layoutEle = this.GetComponent<LayoutElement>();
         m_btn = this.GetComponent<Button>();
-        m_text = this.GetComponentInChildren<Text>();
-        m_btn.onClick.AddListener(() => OnSlotClicked(this, EventArgs.Empty));        
+        m_btn.onClick.AddListener(() => OnSlotClicked(this, EventArgs.Empty));
+
+        GameObject prefab = Resources.Load("PlayScene/Common/ItemInfoPanel") as GameObject;
+        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<ItemInfoPanel>();
+        m_itemInfoPanel.transform.SetParent(this.transform);
+        m_itemInfoPanel.Init();
+
     }
     public void Show(SlotData _data)
     {
-        m_text.text = _data.ItemData.GetItemInfo();
-
+        m_itemInfoPanel.Show(_data.ItemData);
         m_isActive = true;
         this.gameObject.SetActive(m_isActive);
     }
     public void Hide()
     {
+        m_itemInfoPanel.Hide();
         m_isActive = false;
         this.gameObject.SetActive(m_isActive);
     }

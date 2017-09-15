@@ -31,6 +31,8 @@ public class HeroDetailPanel : MonoBehaviour , IHeroDetailPanel{
 
     [SerializeField] private Button m_backBtn;
     [SerializeField] private Button m_buyBtn;
+    [SerializeField] private Button m_extensionBtn;
+    [SerializeField] private Button m_kickBtn;
 
     public event EventHandler OnHeroDetailPanelBackBtnClicked;
     public event EventHandler OnHeroDetailPanelBuyBtnClicked;
@@ -73,7 +75,7 @@ public class HeroDetailPanel : MonoBehaviour , IHeroDetailPanel{
 
             if (data == null)
             {
-                text.text = " X ";
+                text.text = " - ";
             }
             else
             {

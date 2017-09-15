@@ -12,7 +12,6 @@ public interface IStoreViewPanel
 public class StoreViewPanel : MonoBehaviour, IStoreViewPanel {
 
     [SerializeField] private InventoryPanel m_inventoryPanel;
-    [SerializeField] private ItemInfoPanel m_itemInfoPanel;
     [SerializeField] private ItemCountPanel m_itemCountPanel;
 
     public event EventHandler<SlotClickedArgs> OnSlotClicked;
@@ -20,7 +19,7 @@ public class StoreViewPanel : MonoBehaviour, IStoreViewPanel {
     public void Init(StoreModel _model)
     {
         InitInventoryPanel(_model);
-        InitInfoPanel(_model);
+
         InitItemCountPanel(_model);
     }
     
@@ -31,7 +30,7 @@ public class StoreViewPanel : MonoBehaviour, IStoreViewPanel {
     }
     public void Hide()
     {
-        m_itemInfoPanel.Hide();
+
     }
     public Slot GetSlot(int id)
     {
@@ -39,17 +38,9 @@ public class StoreViewPanel : MonoBehaviour, IStoreViewPanel {
     }   
     public void ShowItemInfoPanel(ItemData data)
     {
-        m_itemInfoPanel.ShowItemInfoPanel(data);
+
     }
 
-    private void InitInfoPanel(StoreModel _model)
-    {
-        GameObject prefab = Resources.Load("PlayScene/Store/ItemInfoPanel") as GameObject;
-
-        m_itemInfoPanel = ((GameObject)Instantiate(prefab)).GetComponent<ItemInfoPanel>();
-        m_itemInfoPanel.transform.SetParent(this.transform);
-        m_itemInfoPanel.Init();
-    }
     private void InitInventoryPanel(StoreModel _model)
     {
         GameObject prefab = Resources.Load("PlayScene/Store/InventoryPanel") as GameObject;
